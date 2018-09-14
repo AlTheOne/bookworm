@@ -42,14 +42,15 @@
 				</div>
 			</div>
 		{% endfor %}
-		</div>
-		<div class="text-right">
+		<div class="col-12 text-right book-content">
 			<b>{% trans 'Сумма заказа:' %}</b> <span id="total_order_amount"></span>
+			<div class="text-right">
+				<button type="submit" class="btn btn-primary btn-lg" name="status" value="buy-selected">{% trans 'Оплатить выбранное!' %}</button>
+				<button type="submit" class="btn btn-primary btn-lg" name="status" value="buy-all">{% trans 'Оплатить всю корзину!' %}</button>
+			</div>
 		</div>
-		<hr/>
-		<div class="text-right">
-			<button type="submit" class="btn btn-primary btn-lg" name="status" value="all">{% trans 'Оплатить выбранное!' %}</button>
 		</div>
+
 	</form>
 	{% else %}
 		{% trans 'Ваша корзина пуста...' %}

@@ -29,13 +29,22 @@ class OrderInfo(View):
 # Page with form address
 class DoOrder(View):
 	TEMPLATES = 'orderApp/add-order.html'
+	def get(self, *args, **kwargs):
+		return redirect('mycart')
+
 	def post(self, *args, **kwargs):
 		data = {}
-		data['getbooks'] = self.request.POST.getlist('books')
-		data['form'] = OrderForm
 		user_name = self.request.user
+		if self.request.POST.get('status') == 'buy-selected':
+			if self.request.POST.getlist('books'):
+				data['getbooks'] = self.request.POST.getlist('books')
+				data['books'] = Cart.objects.filter(user=user_name, is_active=True, id__in=data['getbooks'])
+			else:
+				return redirect('mycart')
+		else:
+			data['books'] = Cart.objects.filter(user=user_name, is_active=True)
 
-		data['books'] = Cart.objects.filter(user=user_name, is_active=True, id__in=data['getbooks'])
+		data['form'] = OrderForm
 		return render(self.request, self.TEMPLATES, context=data)
 
 # Page with form address

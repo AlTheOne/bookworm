@@ -12,7 +12,7 @@ from tinymce import TinyMCE
 RATE=[('1',''), ('2',''), ('3',''), ('4',''), ('5','')]
 
 class CommentForm(forms.Form):
-	message = forms.CharField(label='Текст отзыва', required=True, max_length=512, widget=TinyMCE(mce_attrs={'height':200}))
+	message = forms.CharField(label='Текст отзыва', required=True, max_length=512, widget=TinyMCE())
 	rate = forms.ChoiceField(choices=RATE, required=False, widget=forms.RadioSelect(attrs={'class': 'star-rating__input', 'name': 'rate'}))
 
 
