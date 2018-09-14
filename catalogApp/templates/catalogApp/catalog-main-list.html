@@ -1,94 +1,117 @@
 {% extends 'mainApp/index.html' %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block scripts %}
-<script type="text/javascript" src="{% static 'js/filter.js' %}"></script>
+	<script src="{% static 'js/filter.js' %}"></script>
 {% endblock %}
 
-{% block viewfilter %}
-<div class="container-fluid" style="height:50px;">
-	<div class="row">
-		<div class="col-3">
-			<select class="form-control" id="exampleFormControlSelect1">
-				<option class="type_filter" data-book-f="1">Сначала новые</option>
-				<option class="type_filter" data-book-f="2" {% if get_sort == 2%}selected{% endif%}>Сначала старые</option>
-				<option class="type_filter" data-book-f="3" {% if get_sort == 3%}selected{% endif%}>По алфавиту А-Я</option>
-				<option class="type_filter" data-book-f="4" {% if get_sort == 4%}selected{% endif%}>По алфавиту Я-А</option>
-				<option class="type_filter" data-book-f="5" {% if get_sort == 5%}selected{% endif%}>По году выхода (по возрастанию)</option>
-				<option class="type_filter" data-book-f="6" {% if get_sort == 6%}selected{% endif%}>По году выхода (по убыванию)</option>
-				<option class="type_filter" data-book-f="7" {% if get_sort == 7%}selected{% endif%}>По цене (по возрастанию)</option>
-				<option class="type_filter" data-book-f="8" {% if get_sort == 8%}selected{% endif%}>По цене (по убыванию)</option>
-			</select>
-		</div>
-		<div class="col-3">
-			<select class="form-control" id="exampleFormControlSelect2">
-				<option class="type_currency" data-currency="DOL">Доллар</option>
-				{% for cur in currency %}
-				<option class="type_currency" data-currency="{{cur.slug}}" {% if cur.rune == rune.rune %}selected{% endif %}>{{cur.title}}</option>
-				{% endfor %}
-			</select>
-		</div>
-		<div class="col-2">
-			<a href="#" class="view_filter" data-view-filter="till">Сетка</a> | <a href="#" class="view_filter" data-view-filter="list">Список</a>
-		</div>
-		<div class="col-4">
-			<input type="checkbox" class="form-check-input" id="cb" name="innal">
-			<label for="cb">В наличии</label>
+{% block ico-filter %}
+<img src="{% static 'img/filter-ico.png' %}" class="filter-ico">
+{% endblock %}
+
+{% block lsb %}
+<div class="control-window filter-window">
+	<input type="submit" value="{% trans 'Закрыть' %}" class="button-control close-button close-button-filter">
+	<form id="form-filter" method="POST" action="{% url 'catalog-main' %}">{% csrf_token %}
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<div class=" col-9 block-filter">
+				<span class="block-filter-title">{% trans 'Фильтр:' %}</span><br>
+				<p>
+				<select class="form-control" >
+					<option class="type_filter" data-book-f="1">{% trans 'Сначала новые' %}</option>
+					<option class="type_filter" data-book-f="2" {% if get_sort == 2%}selected{% endif%}>{% trans 'Сначала старые' %}</option>
+					<option class="type_filter" data-book-f="3" {% if get_sort == 3%}selected{% endif%}>{% trans 'По алфавиту А-Я' %}</option>
+					<option class="type_filter" data-book-f="4" {% if get_sort == 4%}selected{% endif%}>{% trans 'По алфавиту Я-А' %}</option>
+					<option class="type_filter" data-book-f="5" {% if get_sort == 5%}selected{% endif%}>{% trans 'По году выхода (по возрастанию)' %}</option>
+					<option class="type_filter" data-book-f="6" {% if get_sort == 6%}selected{% endif%}>{% trans 'По году выхода (по убыванию' %})</option>
+					<option class="type_filter" data-book-f="7" {% if get_sort == 7%}selected{% endif%}>{% trans 'По цене (по возрастанию)' %}</option>
+					<option class="type_filter" data-book-f="8" {% if get_sort == 8%}selected{% endif%}>{% trans 'По цене (по убыванию)' %}</option>
+				</select>
+				</p>
+			</div>
+			<div class=" col-9 block-filter">
+				<span class="block-filter-title">{% trans 'Цена:' %}</span><br>
+				<input type="range">
+			</div>
+			<div class=" col-9 block-filter">
+				<span class="block-filter-title">{% trans 'Жанры:' %}</span><br>
+				<div class="block-box">
+					{% for genre in genres %}
+					<input type="checkbox" name="genre" value="{{genre.id}}" {% if genre.id in get_genres %}checked{% endif %}> {{genre.title}} <br>
+					{% endfor %}
+				</div>
+			</div>
+			<div class=" col-9 block-filter">
+				<span class="block-filter-title">{% trans 'Метки:' %}</span><br>
+				<div class="block-box">
+					{% for tag in tags%}
+					<input type="checkbox" name="tag" value="{{tag.id}}" {% if tag.id in get_tags %}checked{% endif %}> {{tag.title}}<br>
+					{% endfor %}
+				</div>
+			</div>
 		</div>
 	</div>
+	<input type="submit" value="{% trans 'Применить' %}" class="button-control filter-accept">
+	</form>
 </div>
-{% endblock %}
-
-{% block left_side_bar %}
-<form id="form-filter" method="POST" action="{% url 'catalog-main' %}">
-	{% csrf_token %}
-	<ul>
-		{% for genre in genres %}
-		<ol>
-			<input type="checkbox" name="genre" value="{{genre.id}}" {% if genre.id in get_genres %}checked{% endif %}>
-			{{genre.title}}
-		</ol>
-		{% endfor %}
-	</ul>
-	<ul>
-		{% for tag in tags%}
-		<ol>
-			<input type="checkbox" name="tag" value="{{tag.id}}" {% if tag.id in get_tags %}checked{% endif %}>
-			{{tag.title}}
-		</ol>
-		{% endfor %}
-	</ul>
-	<input type="submit" name="button-filter" id="button-filter" value="Применить">
-</form>
-	<input type="submit" id="reset" value="Сбросить">
 {% endblock %}
 
 {% block content %}
 <div class="container">
 	<div class="row">
 
-		{% for obj in objects %}
-		<div class="col-md-12">
-			<div class="book text-center">
-				<a href="{% url 'catalog-main' %}book/{{obj.id}}/">
-					<img src="/media/{{obj.preview}}" class="book-preview">
-				</a>
-				<div class="book-info">
-					<h6 class="book-title">
-						<a href="{% url 'catalog-main' %}book/{{obj.id}}/">{{obj.title|truncatechars:30}}</a>
-					</h6>
-					<span class="book-author">Маргарет В.</span>
-				</div>
-				<div class="book-price">
-					{% if obj.discount %}
-						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{obj.price_discount}}
-					{% else %}
-						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{obj.price}}
-					{% endif %}
+			{% for obj in objects %}
+			<div class="col-12 book-list">
+				<div class="row">
+					<div class="col-md-3 text-center">
+						<div class="book-block-preview">
+							<a href="{% url 'book-page' id=obj.id %}">
+								<img src="/media/{{obj.preview}}" class="book-preview">
+							</a>
+						</div>
+					</div>
+					<div class="col-md-9 ">
+						<div class="" style="max-height:200px; color:#000;">
+							<span class="book-title">
+								<a href="{% url 'book-page' id=obj.id %}">{{obj.title}}</a>
+							</span>
+							<br>
+							<span class="book-author">
+								{{obj.author.all|join:", "}}
+							</span>
+							<p>
+							<span>
+								<strong>{% trans 'Жанр:' %}</strong> {% for genre in obj.genre.all %}
+									{{genre.title}}			
+								{% endfor %}
+								<br>
+								{% for tag in obj.tags.all %}
+									# {{tag.title}}			
+								{% endfor %}
+							</span>
+							</p>
+						</div>
+	
+						<div class="book-price-div" style="width:200px;" data-id="{{obj.id}}">
+							<button class="button-control button-price">
+								<span class="book-price-nmb">
+								{% if obj.discount %}
+									{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{obj.price_discount}}
+								{% else %}
+									{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{obj.price}}
+								{% endif %}
+								</span>
+								<span class="book-price-cart">
+									{% trans 'В корзину' %}
+								</span>
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
-		{% endfor %}
+			{% endfor %}
 
 	</div>
 </div>
@@ -98,7 +121,7 @@
 		<div class="col-5"></div>
 		<div class="col-5">
 		{% block pagination %}
-			{% if objects.has_previous %}<a href="?page={{ objects.previous_page_number }}">Назад</a>{% endif %}
+			{% if objects.has_previous %}<a href="?page={{ objects.previous_page_number }}">{% trans 'Назад' %}</a>{% endif %}
 			{% for i in paginator.page_range %}
 				{% if i != objects.number %}
 					<a href="?page={{i}}">{{i}}</a>
@@ -106,7 +129,7 @@
 					{{i}}
 				{% endif %}
 			{% endfor %}
-			{% if objects.has_next %}<a href="?page={{ objects.next_page_number }}">Вперед</a>{% endif %}
+			{% if objects.has_next %}<a href="?page={{ objects.next_page_number }}">{% trans 'Вперед' %}</a>{% endif %}
 		{% endblock pagination %}
 		</div>
 		<div class="col-2"></div>

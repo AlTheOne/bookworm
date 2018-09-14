@@ -308,6 +308,17 @@ nav .row{
     -moz-box-shadow:0px 1px 14px 5px rgba(0,0,0,0.71);
 }
 
+.book-list{
+    width: 100%;
+    min-height: 250px;
+    background: #FFF;
+    padding: 10px 0 0 0;
+    margin-bottom: 10px;
+    box-shadow:0px 1px 14px 5px rgba(0,0,0,0.71);
+    -webkit-box-shadow:0px 1px 14px 5px rgba(0,0,0,0.71);
+    -moz-box-shadow:0px 1px 14px 5px rgba(0,0,0,0.71);
+}
+
 .book-block-preview{
     width: 100%;
     height: 220px;
@@ -364,7 +375,6 @@ nav .row{
     font-weight: 800;
     display: none;
 }
-
 /* --- /MainContent ---*/
 
 /* --- BookContent ---*/
