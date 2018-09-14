@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from userApp.models import User
 from catalogApp.models import *
+from tinymce import TinyMCE
 
 
 # class CommentForm(forms.Form):
@@ -11,7 +12,7 @@ from catalogApp.models import *
 RATE=[('1',''), ('2',''), ('3',''), ('4',''), ('5','')]
 
 class CommentForm(forms.Form):
-	message = forms.CharField(label='Текст отзыва', required=True, max_length=512, widget=forms.TextInput(attrs={'placeholder': 'Ваш отзыв'}))
+	message = forms.CharField(label='Текст отзыва', required=True, max_length=512, widget=TinyMCE(mce_attrs={'height':200}))
 	rate = forms.ChoiceField(choices=RATE, required=False, widget=forms.RadioSelect(attrs={'class': 'star-rating__input', 'name': 'rate'}))
 
 

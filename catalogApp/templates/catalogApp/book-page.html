@@ -110,6 +110,7 @@
 				<div class="modal-body">
 					<div class="star-rating">
 						<div class="star-rating__wrap">
+							{{form_comment.media}}
 							{{form_comment.message}}<br>
 							{% for radio in form_comment.rate %}
 								<input class="star-rating__input" id="star-rating-{{ forloop.revcounter }}" type="radio" name="rate" value="{{ forloop.revcounter }}">
