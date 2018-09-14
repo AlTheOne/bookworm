@@ -86,7 +86,7 @@ nav .row{
 .search-button{
     width:32px;
     height:32px;
-    background: url(file:///F:/HackZone/Other/html/img/search.png) no-repeat;
+    background: url(/static/img/search.png) no-repeat;
     border: 0;
     position: absolute;
     right: 1.3em; 

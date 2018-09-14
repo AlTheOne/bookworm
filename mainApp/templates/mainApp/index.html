@@ -35,8 +35,8 @@
 						</div>
 					</div>
 					<div class="col-md-10" style="padding-top:1em;">
-						<form class="form-inline">
-							<input type="text" class="search-input" placeholder="{% trans 'Что будем искать?...' %}">
+						<form class="form-inline" action="{% url 'search-main' %}" method="POST">{% csrf_token %}
+							<input type="text" name="q" class="search-input" value="{{search_q}}" placeholder="{% trans 'Что будем искать?...' %}">
 							<input type="submit" class="search-button" value="">
 						</form>
 					</div>
