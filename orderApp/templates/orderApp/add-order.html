@@ -1,0 +1,77 @@
+{% extends 'mainApp/index.html' %}
+{% load staticfiles %}
+
+
+{% block scripts %}
+	<script type="text/javascript" src="{% static 'js/incart.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="row book-content">
+	<form method="POST" action="{% url 'oplata' %}">
+		{{form.errors}}
+		{%csrf_token%}
+		{{form.name.label}}: {{form.name}}<br>
+		{{form.country.label}}: {{form.country}}<br>
+		{{form.street.label}}: {{form.street}}<br>
+		{{form.apt.label}}: {{form.apt}}<br>
+		{{form.region.label}}: {{form.region}}<br>
+		{{form.city.label}}: {{form.city}}<br>
+		{{form.postcode.label}}: {{form.postcode}}<br>
+		{{form.phone.label}}: {{form.phone}}<br>
+		<button class="btn btn-primary" name="books" value="{{getbooks}}">Оплатить</button><p>
+	</form>
+	</div>
+	<div class="row" style="margin-top:15px;">
+		<!-- список товаров для покупки -->	
+		{% if books is not None %}
+			{% for book in books %}
+				<div class="col-md-12 book-content" style="margin:15px 0;">
+					<div class="row">
+						<div class="col-md-1">
+							<img src="/media/{{book.content_object.preview}}" width="80px">
+						</div>
+						<div class="col-md-4">
+							<a href="{% url 'book-page' id=book.content_object.id %}">
+								{{book.content_object.title}}
+							</a>
+						</div>
+						<div class="col-md-2">
+						{% if book.content_object.discount %}
+							{%if rune %}{{rune}}{%else%} $ {%endif%} {{book.content_object.price}} <br> 
+							{%if rune %}{{rune}}{%else%} $ {%endif%} {{book.content_object.price_discount}} <br> 
+							-{{book.content_object.discount}}%
+						{% else %}
+							{%if rune %}{{rune}}{%else%} $ {%endif%} {{book.content_object.price}}
+						{% endif %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class="col-md-12 book-content" style="margin:15px 0;">
+				<div class="row">
+					<div class="col-md-1">
+						<img src="/media/{{getbooks.content_object.preview}}" width="80px">
+					</div>
+					<div class="col-md-4">
+						<a href="{% url 'book-page' id=getbooks.content_object.id %}">
+							{{getbooks.content_object.title}}
+						</a>
+					</div>
+					<div class="col-md-2">
+					{% if getbooks.content_object.discount %}
+						{%if rune %}{{rune}}{%else%} $ {%endif%} {{getbooks.content_object.price}} <br> 
+						{%if rune %}{{rune}}{%else%} $ {%endif%} {{getbooks.content_object.price_discount}} <br> 
+						-{{getbooks.content_object.discount}}%
+					{% else %}
+						{%if rune %}{{rune}}{%else%} $ {%endif%} {{getbooks.content_object.price}}
+					{% endif %}
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+</div>	
+{% endblock content %}

@@ -1,0 +1,115 @@
+{% extends 'mainApp/index.html' %}
+{% load staticfiles %}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'js/filter.js' %}"></script>
+{% endblock %}
+
+{% block viewfilter %}
+<div class="container-fluid" style="height:50px;">
+	<div class="row">
+		<div class="col-3">
+			<select class="form-control" id="exampleFormControlSelect1">
+				<option class="type_filter" data-book-f="1">Сначала новые</option>
+				<option class="type_filter" data-book-f="2" {% if get_sort == 2%}selected{% endif%}>Сначала старые</option>
+				<option class="type_filter" data-book-f="3" {% if get_sort == 3%}selected{% endif%}>По алфавиту А-Я</option>
+				<option class="type_filter" data-book-f="4" {% if get_sort == 4%}selected{% endif%}>По алфавиту Я-А</option>
+				<option class="type_filter" data-book-f="5" {% if get_sort == 5%}selected{% endif%}>По году выхода (по возрастанию)</option>
+				<option class="type_filter" data-book-f="6" {% if get_sort == 6%}selected{% endif%}>По году выхода (по убыванию)</option>
+				<option class="type_filter" data-book-f="7" {% if get_sort == 7%}selected{% endif%}>По цене (по возрастанию)</option>
+				<option class="type_filter" data-book-f="8" {% if get_sort == 8%}selected{% endif%}>По цене (по убыванию)</option>
+			</select>
+		</div>
+		<div class="col-3">
+			<select class="form-control" id="exampleFormControlSelect2">
+				<option class="type_currency" data-currency="DOL">Доллар</option>
+				{% for cur in currency %}
+				<option class="type_currency" data-currency="{{cur.slug}}" {% if cur.rune == rune.rune %}selected{% endif %}>{{cur.title}}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="col-2">
+			<a href="#" class="view_filter" data-view-filter="till">Сетка</a> | <a href="#" class="view_filter" data-view-filter="list">Список</a>
+		</div>
+		<div class="col-4">
+			<input type="checkbox" class="form-check-input" id="cb" name="innal">
+			<label for="cb">В наличии</label>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block left_side_bar %}
+<form id="form-filter" method="POST" action="{% url 'catalog-main' %}">
+	{% csrf_token %}
+	<ul>
+		{% for genre in genres %}
+		<ol>
+			<input type="checkbox" name="genre" value="{{genre.id}}" {% if genre.id in get_genres %}checked{% endif %}>
+			{{genre.title}}
+		</ol>
+		{% endfor %}
+	</ul>
+	<ul>
+		{% for tag in tags%}
+		<ol>
+			<input type="checkbox" name="tag" value="{{tag.id}}" {% if tag.id in get_tags %}checked{% endif %}>
+			{{tag.title}}
+		</ol>
+		{% endfor %}
+	</ul>
+	<input type="submit" name="button-filter" id="button-filter" value="Применить">
+</form>
+	<input type="submit" id="reset" value="Сбросить">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+
+		{% for obj in objects %}
+		<div class="col-md-12">
+			<div class="book text-center">
+				<a href="{% url 'catalog-main' %}book/{{obj.id}}/">
+					<img src="/media/{{obj.preview}}" class="book-preview">
+				</a>
+				<div class="book-info">
+					<h6 class="book-title">
+						<a href="{% url 'catalog-main' %}book/{{obj.id}}/">{{obj.title|truncatechars:30}}</a>
+					</h6>
+					<span class="book-author">Маргарет В.</span>
+				</div>
+				<div class="book-price">
+					{% if obj.discount %}
+						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{obj.price_discount}}
+					{% else %}
+						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{obj.price}}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-5"></div>
+		<div class="col-5">
+		{% block pagination %}
+			{% if objects.has_previous %}<a href="?page={{ objects.previous_page_number }}">Назад</a>{% endif %}
+			{% for i in paginator.page_range %}
+				{% if i != objects.number %}
+					<a href="?page={{i}}">{{i}}</a>
+				{% else %}
+					{{i}}
+				{% endif %}
+			{% endfor %}
+			{% if objects.has_next %}<a href="?page={{ objects.next_page_number }}">Вперед</a>{% endif %}
+		{% endblock pagination %}
+		</div>
+		<div class="col-2"></div>
+	</div>
+</div>
+{% endblock %}

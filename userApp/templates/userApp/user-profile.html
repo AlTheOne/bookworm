@@ -1,0 +1,40 @@
+{% extends 'mainApp/index.html' %}
+{% load staticfiles %}
+
+{%block mainTitle%}<title>Личный кабинет - {{user.username}}</title>{% endblock mainTitle%}
+
+{% block content %}
+<div class="container book-content">
+    <div class="row">
+        <div class="col-auto">
+            <img src="{% static '/img/avatar.jpg' %}" style="width:200px; height:200px; border-radius:50%;">
+            <br>
+			<input type="submit" value="Изменить данные" class="button-control" data-toggle="modal" data-target="#ModalSettingProfile">
+        </div>
+        <div class="col-auto">
+            <strong>Логин:</strong> {{user.login}} <br>
+            <strong>Имя:</strong> {{user.first_name}} <br>
+            <strong>Фамилия:</strong> {{user.last_name}} <br>
+            <strong>Почта:</strong> {{user.email}} ({% if user.is_active %}Подтверждена{% else %}Неподтверждена{% endif %}) <br>
+            <strong>Номер телефона:</strong> {{user.phone_number}}
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalSettingProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="background: #333333;">
+        <input type="submit" value="Закрыть" class="button-control close-button" data-dismiss="modal" aria-label="Close">
+        <div class="modal-body text-center">
+            <form method="POST" action="{% url 'user-settings' %}">{% csrf_token %}
+            {{settingsform.first_name}}<br>
+            {{settingsform.last_name}}<br>
+            {{settingsform.email}}<br>
+            {{settingsform.phone_number}}<br>
+        </div>
+        <input type="submit" name="sendEmail" class="button-control filter-accept" value="Сохранить">
+        </form>
+    </div>
+    </div>
+</div>
+{% endblock content %}

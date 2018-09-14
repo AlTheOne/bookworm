@@ -1,0 +1,127 @@
+{% extends 'mainApp/index.html' %}
+{% load staticfiles %}
+{% load i18n %}
+
+
+{% block scripts %}
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block lsb %}
+<div id="feedback-ico" class="control-ico">
+	<img src="{% static 'img/comment.png' %}" class="icons">
+	<div class="comment-count">{{comments|length}}</div>
+</div>
+
+<div class="control-window feedback-window">
+		<input type="submit" value="Закрыть" class="button-control close-button close-button-feedback">						
+	
+	<div class="container-fluid">
+		<div class="row">
+			{% for comment in comments %}
+			<div class="col-12">
+				<div class="col-auto block-filter">
+					<strong>{{comment.user}}</strong>
+					<span style="color:#FFB300;font-size: 26px;">
+					{% if comment.rate == 5 %}★★★★★{% endif %}
+					{% if comment.rate == 4 %}★★★★{% endif %}
+					{% if comment.rate == 3 %}★★★{% endif %}
+					{% if comment.rate == 2 %}★★{% endif %}
+					{% if comment.rate == 1 %}★{% endif %}
+					</span>
+					<br><span style="font-style: italic;">{{comment.message}}</span> <br>
+					<span style="font-size:14px;">Опубликовано: {{comment.created|date:"H:i d-m-Y"}}</span>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div style="width:100%;position:absolute;bottom:0;">
+		<input type="submit" value="Оставить отзыв" class="button-control filter-accept" data-toggle="modal" data-target="#exampleModal" style="position:absolute;bottom:0;">				
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container book-content">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="text-center book-div-preview">
+				<img src="/media/{{object.preview}}" class="book-page-preview">				
+			</div>
+		</div>
+		<div class="col-md-7 book-div-info">
+			<h1 style="font-weight:1000;">{{object.title}}</h1>
+			<!-- Временно... Переделать -->
+			<span style="color:#FFB300;font-size: 26px;">
+			{% if book_rating.rate__avg >= 1 and book_rating.rate__avg < 2 %}★{% endif %}
+			{% if book_rating.rate__avg >= 2 and book_rating.rate__avg < 3 %}★★{% endif %}
+			{% if book_rating.rate__avg >= 3 and book_rating.rate__avg < 4 %}★★★{% endif %}
+			{% if book_rating.rate__avg >= 4 and book_rating.rate__avg < 5 %}★★★★{% endif %}
+			{% if book_rating.rate__avg >= 5 %}★★★★★{% endif %}
+			</span><br>
+			<span style="font-style: italic;">{{object.author.all|join:", "}}</span><br>
+			
+			<strong>{% trans 'Жанр:' %}</strong> {% for genre in object.genre.all %}
+				{{genre.title}}			
+			{% endfor %}
+			<br>
+			{% for tag in object.tags.all %}
+				# {{tag.title}}			
+			{% endfor %}
+			<br><br>
+			<strong>{% trans 'Дата издания:' %}</strong> {{object.date}}<br> 
+			{% for obj in object.attributes.all %}
+				<strong>{{obj.name}}:</strong> {{obj.value}}<br> 
+			{% endfor %}
+		</div>
+		<div class="col-md-2 align-self-center" >
+			<div class="text-center" style="border: 1px solid #e5e5e5;">
+				<strong>{% trans 'Количество:' %}</strong> {{object.counter}} <br>
+				{% if object.discount > 0 %}
+					{{object.discount}} % <br> 
+					<span style="font-size:26px;font-weight:1000;color:#FF0000;">{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{object.price_discount}}</span> 
+				{% else %}
+					<span style="font-size:26px;font-weight:1000;color:#5bcffb;">{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{object.price}}</span>
+				{% endif %}
+
+				<p><input type="submit" name="add-in-card" data-id="{{object.id}}" class="inCard button-control" style="background:#0094FF;" value="{% trans 'В корзину' %}"></p>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12" style="overflow: hidden;">
+			<strong>{% trans 'Описание:' %}</strong>
+			{{object.description|safe}}
+		</div>
+	</div>
+</div>
+
+	  
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+		  <div class="modal-content" style="background: #333333;">
+				<button type="button" class="close-button-filter" data-dismiss="modal" aria-label="Close">Закрыть</button>
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">{% trans 'Поделитесь своим отзывом' %}</h5>
+			</div>
+			<form method="POST" action="{% url 'book-page' id=object.id %}">{% csrf_token %}
+				<div class="modal-body">
+					<div class="star-rating">
+						<div class="star-rating__wrap">
+							{{form_comment.message}}<br>
+							{% for radio in form_comment.rate %}
+								<input class="star-rating__input" id="star-rating-{{ forloop.revcounter }}" type="radio" name="rate" value="{{ forloop.revcounter }}">
+								<label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-{{ forloop.revcounter }}" title="{{ forloop.revcounter }} out of 5 stars"></label>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			<input type="submit" class="button-control filter-accept" name="sendComment" value="{% trans 'Оставить отзыв' %}">
+			</form>
+		</div>
+		</div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,200 @@
+{% load staticfiles %}
+{% load i18n %}
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<!-- <link rel="icon" href="<%= BASE_URL %>favicon.ico"> -->
+		<title>BookWorms</title>
+		<link href="https://fonts.googleapis.com/css?family=Arsenal" rel="stylesheet">
+		
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+		
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+		<script src="{% static 'js/trash.js' %}"></script>
+		<script src="{% static 'js/cart.js' %}"></script>
+		<link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+		{% block scripts %}{% endblock %}
+	</head>
+	<body>
+		<nav>
+			<div class="container">
+				<div class="row align-items-center">
+					
+					<div class="col-md-2">
+						{% block ico-filter %}{% endblock %}
+						<div class="logo-text centerBlock">
+							<a href="/">
+								Книжный<br>Червь
+							</a>
+						</div>
+					</div>
+					<div class="col-md-10" style="padding-top:1em;">
+						<form class="form-inline">
+							<input type="text" class="search-input" placeholder="{% trans 'Что будем искать?...' %}">
+							<input type="submit" class="search-button" value="">
+						</form>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<!-- АВТОРИЗАЦИЯ ИЛИ ПРОФИЛЬ -->
+		<div id="user-ico" class="control-ico">
+			{% if user.is_authenticated %}
+				<img src="{% static '/img/avatar.jpg' %}" class="avatar-ico">
+			{% else %}
+				<img src="{% static '/img/log.png' %}" class="icons avatar-ico">
+			{% endif %}
+		</div>
+
+		<div class="control-window user-window">
+			<input type="submit" value="{% trans 'Закрыть' %}" class="button-control close-button close-button-user">
+			{% if user.is_authenticated %}
+				<img src="{% static '/img/avatar.jpg' %}" class="avatar">
+				<hr/><p>
+				<a href="{% url 'user-profile' %}"><input type="submit" value="{% trans 'Личная информация' %}" class="user-button"></a><p>
+				<a href="{% url 'order' %}"><input type="submit" value="{% trans 'Заказы' %}" class="user-button"></a><p>
+				<a href="{% url 'user-settings' %}"><input type="submit" value="{% trans 'Настройки' %}" class="user-button"></a><p>
+				<a href="{% url 'user-logout' %}"><input type="submit" value="{% trans 'Выйти' %}" class="user-button"></a>
+			{% else %}
+				<img src="{% static '/img/log.png' %}" class="avatar">
+				<hr/><p>
+
+				{% if sys_err_message %}{{sys_err_message}}{% endif %}
+				<form method="POST" action="{% url 'user-login' %}" class="text-center">
+					{% csrf_token %}
+					{{log_form.login}}<br>
+					{{log_form.password}}<br>
+					{{log_form.remember}} {{log_form.remember.label}}
+					<p><input type="submit" value="Войти" class="button-control filter-accept"></p>
+					<!-- <input type="submit" value="Войти" name="Auth">  -->
+				</form>
+				<p>
+					<input type="submit" value="{% trans 'Регистрация' %}" class="button-control" data-toggle="modal" data-target="#ModalRegistry">
+				</p>
+				<input type="submit" value="{% trans 'Забыл пароль' %}" class="button-control" data-toggle="modal" data-target="#ModalRecovery">
+			{% endif %}
+		</div>
+		<!-- /АВТОРИЗАЦИЯ ИЛИ ПРОФИЛЬ -->
+
+		<!-- КОРЗИНА -->
+		<div id="cart-ico" class="control-ico">
+			<a href="{% url 'mycart' %}">
+				<img src="https://png.icons8.com/ios/1600/shopping-basket-filled.png" class="icons">
+				{% if count_cart %}<div class="comment-count">{{count_cart}}</div>{% endif %}
+			</a>
+		</div>
+		<!-- /КОРЗИНА -->
+
+		<!-- Настройка сайта -->
+		<div id="setting-ico" class="control-ico">
+				<img src="https://png.icons8.com/metro/1600/settings.png" class="icons">
+			</div>
+	
+			<div class="control-window setting-window">
+				<input type="submit" value="{% trans 'Закрыть' %}" class="button-control close-button close-button-setting">
+	
+				<div class="container-fluid">
+					<div class="row justify-content-center">
+						<div class="col-9 block-filter">
+							<span class="block-filter-title">{% trans 'Валюта:' %}</span><br>
+							<p>
+							<select class="form-control" id="exampleFormControlSelect2">
+								<option class="type_currency" data-currency="DOL">Доллар</option>
+								{% for cur in currency %}
+								<option class="type_currency" data-currency="{{cur.slug}}" {% if cur.rune == rune.rune %}selected{% endif %}>{{cur.title}}</option>
+								{% endfor %}
+							</select>
+							</p>
+						</div>
+						<div class=" col-9 block-filter">
+							<span class="block-filter-title">{% trans 'Язык:' %}</span><br>
+							<form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+									<input name="next" type="hidden" value="{{ redirect_to }}" />
+									<select class="form-control" name="language">
+										{% get_current_language as LANGUAGE_CODE %}
+										{% get_available_languages as LANGUAGES %}
+										{% get_language_info_list for LANGUAGES as languages %}
+										{% for language in languages %}
+											<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>
+												{{ language.name_local }} ({{ language.code }})
+											</option>
+										{% endfor %}
+									</select>
+									<input type="submit" value="{% trans 'Change' %}" />
+								</form>
+						</div>
+						<div class=" col-9 block-filter">
+							<span class="block-filter-title">{% trans 'Вид:' %}</span><br>
+							<p>
+								<a href="#" class="view_filter" data-view-filter="till">{% trans 'Сетка' %}</a> | <a href="#" class="view_filter" data-view-filter="list">{% trans 'Список' %}</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /Настройка сайта  -->
+
+		{% block lsb %}
+		{% endblock lsb %}
+
+		<main>
+		{% block content %}
+		{% endblock content %}
+		</main>
+
+		{% if not user.is_authenticated %}
+		<!-- Modal window of REGISTRY -->
+		<div class="modal fade" id="ModalRegistry" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content" style="background: #333333;">
+				<input type="submit" value="{% trans 'Закрыть' %}" class="button-control close-button" data-dismiss="modal" aria-label="Close">
+				<div class="modal-body text-center">
+				<form method="POST" action="{% url 'registration' %}">{% csrf_token %}
+					{{form_registry.errors}}
+					{{registry_error}}
+					<p>{{form_registry.login}}</p>
+					<p>{{form_registry.name}}</p>
+					<p>{{form_registry.surname}}</p>
+					<p>{{form_registry.password}}</p>
+					<p>{{form_registry.repassword}}</p>
+					<p>{{form_registry.email}}</p>
+					<p>{{form_registry.phone_number}}</p>
+					{% trans 'Регистрируясь, вы подтверждаете, что вам 18 или больше лет и вы соглашаетесь c правилами использования и политикой конфиденциальности.' %}
+				</div>
+				<input type="submit" name="registry" class="button-control filter-accept" value="{% trans 'Зарегистрироваться' %}">
+				</form>
+			</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="ModalRecovery" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content" style="background: #333333;">
+				<input type="submit" value="{% trans 'Закрыть' %}" class="button-control close-button" data-dismiss="modal" aria-label="Close">
+				<div class="modal-body text-center">
+				<form method="POST" action="{% url 'user-forgotpswd' %}">{% csrf_token%}
+					{{form_recovery.email}}
+				</div>
+				<input type="submit" name="sendEmail" class="button-control filter-accept" value="{% trans 'Восстановить' %}">
+				</form>
+			</div>
+			</div>
+		</div>
+		{% endif %}
+
+		<footer class="footer">
+			<div class="container">
+				<span class="text-muted">{% trans 'Все права защищены. &copy; 2018' %}</span>
+			</div>
+		</footer>
+
+	</body>
+
+</html>

@@ -1,0 +1,33 @@
+{% extends 'mainApp/index.html' %}
+{% load staticfiles %}
+
+
+{% block scripts %}
+	<script type="text/javascript" src="{% static 'js/incart.js' %}"></script>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		{% for myorder in myorders %}
+		<div class="col-md-12 book-content" style="margin-bottom:15px;">
+			<div class="row">
+				<div class="col-md-1 text-center">
+					<input type="checkbox" name="books" value="{{object.id}}">
+				</div>
+				<div class="col-md-1">
+					<img src="media/{{myorder.content_object.preview}}" width="80px">
+				</div>
+				<div class="col-md-4">
+					<a href="{% url 'book-page' id=myorder.content_object.id %}">
+						{{myorder.content_object.title}}
+					</a>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+</div>	
+{% endblock content %}

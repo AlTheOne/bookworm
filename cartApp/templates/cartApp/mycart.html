@@ -1,0 +1,58 @@
+{% extends 'mainApp/index.html' %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block scripts %}
+	<script type="text/javascript" src="{% static 'js/incart.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	{% if objects %}
+	<form method="POST" action="{% url 'add-order' %}">{% csrf_token %}
+		<div class="row">
+		{% for object in objects %}
+			<div class="col-md-12 book-content" style="margin-bottom:15px;">
+				<div class="row">
+					<div class="col-md-1 text-center">
+						<input type="checkbox" name="books" value="{{object.id}}">
+					</div>
+					<div class="col-md-1">
+						<img src="media/{{object.content_object.preview}}" width="80px">
+					</div>
+					<div class="col-md-4">
+						<a href="{% url 'book-page' id=object.content_object.id %}">
+							{{object.content_object.title}}
+						</a>
+					</div>
+					<div class="col-md-2">
+					{% if object.content_object.discount %}
+						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{object.content_object.price}} <br> 
+						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{object.content_object.price_discount}} <br> 
+
+						-{{object.content_object.discount}}%
+					{% else %}
+						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{object.content_object.price}}
+					{% endif %}
+					</div>
+					<div class="col-md-2">
+						<a href="{% url 'add-order-1' id=object.id %}" class="buyit" data-id="{{object.id}}">{% trans 'Оплатить' %}</a><br>
+						<a href="#" class="outcart" data-id="{{object.id}}">{% trans 'Удалить' %}</a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+		<div class="text-right">
+			<b>{% trans 'Сумма заказа:' %}</b> <span id="total_order_amount"></span>
+		</div>
+		<hr/>
+		<div class="text-right">
+			<button type="submit" class="btn btn-primary btn-lg" name="status" value="all">{% trans 'Оплатить выбранное!' %}</button>
+		</div>
+	</form>
+	{% else %}
+		{% trans 'Ваша корзина пуста...' %}
+	{% endif %}
+</div>	
+{% endblock content %}

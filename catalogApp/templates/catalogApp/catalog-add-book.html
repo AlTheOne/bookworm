@@ -1,0 +1,12 @@
+{% extends 'mainApp/index.html' %}
+
+{% block left_side_bar %}
+Мелкие подсказки)))
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="" enctype="multipart/form-data">{% csrf_token %}
+	{{form}}
+	<input type="submit" value="Отправить">
+</form>
+{% endblock %}

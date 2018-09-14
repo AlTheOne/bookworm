@@ -1,0 +1,14 @@
+{% extends 'mainApp/index.html' %}
+{% load staticfiles %}
+
+{%block mainTitle%}<title>Восстановление пароля</title>{% endblock mainTitle%}
+
+{% block content %}
+{{message}}
+{%if form_recovery_pswd%}
+<form method="POST" action="{% url 'user-forgotpswd' %}">{% csrf_token%}
+	{{form_recovery_pswd.email.label}}: {{form_recovery_pswd.email}}
+	<input type="submit" name="sendEmail" value="Отправить">
+</form>
+{% endif %}
+{% endblock content %}
