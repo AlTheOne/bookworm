@@ -14,20 +14,21 @@
 		{% for myorder in myorders %}
 		<div class="col-md-12 book-content" style="margin-bottom:15px;">
 			<div class="row">
-				<div class="col-md-1 text-center">
-					<input type="checkbox" name="books" value="{{object.id}}">
-				</div>
-				<div class="col-md-1">
-					<img src="media/{{myorder.content_object.preview}}" width="80px">
-				</div>
-				<div class="col-md-4">
-					<a href="{% url 'book-page' id=myorder.content_object.id %}">
-						{{myorder.content_object.title}}
-					</a>
+				<div class="col-md-12">
+					<p><a href="{% url 'order-info' id=myorder.id %}">Заказ № {{myorder.id}}</a> (Статус: {{myorder.status}})</p>
+					{% for obj in myorder.orderobj.all %}
+						<a href="{% url 'book-page' id=obj.content_object.id %}" target="_blank">
+							<img src="/media/{{obj.content_object.preview}}" width="50px" height="80px">
+						</a>
+					{% endfor %}<br>
+					Обновление информации: {{myorder.updated}}<br>
+					Дата: {{myorder.created}}<br>
 				</div>
 			</div>
 		</div>
-	{% endfor %}
+		{% empty %}
+		У вас нет заказов....
+		{% endfor %}
 	</div>
 </div>	
 {% endblock content %}

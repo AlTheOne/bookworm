@@ -23,7 +23,7 @@ class OrderObjects(models.Model):
 		verbose_name=_('Товар заказа')
 		verbose_name_plural=_('Товар Заказов')
 
-	order = models.ForeignKey('Order', on_delete=models.CASCADE, verbose_name=_('Заказ'), blank=True, null=True)
+	order = models.ForeignKey('Order', on_delete=models.CASCADE, verbose_name=_('Заказ'), blank=True, null=True, related_name='orderobj')
 	# content_type - Какая модель используется
 	# object_id - id объекта используемой модели 
 	content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, verbose_name=_('Модель'), help_text=_('Выберите модель'))
@@ -40,7 +40,7 @@ class Order(models.Model):
 		verbose_name=_('Заказ')
 		verbose_name_plural=_('Заказы')
 
-	status = models.ForeignKey(Status, on_delete="SET_NULL", verbose_name=_('Статус заказа'))
+	status = models.ForeignKey(Status, on_delete="SET_NULL", verbose_name=_('Статус заказа'), blank=True, null=True)
 	name = models.CharField(max_length=120, verbose_name=_('Имя получателя'), null=True)
 	country = models.CharField(max_length=120, verbose_name=_('Страна/Регион'), null=True)
 	street = models.CharField(max_length=120, verbose_name=_('Улица, дом, квартира'), null=True)

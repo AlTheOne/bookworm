@@ -2,22 +2,37 @@
 
 {% block content %}
 <div class="container">
-	<div class="row">
-		{{myorders.status}}<br>
-		{{myorders.name}}<br>
-		{{myorders.country}}<br>
-		{{myorders.street}}<br>
-		{{myorders.apt}}<br>
-		{{myorders.region}}<br>
-		{{myorders.city}}<br>
-		{{myorders.postcode}}<br>
-		{{myorders.phone}}<br>
-		{{myorders.updated}}<br>
-		{{myorders.created}}<br>
+	<div class="row book-content">
+		<div class="col-12">
+			<p style="font-size:30px;font-weight:800;">Заказ # {{myorders.id}} (Статус: {{myorders.status}})</p>
+			<strong>Дата заказа:</strong> {{myorders.updated}}<br>
+			<strong>Информация обновлялась:</strong> {{myorders.created}}<br>
+			<strong>Получатель:</strong> {{myorders.name}}<br>
+			<strong>Страна/Регион:</strong> {{myorders.country}}<br>
+			<strong>Улица, дом, квартира:</strong> {{myorders.street}}<br>
+			<strong>Квартира, блок:</strong> {{myorders.apt}}<br>
+			<strong>Край/Область/Регион:</strong> {{myorders.region}}<br>
+			<strong>Город:</strong> {{myorders.city}}<br>
+			<strong>Почтовый индекс:</strong> {{myorders.postcode}}<br>
+			<strong>Номер телефона:</strong> {{myorders.phone}}
+		</div>
 	</div>
-	<div class="row">
+	<div class="row" style="margin-top:15px;">
 	{% for object in objects %}
-		{{object.content_object.title}}<br>
+		<div class="col-md-12 book-content" style="margin:15px 0;">
+				<div class="row">
+					<div class="col-md-1">
+						<a href="{% url 'book-page' id=object.content_object.id %}" target="_blank">
+							<img src="/media/{{object.content_object.preview}}" width="80px">
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a href="{% url 'book-page' id=object.content_object.id %}" target="_blank">
+							{{object.content_object.title}}
+						</a>
+					</div>
+				</div>
+			</div>
 	{% endfor %}
 	</div>
 </div>	

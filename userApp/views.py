@@ -3,7 +3,7 @@ from django.views.generic import View
 from django.shortcuts import get_object_or_404, redirect
 from userApp.settings import AuthenticateUsers
 from userApp.forms import RegistryForm, SettingsForm, RecoveryEmailForm, NewPswdForm
-from userApp.models import User, RecoveryPaswdlUser
+from userApp.models import User, RecoveryPaswdlUser, СonfirmationEmailUser
 from django.contrib.auth import logout
 from userApp import tasks
 from random import choice

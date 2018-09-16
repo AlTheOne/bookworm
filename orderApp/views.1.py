@@ -11,7 +11,6 @@ class MyOrder(View):
 	TEMPLATES = 'orderApp/order.html'
 	def get(self, *args, **kwargs):
 		data = {}
-		print(self.request.session.get('order', False))
 		data['myorders'] = Order.objects.filter(user=self.request.user, is_active=True)
 		return render(self.request, self.TEMPLATES, context=data)
 
@@ -49,7 +48,7 @@ class DoOrder(View):
 			for i in books:
 				getbooks.append(i.id)
 
-		self.request.session['order'] = getbooks # список id покупаемых книг для передачи
+		data['getbooks'] = getbooks # список id покупаемых книг для передачи
 		data['books'] = books # Список покупаемых книг для отображения
 		data['form'] = OrderForm # Форма заказа
 		return render(self.request, self.TEMPLATES, context=data)
@@ -61,13 +60,14 @@ class DoOrderBook(View):
 	def get(self, *args, **kwargs):
 		data = {}
 		data['id'] = self.kwargs.get('id')
-		self.request.session['order'] = [data['id'], ]
+		data['getbooks'] = [data['id'], ]
 		data['book'] = get_object_or_404(Cart, id=data['id'], user=self.request.user, is_active=True)
 		data['form'] = OrderForm
 		return render(self.request, self.TEMPLATES, context=data)
 
 
 # Create new Order and OrderObjects
+# Нужен хотя бы 1 СТАТУС ЗАКАЗА!!!
 class DidOrder(View):
 	TEMPLATES = 'orderApp/add-order.html'
 	def post(self, *args, **kwargs):
@@ -84,10 +84,12 @@ class DidOrder(View):
 				phone = formOrder.cleaned_data['phone'],
 				user = self.request.user,
 			)
-			books = Cart.objects.filter(user=self.request.user, is_active=True, id__in=self.request.session['order'])
+			book = self.request.POST.get('books')
+			getbooks = [int(i)for i in book[1:-1].split(', ')]
+			books = Cart.objects.filter(user=self.request.user, is_active=True, id__in=getbooks)
 
 			if books:
-				for item in books:	
+				for item in books:
 					OrderObjects.objects.create(
 						order = new_order,
 						content_object = item.content_object,
@@ -96,9 +98,9 @@ class DidOrder(View):
 						is_active = True,
 						user = self.request.user
 					)
+
 			return redirect('order-info', id=new_order.id)
-		else:
-			data = {}
-			data['books'] = Cart.objects.filter(user=self.request.user, is_active=True, id__in=self.request.session['order'])
-			data['form'] = OrderForm(self.request.POST)
-			return render(self.request, self.TEMPLATES, context=data)
+		# else:
+		# 	data['form'] = OrderForm(self.request.POST)
+
+		# 	return render(self.request, self.TEMPLATES, context=data)
