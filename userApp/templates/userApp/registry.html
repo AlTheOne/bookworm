@@ -4,16 +4,21 @@
 {%block mainTitle%}<title>Страница регистрации</title>{% endblock mainTitle%}
 
 {% block content %}
-<form method="POST" action="{% url 'registration' %}">{% csrf_token %}
-{{registryform.errors}}
-{{registry_error}}
-<p>{{registryform.login.label}}: {{registryform.login}}</p>
-<p>{{registryform.name.label}}: {{registryform.name}}</p>
-<p>{{registryform.surname.label}}: {{registryform.surname}}</p>
-<p>{{registryform.password.label}}: {{registryform.password}}</p>
-<p>{{registryform.repassword.label}}: {{registryform.repassword}}</p>
-<p>{{registryform.email.label}}: {{registryform.email}}</p>
-<p>{{registryform.phone_number.label}}: {{registryform.phone_number}}</p>
-<input type="submit" name="registry" value="Зарегистрироваться">
-</form>
+<div class="container book-content">
+    <div class="row">
+        <div class="col-12">
+            <form method="POST" action="{% url 'registration' %}">{% csrf_token %}
+                {{registryform.errors}}
+                <p>{{registryform.login.label}}: {{registryform.login}}</p>
+                <p>{{registryform.name.label}}: {{registryform.name}}</p>
+                <p>{{registryform.surname.label}}: {{registryform.surname}}</p>
+                <p>{{registryform.password.label}}: {{registryform.password}}</p>
+                <p>{{registryform.repassword.label}}: {{registryform.repassword}}</p>
+                <p>{{registryform.email.label}}: {{registryform.email}}</p>
+                <p>{{registryform.phone_number.label}}: {{registryform.phone_number}}</p>
+                <input type="submit" name="registry" value="Зарегистрироваться">
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock content %}

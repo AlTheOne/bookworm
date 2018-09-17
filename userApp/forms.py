@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
+from userApp.models import User, UserAvatar
 from django.core.validators import RegexValidator
 
 phone_validator = RegexValidator(r"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$")
@@ -34,6 +34,11 @@ class SettingsForm(forms.Form):
 	last_name = forms.CharField(label='Фамилия', required=True, max_length=32, widget=forms.TextInput(attrs={'placeholder': 'Ваша фамилия'}))
 	email = forms.EmailField(label='Почта', required=True, widget=forms.EmailInput(attrs={'placeholder': 'Ваша почта'}))
 	phone_number = forms.CharField(label='Номер телефона', required=True, max_length=32, validators=[phone_validator], widget=forms.TextInput(attrs={'placeholder': '+7 999 888 77 66'}))
+
+class ChangeAvatar(forms.ModelForm):
+	class Meta:
+		model = UserAvatar
+		fields = ('avatar', )
 
 class RecoveryEmailForm(forms.Form):
 	email = forms.EmailField(label='Почта', required=True, widget=forms.EmailInput(attrs={'placeholder': 'Ваша почта'}))

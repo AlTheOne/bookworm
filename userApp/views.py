@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.shortcuts import get_object_or_404, redirect
 from userApp.settings import AuthenticateUsers
-from userApp.forms import RegistryForm, SettingsForm, RecoveryEmailForm, NewPswdForm
-from userApp.models import User, RecoveryPaswdlUser, СonfirmationEmailUser
+from userApp.forms import RegistryForm, SettingsForm, RecoveryEmailForm, NewPswdForm, ChangeAvatar
+from userApp.models import User, UserAvatar, RecoveryPaswdlUser, СonfirmationEmailUser
 from django.contrib.auth import logout
 from userApp import tasks
 from random import choice
@@ -23,12 +23,11 @@ class UserLogIn(View, AuthenticateUsers):
 		data = {}
 
 		error = self.interface_data()
-		if error is None:
-			return redirect('/')
-		else:
+		if error is not None:
 			data['sys_err_message'] = error
 			data['log_form'] = self.init_form()
-			return redirect('/')
+		
+		return redirect('/')
 
 
 class UserProfile(View):
@@ -42,6 +41,12 @@ class UserProfile(View):
 			'email': user_data.email,
 			'phone_number': user_data.phone_number,
 		})
+		try:
+			data['avatar'] = UserAvatar.objects.get(user=self.request.user)
+		except UserAvatar.DoesNotExist:
+			data['avatar'] = None
+		
+		data['avatarform'] = ChangeAvatar
 		return render(self.request, self.TEMPLATES, context=data)
 
 
@@ -81,7 +86,7 @@ class UserRegistration(View):
 				code = ''.join(choice(ascii_letters) for i in range(50))
 				code_data = СonfirmationEmailUser.objects.create(user=user_data, code=code)
 				code_data.save()
-				tasks.verifyEmail.delay(code=code_data.code, username=user_data.username, email=user_data.email).delay()
+				# tasks.verifyEmail.delay(code=code_data.code, username=user_data.login, email=user_data.email).delay()
 				return redirect('/')
 			else:
 				data['registryform'] = self.FORMM
@@ -119,6 +124,28 @@ class UserSettings(View):
 			})
 			return render(self.request, self.TEMPLATES, context=data)
 
+from django.conf import settings
+
+
+class UsersAvatar(View):
+	FORMM = None
+
+	def post(self, *args, **kwargs):
+		data = {}
+		self.FORMM = ChangeAvatar(self.request.POST, self.request.FILES)
+		filess = self.request.FILES
+		if self.FORMM.is_valid():
+			try:
+				data['avatar'] = UserAvatar.objects.get(user_id=self.request.user.id).delete()
+			except UserAvatar.DoesNotExist:
+				pass
+			finally:
+				zzz = self.FORMM.save(commit=False)
+				zzz.user = self.request.user
+				zzz.save()
+			return redirect('user-profile')
+		else:
+			return redirect('/')
 
 # Страница с новым паролем
 class UserRecoveryPswd(View):

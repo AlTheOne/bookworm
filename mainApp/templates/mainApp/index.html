@@ -47,7 +47,11 @@
 		<!-- АВТОРИЗАЦИЯ ИЛИ ПРОФИЛЬ -->
 		<div id="user-ico" class="control-ico">
 			{% if user.is_authenticated %}
-				<img src="{% static '/img/avatar.jpg' %}" class="avatar-ico">
+				{% if avatar %}
+				<img src="/media/{{avatar.avatar}}" class="avatar-ico">
+				{% else %}
+				<img src="{% static '/img/noavatar.png' %}" class="avatar-ico">
+				{% endif %}
 			{% else %}
 				<img src="{% static '/img/log.png' %}" class="icons avatar-ico">
 			{% endif %}
@@ -56,7 +60,11 @@
 		<div class="control-window user-window">
 			<input type="submit" value="{% trans 'Закрыть' %}" class="button-control close-button close-button-user">
 			{% if user.is_authenticated %}
-				<img src="{% static '/img/avatar.jpg' %}" class="avatar">
+				{% if avatar %}
+				<img src="/media/{{avatar.avatar}}" class="avatar">
+				{% else%}
+				<img src="{% static '/img/noavatar.png' %}" class="avatar">
+				{% endif %}
 				<hr/><p>
 				<a href="{% url 'user-profile' %}"><input type="submit" value="{% trans 'Личная информация' %}" class="user-button"></a><p>
 				<a href="{% url 'order' %}"><input type="submit" value="{% trans 'Заказы' %}" class="user-button"></a><p>

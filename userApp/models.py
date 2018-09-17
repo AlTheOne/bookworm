@@ -80,3 +80,16 @@ class RecoveryPaswdlUser(models.Model):
 
 	def __str__(self):
 		return 'Код восстановления пароля %s' % self.user.login
+
+
+class UserAvatar(models.Model):
+	class Meta:
+		verbose_name=_('Аватар')
+		verbose_name_plural=_('Аватарки')
+	
+	user = models.OneToOneField(User, on_delete=models.CASCADE, help_text=_('Укажите пользователя'), verbose_name=_('Пользователь'), related_name='ava')
+	avatar = models.ImageField(upload_to='avatar/', help_text=_('Максимальный размер 100х100'), verbose_name=_('Аватарка'), blank=True, null=True)
+	created = models.DateTimeField(auto_now_add=True, auto_now=False, verbose_name=_('Создано'))
+
+	def __str__(self):
+		return 'Аватар %s' % self.user.login
