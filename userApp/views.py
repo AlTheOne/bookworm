@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect
 from userApp.settings import AuthenticateUsers
 from userApp.forms import RegistryForm, SettingsForm, RecoveryEmailForm, NewPswdForm, ChangeAvatar
 from userApp.models import User, UserAvatar, RecoveryPaswdlUser, СonfirmationEmailUser
+from userApp.decorators import only_users, only_guests
 from django.contrib.auth import logout
 from userApp import tasks
 from random import choice
@@ -19,6 +20,8 @@ class UserLogOut(View):
 
 class UserLogIn(View, AuthenticateUsers):
 	# Get data form of Auth
+
+	@only_guests(url='/')
 	def post(self, *args, **kwargs):
 		data = {}
 
@@ -32,6 +35,8 @@ class UserLogIn(View, AuthenticateUsers):
 
 class UserProfile(View):
 	TEMPLATES = 'userApp/user-profile.html'
+
+	@only_users(url='/')
 	def get(self, *args, **kwargs):
 		data = {}
 		user_data = User.objects.get(id=self.request.user.id)
@@ -56,12 +61,14 @@ class UserRegistration(View):
 	FORMM = None
 
 	# Страница с формой регистрации
+	@only_guests(url='/')
 	def get(self, *args, **kwargs):
 		data = {}
 		data['registryform'] = RegistryForm
 		return render(self.request, self.TEMPLATES, context=data)
 
 	# Приём данных формы регистрации
+	@only_guests(url='/')
 	def post(self, *args, **kwargs):
 		data = {}
 		self.FORMM = RegistryForm(self.request.POST)
@@ -101,6 +108,12 @@ class UserRegistration(View):
 class UserSettings(View):
 	TEMPLATES = 'userApp/settings.html'
 	FORMM = None
+
+	@only_users(url='/')
+	def get(self, *args, **kwargs):
+		return redirect('/')
+
+	@only_users(url='/')
 	def post(self, *args, **kwargs):
 		data = {}
 		self.FORMM = SettingsForm(self.request.POST)
@@ -124,12 +137,11 @@ class UserSettings(View):
 			})
 			return render(self.request, self.TEMPLATES, context=data)
 
-from django.conf import settings
-
 
 class UsersAvatar(View):
 	FORMM = None
 
+	@only_users(url='/')
 	def post(self, *args, **kwargs):
 		data = {}
 		self.FORMM = ChangeAvatar(self.request.POST, self.request.FILES)
@@ -144,9 +156,12 @@ class UsersAvatar(View):
 		else:
 			return redirect('/')
 
+
 # Страница с новым паролем
 class UserRecoveryPswd(View):
 	TEMPLATES = 'userApp/new-pswd.html'
+
+	@only_guests(url='/')
 	def get(self, *args, **kwargs):
 		data = {}
 		code = kwargs.get('code', None)
@@ -168,10 +183,14 @@ class UserRecoveryPswd(View):
  
 class UserForgotPswd(View):
 	TEMPLATES = 'userApp/forgot-pswd.html'
+
+	@only_guests(url='/')
 	def get(self, *args, **kwargs):
 		data = {}
 		data['form_recovery_pswd'] = RecoveryEmailForm
 		return render(self.request, self.TEMPLATES, context=data)
+
+	@only_guests(url='/')	
 	def post(self, *args, **kwargs):
 		data = {}
 		form = RecoveryEmailForm(self.request.POST)

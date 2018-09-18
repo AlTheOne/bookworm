@@ -4,11 +4,15 @@ from orderApp.models import Order, OrderObjects
 from cartApp.models import Cart
 from orderApp.forms import OrderForm
 from django.shortcuts import get_object_or_404, redirect
+from userApp.decorators import only_users
+
 
 
 # List all orders of user
 class MyOrder(View):
 	TEMPLATES = 'orderApp/order.html'
+
+	@only_users(url='/')
 	def get(self, *args, **kwargs):
 		data = {}
 		print(self.request.session.get('order', False))
@@ -19,6 +23,8 @@ class MyOrder(View):
 # Page with information about order of user
 class OrderInfo(View):
 	TEMPLATES = 'orderApp/order-info.html'
+
+	@only_users(url='/')
 	def get(self, *args, **kwargs):
 		data = {}
 		data['id'] = kwargs.get('id')
@@ -30,9 +36,13 @@ class OrderInfo(View):
 # Page with form address
 class DoOrder(View):
 	TEMPLATES = 'orderApp/add-order.html'
+
+	@only_users(url='/')
 	def get(self, *args, **kwargs):
 		return redirect('mycart')
 
+
+	@only_users(url='/')
 	def post(self, *args, **kwargs):
 		data = {}
 		# Если выборка
@@ -58,6 +68,8 @@ class DoOrder(View):
 # Page with form address
 class DoOrderBook(View):
 	TEMPLATES = 'orderApp/add-order.html'
+
+	@only_users(url='/')
 	def get(self, *args, **kwargs):
 		data = {}
 		data['id'] = self.kwargs.get('id')
@@ -70,6 +82,8 @@ class DoOrderBook(View):
 # Create new Order and OrderObjects
 class DidOrder(View):
 	TEMPLATES = 'orderApp/add-order.html'
+
+	@only_users(url='/')
 	def post(self, *args, **kwargs):
 		formOrder = OrderForm(self.request.POST)
 		if formOrder.is_valid():

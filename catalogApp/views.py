@@ -3,11 +3,12 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import View
 from django.http import JsonResponse, HttpResponse
 from catalogApp.models import *
-# from catalogApp.models import Books, GenreBooks, TagsBooks, CommentsBook
 from catalogApp.forms import CommentForm, FilterForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json, random
 from django.db.models import Avg
+from userApp.decorators import only_users
+
 
 
 class MyPagination():
@@ -231,6 +232,7 @@ class BookPage(View):
 		else:
 			return redirect('/')
 
+	@only_users(url='/')
 	def post(self, *args, **kwargs):
 		data = {}
 		form = CommentForm(self.request.POST)
