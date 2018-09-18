@@ -135,14 +135,11 @@ class UsersAvatar(View):
 		self.FORMM = ChangeAvatar(self.request.POST, self.request.FILES)
 		filess = self.request.FILES
 		if self.FORMM.is_valid():
-			try:
-				data['avatar'] = UserAvatar.objects.get(user_id=self.request.user.id).delete()
-			except UserAvatar.DoesNotExist:
-				pass
-			finally:
-				zzz = self.FORMM.save(commit=False)
-				zzz.user = self.request.user
-				zzz.save()
+			data['avatar'] = UserAvatar.objects.filter(user_id=self.request.user.id)
+			data['avatar'].delete()
+			zzz = self.FORMM.save(commit=False)
+			zzz.user = self.request.user
+			zzz.save()
 			return redirect('user-profile')
 		else:
 			return redirect('/')

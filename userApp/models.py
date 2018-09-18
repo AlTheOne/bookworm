@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
+from django.dispatch import receiver
+from django.db.models.signals import post_delete
 
 
 class UserAccountManager(BaseUserManager):
@@ -93,3 +95,9 @@ class UserAvatar(models.Model):
 
 	def __str__(self):
 		return 'Аватар %s' % self.user.login
+
+@receiver(post_delete, sender=UserAvatar)
+def freezer_post_delete_handler(sender, **kwargs):
+	freezer = kwargs['instance']
+	storage, path = freezer.avatar.storage, freezer.avatar.path
+	storage.delete(path)
