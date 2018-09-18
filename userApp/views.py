@@ -145,13 +145,11 @@ class UsersAvatar(View):
 	def post(self, *args, **kwargs):
 		data = {}
 		self.FORMM = ChangeAvatar(self.request.POST, self.request.FILES)
-		filess = self.request.FILES
 		if self.FORMM.is_valid():
-			data['avatar'] = UserAvatar.objects.filter(user_id=self.request.user.id)
-			data['avatar'].delete()
-			zzz = self.FORMM.save(commit=False)
-			zzz.user = self.request.user
-			zzz.save()
+			data['avatar'] = UserAvatar.objects.filter(user_id=self.request.user.id).delete()
+			form_commit = self.FORMM.save(commit=False)
+			form_commit.user = self.request.user
+			form_commit.save()
 			return redirect('user-profile')
 		else:
 			return redirect('/')
