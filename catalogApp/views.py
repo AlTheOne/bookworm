@@ -47,7 +47,7 @@ class InitFilter(object):
 		if 'type_filter' in self.request.COOKIES:
 			if self.request.COOKIES.get('type_filter') == '2':
 				self.FILTER_SORT = 2
-				self.QS = self.QS.order_by('-created')
+				self.QS = self.QS.order_by('created')
 			elif self.request.COOKIES.get('type_filter') == '3':
 				self.FILTER_SORT = 3
 				self.QS = self.QS.order_by('-title')
@@ -67,7 +67,7 @@ class InitFilter(object):
 				self.FILTER_SORT = 8
 				self.QS = self.QS.order_by('price')
 			else:
-				self.QS = self.QS.order_by('created')
+				self.QS = self.QS.order_by('-created')
 		pass
 
 	# Инициализация цен
@@ -227,7 +227,11 @@ class BookPage(View):
 			data['object'] = Books.objects.get(id=int(kwargs.get('id')), is_active=True)
 			data['comments'] = CommentsBook.objects.filter(book=kwargs.get('id'), is_active=True).order_by("-created")
 			data['form_comment'] = CommentForm
-			data['book_rating'] = data['comments'].aggregate(Avg('rate'))
+			# Rating - Integer. It number use how percent in style.
+			if data['comments']:
+				data['book_rating'] = round((data['comments'].aggregate(Avg('rate')).get('rate__avg') * 100) / 5)
+			else:
+				data['book_rating'] = False
 			return render(self.request, self.TEMPLATES, context=data)
 		else:
 			return redirect('/')
