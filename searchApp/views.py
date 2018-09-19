@@ -43,7 +43,7 @@ class InitFilter(object):
 		if 'type_filter' in self.request.COOKIES:
 			if self.request.COOKIES.get('type_filter') == '2':
 				self.FILTER_SORT = 2
-				self.QS = self.QS.order_by('-created')
+				self.QS = self.QS.order_by('created')
 			elif self.request.COOKIES.get('type_filter') == '3':
 				self.FILTER_SORT = 3
 				self.QS = self.QS.order_by('-title')
@@ -63,7 +63,7 @@ class InitFilter(object):
 				self.FILTER_SORT = 8
 				self.QS = self.QS.order_by('price')
 			else:
-				self.QS = self.QS.order_by('created')
+				self.QS = self.QS.order_by('-created')
 		pass
 
 	# Инициализация цен
@@ -114,7 +114,7 @@ class SearchPage(View, MyPagination, InitFilter):
 			self.init_view()
 
 			# Инициализация сортировки
-			self.init_filter()
+			# self.init_filter()
 
 			self.QS = Books.objects.filter(
 				Q(title__icontains=data['search_q']) | 
