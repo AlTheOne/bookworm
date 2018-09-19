@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import View
 from orderApp.models import Order, OrderObjects
+from catalogApp.models import Books
 from cartApp.models import Cart
 from orderApp.forms import OrderForm
 from django.shortcuts import get_object_or_404, redirect
 from userApp.decorators import only_users
-
+from django.db.models import F
 
 
 # List all orders of user
@@ -110,6 +111,9 @@ class DidOrder(View):
 						is_active = True,
 						user = self.request.user
 					)
+					Books.objects.filter(id=item.content_object.id).update(counter = (F('counter') - 1))
+				books.delete()
+			del self.request.session['order']
 			return redirect('order-info', id=new_order.id)
 		else:
 			data = {}
