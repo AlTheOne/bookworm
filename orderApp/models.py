@@ -47,7 +47,7 @@ class Order(models.Model):
 	apt = models.CharField(max_length=120, blank=True, null=True, verbose_name=_('Квартира, блок'), help_text=_('При необходимости'))
 	region = models.CharField(max_length=120, verbose_name=_('Край/Область/Регион'), null=True)
 	city = models.CharField(max_length=120, verbose_name=_('Город'), null=True)
-	postcode = models.PositiveIntegerField(verbose_name=_('Почтовый индекс'), null=True)
+	postcode = models.CharField(max_length=25,verbose_name=_('Почтовый индекс'), null=True)
 	phone = models.CharField(max_length=25, verbose_name=_('Номер телефона'), null=True)
 	is_active = models.BooleanField(default=True, verbose_name=_('Активно'), help_text=_('Видно пользователям, только если активно'))
 	user = models.ForeignKey(User, on_delete='SET_NULL', blank=True, null=True, verbose_name=_('Автор'))

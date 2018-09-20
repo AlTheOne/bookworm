@@ -1,6 +1,6 @@
 {% load staticfiles %}
 {% load i18n %}
-<html lang="ru">
+<!DOCTYPE html lang="ru">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,6 +18,7 @@
 
 		<script src="{% static 'js/trash.js' %}"></script>
 		<script src="{% static 'js/cart.js' %}"></script>
+		{% if not user.is_authenticated %}<script src="{% static 'js/regform_valid.js' %}"></script>{% endif %}
 		<link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
 		{% block scripts %}{% endblock %}
 	</head>
@@ -81,7 +82,6 @@
 					{{log_form.password}}<br>
 					{{log_form.remember}} {{log_form.remember.label}}
 					<p><input type="submit" value="Войти" class="button-control filter-accept"></p>
-					<!-- <input type="submit" value="Войти" name="Auth">  -->
 				</form>
 				<p>
 					<input type="submit" value="{% trans 'Регистрация' %}" class="button-control" data-toggle="modal" data-target="#ModalRegistry">
@@ -164,7 +164,7 @@
 			<div class="modal-content" style="background: #333333;">
 				<input type="submit" value="{% trans 'Закрыть' %}" class="button-control close-button" data-dismiss="modal" aria-label="Close">
 				<div class="modal-body text-center">
-				<form method="POST" action="{% url 'registration' %}">{% csrf_token %}
+				<form class="form-registry" method="POST" action="{% url 'registration' %}">{% csrf_token %}
 					{{form_registry.errors}}
 					{{registry_error}}
 					<p>{{form_registry.login}}</p>
@@ -202,7 +202,6 @@
 				<span class="text-muted">{% trans 'Все права защищены. &copy; 2018' %}</span>
 			</div>
 		</footer>
-
 	</body>
 
 </html>

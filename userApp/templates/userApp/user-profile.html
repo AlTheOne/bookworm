@@ -3,6 +3,10 @@
 
 {%block mainTitle%}<title>Личный кабинет - {{user.username}}</title>{% endblock mainTitle%}
 
+{% block scripts %}<script src="{% static 'js/regform_valid.js' %}"></script>{% endblock %}
+
+
+
 {% block content %}
 <div class="container book-content">
     <div class="row">

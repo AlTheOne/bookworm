@@ -16,11 +16,6 @@ $(document).ready(function(){
 		return cookieValue;
 	};
 
-	function showPopUp(){
-		$('.popUp').append('<div class="popUp1" style="background:#FF0000;position:fixed; bottom: 25px; right:25px">Товар добавлен в корзину!</div>');
-	}
-
-
 	let data = {};
 
 	$('.book-price-div').on('click', function(e){
@@ -39,7 +34,6 @@ $(document).ready(function(){
 				if(data['status'] == '200'){
 					console.log('Okk!');
 					$('.comment-count').text( parseInt($('.comment-count').text()) + 1);
-					showPopUp();
 				}
 			},
 			error: function(e){

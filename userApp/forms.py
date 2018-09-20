@@ -21,19 +21,19 @@ class AuthLoginEmailForm(forms.Form):
 	remember = forms.CharField(label='Запомнить', required=False, max_length=128, widget=forms.CheckboxInput())
 
 class RegistryForm(forms.Form):
-	login = forms.CharField(label='Логин', required=True, max_length=32, help_text='Не более 32 символов', widget=forms.TextInput(attrs={'placeholder': 'Ваш логин'}))
-	password = forms.CharField(label='Пароль', required=True, max_length=128, widget=forms.PasswordInput(attrs={'placeholder': 'Ваш пароль'}))
-	repassword = forms.CharField(label='Повторите пароль', required=True, max_length=128, widget=forms.PasswordInput(attrs={'placeholder': 'Повторить пароль'}))
-	name = forms.CharField(label='Имя', required=True, max_length=32, widget=forms.TextInput(attrs={'placeholder': 'Ваше имя'}))
-	surname = forms.CharField(label='Фамилия', required=True, max_length=32, widget=forms.TextInput(attrs={'placeholder': 'Ваша фамилия'}))
-	email = forms.EmailField(label='Почта', required=True, widget=forms.EmailInput(attrs={'placeholder': 'Ваша почта'}))
-	phone_number = forms.CharField(label='Номер телефона', required=True, max_length=32, validators=[phone_validator], widget=forms.TextInput(attrs={'placeholder': '+7 999 888 77 66'}))
+	login = forms.CharField(label='Логин', required=True, max_length=32, help_text='Не более 32 символов', widget=forms.TextInput(attrs={'placeholder': 'Ваш логин', 'class':'input_login', 'pattern':'^[a-zA-Z][A-Za-z0-9_\-]{4,32}$'}))
+	password = forms.CharField(label='Пароль', required=True, max_length=128, widget=forms.PasswordInput(attrs={'placeholder': 'Ваш пароль', 'class':'input_password', 'pattern':'^(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$'}))
+	repassword = forms.CharField(label='Повторите пароль', required=True, max_length=128, widget=forms.PasswordInput(attrs={'placeholder': 'Повторить пароль', 'class':'input_repassword'}))
+	name = forms.CharField(label='Имя', required=True, max_length=32, widget=forms.TextInput(attrs={'placeholder': 'Ваше имя', 'class':'input_name', 'pattern':'^[a-zA-Zа-яА-ЯЁё\s]{3,32}$'}))
+	surname = forms.CharField(label='Фамилия', required=True, max_length=32, widget=forms.TextInput(attrs={'placeholder': 'Ваша фамилия', 'class':'input_surname', 'pattern':'^[a-zA-Zа-яА-ЯЁё\s]{3,32}$'}))
+	email = forms.EmailField(label='Почта', required=True, widget=forms.EmailInput(attrs={'placeholder': 'Ваша почта', 'class':'input_email', 'pattern':'^([A-Za-z0-9_\-\.]{4,32})+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$'}))
+	phone_number = forms.CharField(label='Номер телефона', required=True, max_length=32, validators=[phone_validator], widget=forms.TextInput(attrs={'placeholder': '+7 XXX XXX XX XX', 'class':'input_phone', 'pattern':'^[\+]\d{1,2}\d{3}\d{3}\d{2}\d{2}$'}))
 
 class SettingsForm(forms.Form):
-	first_name = forms.CharField(label='Имя', required=True, max_length=32, widget=forms.TextInput(attrs={'placeholder': 'Ваше имя'}))
-	last_name = forms.CharField(label='Фамилия', required=True, max_length=32, widget=forms.TextInput(attrs={'placeholder': 'Ваша фамилия'}))
-	email = forms.EmailField(label='Почта', required=True, widget=forms.EmailInput(attrs={'placeholder': 'Ваша почта'}))
-	phone_number = forms.CharField(label='Номер телефона', required=True, max_length=32, validators=[phone_validator], widget=forms.TextInput(attrs={'placeholder': '+7 999 888 77 66'}))
+	first_name = forms.CharField(label='Имя', required=True, max_length=32, widget=forms.TextInput(attrs={'placeholder': 'Ваше имя', 'class':'input_name', 'pattern':'^[a-zA-Zа-яА-ЯЁё\s]{3,32}$'}))
+	last_name = forms.CharField(label='Фамилия', required=True, max_length=32, widget=forms.TextInput(attrs={'placeholder': 'Ваша фамилия', 'class':'input_surname', 'pattern':'^[a-zA-Zа-яА-ЯЁё\s]{3,32}$'}))
+	email = forms.EmailField(label='Почта', required=True, widget=forms.EmailInput(attrs={'placeholder': 'Ваша почта', 'class':'input_email', 'pattern':'^([A-Za-z0-9_\-\.]{4,32})+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$'}))
+	phone_number = forms.CharField(label='Номер телефона', required=True, max_length=32, validators=[phone_validator], widget=forms.TextInput(attrs={'placeholder': '+7 XXX XXX XX XX', 'class':'input_phone', 'pattern':'^[\+]\d{1,2}\d{3}\d{3}\d{2}\d{2}$'}))
 
 class ChangeAvatar(forms.ModelForm):
 	class Meta:
