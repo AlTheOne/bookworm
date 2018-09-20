@@ -1,6 +1,8 @@
 {% extends 'mainApp/index.html' %}
 {% load staticfiles %}
 {% load i18n %}
+{% load decpoint %}
+
 
 {% block scripts %}
 	<script type="text/javascript" src="{% static 'js/incart.js' %}"></script>
@@ -12,7 +14,7 @@
 	<form method="POST" action="{% url 'add-order' %}">{% csrf_token %}
 		<div class="row">
 		{% for object in objects %}
-			<div class="col-md-12 book-content" style="margin-bottom:15px;">
+			<div class="col-md-12 book-content object{{object.id}}" style="margin-bottom:15px;">
 				<div class="row">
 					<div class="col-md-1 text-center">
 						<input type="checkbox" name="books" value="{{object.id}}">
@@ -28,11 +30,11 @@
 					<div class="col-md-2">
 					{% if object.content_object.discount %}
 						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{object.content_object.price}} <br> 
-						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{object.content_object.price_discount}} <br> 
+						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} <span class="price">{{object.content_object.price_discount}}</span> <br> 
 
 						-{{object.content_object.discount}}%
 					{% else %}
-						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{object.content_object.price}}
+						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} <span class="price">{{object.content_object.price|decpoint }}</span>
 					{% endif %}
 					</div>
 					<div class="col-md-2">
@@ -43,7 +45,7 @@
 			</div>
 		{% endfor %}
 		<div class="col-12 text-right book-content">
-			<b>{% trans 'Сумма заказа:' %}</b> <span id="total_order_amount"></span>
+			<b>{% trans 'Сумма заказа:' %}</b> {%if rune %}{{rune.rune}}{%else%} $ {%endif%} <span id="total_order_amount"></span>
 			<div class="text-right">
 				<button type="submit" class="btn btn-primary btn-lg" name="status" value="buy-selected">{% trans 'Оплатить выбранное!' %}</button>
 				<button type="submit" class="btn btn-primary btn-lg" name="status" value="buy-all">{% trans 'Оплатить всю корзину!' %}</button>

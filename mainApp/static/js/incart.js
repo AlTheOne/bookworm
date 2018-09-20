@@ -17,20 +17,23 @@ $(document).ready(function(){
 	};
 
 	let data = {};
+	
+	function totalPrice(){
+		let tp_cart = 0;
+		$('.price').each(function(){
+			tp_cart = tp_cart + parseFloat($(this).text());
+		})
+		$('#total_order_amount').text(tp_cart.toFixed(2));
+	}
+	totalPrice();
 
 	$('.outcart').on('click', function(e){
 		data['csrfmiddlewaretoken'] = getCookie('csrftoken');
 		data['outcart'] = $(this).data('id');
-		SendAjax('del');
+		SendAjax('del', data['outcart']);
 	})
 
-	$('.buyit').on('click', function(e){
-		data['csrfmiddlewaretoken'] = getCookie('csrftoken');
-		data['books'] = $(this).data('id');
-		SendAjax('add');
-	})
-
-	function SendAjax(action){
+	function SendAjax(action, someid){
 		$.ajax({
 			url: 'http://127.0.0.1:8000/mycart/' + action + '/',
 			method: 'POST',
@@ -39,8 +42,9 @@ $(document).ready(function(){
 			success: function(data){
 				if(data['status'] == '200'){
 					console.log('Okk!');
-					// $('.comment-count').text( parseInt($('.comment-count').text()) - 1);
-					setTimeout(function() {window.location.reload();}, 500)
+					$('.object'+someid).remove();
+					$('.cart-count').text( parseInt($('.cart-count').text()) - 1);
+					totalPrice();
 				}
 			},
 			error: function(e){

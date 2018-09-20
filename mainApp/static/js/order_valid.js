@@ -1,5 +1,14 @@
 $(document).ready(function(){
 
+	function totalPrice(){
+		let tp_cart = 0;
+		$('.price').each(function(){
+			tp_cart = tp_cart + parseFloat($(this).text());
+		})
+		$('#total_order_amount').text(tp_cart.toFixed(2));
+	}
+	totalPrice();
+
 	// Зона функций
 	function test_error(data){
 		let variable = $(this).val();

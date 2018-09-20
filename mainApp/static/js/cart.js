@@ -24,6 +24,7 @@ $(document).ready(function(){
 		data['incart'] = $(this).data('id');
 		SendAjax();
 	})
+
 	function SendAjax(){
 		$.ajax({
 			url: 'http://127.0.0.1:8000/mycart/add/',
@@ -32,8 +33,7 @@ $(document).ready(function(){
 			cached: true,
 			success: function(data){
 				if(data['status'] == '200'){
-					console.log('Okk!');
-					$('.comment-count').text( parseInt($('.comment-count').text()) + 1);
+					$('.cart-count').text( parseInt($('.cart-count').text()) + 1);
 				}
 			},
 			error: function(e){

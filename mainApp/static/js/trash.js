@@ -15,27 +15,27 @@ $(document).ready(function(){
 		}
 		return cookieValue;
 	};
-    
-    $('#user-ico').on('click', function(){
-        $('.user-window').toggle();
-    })
-    $('.close-button-user').on('click', function(){
-        $('.user-window').toggle();
-    })
+	
+	$('#user-ico').on('click', function(){
+		$('.user-window').toggle();
+	})
+	$('.close-button-user').on('click', function(){
+		$('.user-window').toggle();
+	})
 
-    $('#feedback-ico').on('click', function(){
-        $('.feedback-window').toggle();
-    })
-    $('.close-button-feedback').on('click', function(){
-        $('.feedback-window').toggle();
-    })
+	$('#feedback-ico').on('click', function(){
+		$('.feedback-window').toggle();
+	})
+	$('.close-button-feedback').on('click', function(){
+		$('.feedback-window').toggle();
+	})
 
-    $('#setting-ico').on('click', function(){
-        $('.setting-window').toggle();
-    })
-    $('.close-button-setting').on('click', function(){
-        $('.setting-window').toggle();
-    })
+	$('#setting-ico').on('click', function(){
+		$('.setting-window').toggle();
+	})
+	$('.close-button-setting').on('click', function(){
+		$('.setting-window').toggle();
+	})
 
 	let data = {}
 
@@ -58,8 +58,8 @@ $(document).ready(function(){
 		data['csrfmiddlewaretoken'] = getCookie('csrftoken');
 		SendAjax();
 	});
-    
-    function SendAjax(){
+	
+	function SendAjax(){
 		$.ajax({
 			url: 'http://127.0.0.1:8000/filter/',
 			method: 'POST',

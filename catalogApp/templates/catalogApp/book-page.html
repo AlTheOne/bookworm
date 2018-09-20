@@ -10,11 +10,11 @@
 {% block lsb %}
 <div id="feedback-ico" class="control-ico">
 	<img src="{% static 'img/comment.png' %}" class="icons">
-	<div class="comment-count">{{comments|length}}</div>
+	<div class="counter-round">{{comments|length}}</div>
 </div>
 
 <div class="control-window feedback-window">
-		<input type="submit" value="Закрыть" class="button-control close-button close-button-feedback">						
+		<input type="submit" value="Закрыть" class="button-control close-button close-button-feedback">
 	
 	<div class="container-fluid">
 		{% for comment in comments %}
@@ -66,11 +66,11 @@
 			<span style="font-style: italic;">{{object.author.all|join:", "}}</span><br>
 			
 			<strong>{% trans 'Жанр:' %}</strong> {% for genre in object.genre.all %}
-				{{genre.title}}			
+				{{genre.title}}
 			{% endfor %}
 			<br>
 			{% for tag in object.tags.all %}
-				# {{tag.title}}			
+				# {{tag.title}}
 			{% endfor %}
 			<br><br>
 			<strong>{% trans 'Дата издания:' %}</strong> {{object.date}}<br> 
@@ -82,13 +82,13 @@
 			<div class="text-center" style="border: 1px solid #e5e5e5;">
 				<strong>{% trans 'Количество:' %}</strong> {{object.counter}} <br>
 				{% if object.discount > 0 %}
-					{{object.discount}} % <br> 
+					{{object.discount}} % <br>
 					<span style="font-size:26px;font-weight:1000;color:#FF0000;">{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{object.price_discount}}</span> 
 				{% else %}
 					<span style="font-size:26px;font-weight:1000;color:#5bcffb;">{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{object.price}}</span>
 				{% endif %}
 
-				<p><input type="submit" name="add-in-card" data-id="{{object.id}}" class="inCard button-control" style="background:#0094FF;" value="{% trans 'В корзину' %}"></p>
+				<p><input type="submit" name="add-in-card" data-id="{{object.id}}" class="book-price-div button-control" style="background:#0094FF;" value="{% trans 'В корзину' %}"></p>
 			</div>
 		</div>
 	</div>

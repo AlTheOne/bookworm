@@ -42,10 +42,10 @@ class DoOrder(View):
 	def get(self, *args, **kwargs):
 		return redirect('mycart')
 
-
 	@only_users(url='/')
 	def post(self, *args, **kwargs):
 		data = {}
+		
 		# Если выборка
 		if self.request.POST.get('status') == 'buy-selected':
 			list_book_id = self.request.POST.getlist('books')

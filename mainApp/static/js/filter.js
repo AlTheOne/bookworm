@@ -16,38 +16,37 @@ $(document).ready(function(){
 		return cookieValue;
 	};
 
-    let data = {};
+	let data = {};
 
-    //Ico Open/Close window
-    $('.filter-ico').on('click', function(){
-        $('.filter-window').toggle();
-    })
+	//Ico Open/Close window
+	$('.filter-ico').on('click', function(){
+		$('.filter-window').toggle();
+	})
 
-    //Button Close
-    $('.close-button-filter').on('click', function(){
-        $('.filter-window').toggle();
-    })
+	//Button Close
+	$('.close-button-filter').on('click', function(){
+		$('.filter-window').toggle();
+	})
 
-    // filter by
+	// filter by
 	$('.type_filter').on('click', function(e){
 		data['type_filter'] = $(this).data('book-f');
 		data['csrfmiddlewaretoken'] = getCookie('csrftoken');
 		SendAjax();
-    });
-    
-    function SendAjax(){
+	});
+	
+	function SendAjax(){
 		$.ajax({
 			url: 'http://127.0.0.1:8000/filter/',
 			method: 'POST',
 			data: data,
 			cached: true,
 			success: function(data){
-				// console.log('Okk!');
 				setTimeout(function() {window.location.reload();}, 500)
 			},
 			error: function(e){
 				console.log(e);
 			}
 		})
-    }
+	}
 })

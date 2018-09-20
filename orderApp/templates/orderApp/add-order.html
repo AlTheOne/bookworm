@@ -1,25 +1,33 @@
 {% extends 'mainApp/index.html' %}
 {% load staticfiles %}
+{% load decpoint %}
 
 
-{% block scripts %}<script type="text/javascript" src="{% static 'js/order_valid.js' %}"></script>{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="{% static 'js/order_valid.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 <div class="container">
 	<div class="row book-content">
-	<form method="POST" action="{% url 'oplata' %}">
-		{{form.errors}}
-		{%csrf_token%}
-		{{form.name.label}}: {{form.name}}<br>
-		{{form.country.label}}: {{form.country}}<br>
-		{{form.street.label}}: {{form.street}}<br>
-		{{form.apt.label}}: {{form.apt}}<br>
-		{{form.region.label}}: {{form.region}}<br>
-		{{form.city.label}}: {{form.city}}<br>
-		{{form.postcode.label}}: {{form.postcode}}<br>
-		{{form.phone.label}}: {{form.phone}}<br>
-		<button class="btn btn-primary" name="books">Оплатить</button><p>
-	</form>
+		<div class="col-12">
+			<form method="POST" action="{% url 'oplata' %}">
+				{{form.errors}}
+				{%csrf_token%}
+				{{form.name.label}}: {{form.name}}<br>
+				{{form.country.label}}: {{form.country}}<br>
+				{{form.street.label}}: {{form.street}}<br>
+				{{form.apt.label}}: {{form.apt}}<br>
+				{{form.region.label}}: {{form.region}}<br>
+				{{form.city.label}}: {{form.city}}<br>
+				{{form.postcode.label}}: {{form.postcode}}<br>
+				{{form.phone.label}}: {{form.phone}}<br>
+				<hr />
+				Количество товаров: {{books|length }}<br>
+				Общая сумма: {%if rune %}{{rune}}{%else%} $ {%endif%} <span id="total_order_amount"></span><br>
+				<button class="btn btn-primary" name="books">Оплатить</button><p>
+			</form>
+		</div>
 	</div>
 	<div class="row" style="margin-top:15px;">
 		<!-- список товаров для покупки -->	
@@ -38,10 +46,10 @@
 						<div class="col-md-2">
 						{% if book.content_object.discount %}
 							{%if rune %}{{rune}}{%else%} $ {%endif%} {{book.content_object.price}} <br> 
-							{%if rune %}{{rune}}{%else%} $ {%endif%} {{book.content_object.price_discount}} <br> 
+							{%if rune %}{{rune}}{%else%} $ {%endif%} <span class="price">{{book.content_object.price_discount|decpoint}}</span> <br> 
 							-{{book.content_object.discount}}%
 						{% else %}
-							{%if rune %}{{rune}}{%else%} $ {%endif%} {{book.content_object.price}}
+							{%if rune %}{{rune}}{%else%} $ {%endif%} <span class="price">{{book.content_object.price|decpoint}}</span>
 						{% endif %}
 						</div>
 					</div>
@@ -61,10 +69,10 @@
 					<div class="col-md-2">
 					{% if book.content_object.discount %}
 						{%if rune %}{{rune}}{%else%} $ {%endif%} {{book.content_object.price}} <br> 
-						{%if rune %}{{rune}}{%else%} $ {%endif%} {{book.content_object.price_discount}} <br> 
+						{%if rune %}{{rune}}{%else%} $ {%endif%} <span class="price">{{book.content_object.price_discount|decpoint}}</span> <br> 
 						-{{book.content_object.discount}}%
 					{% else %}
-						{%if rune %}{{rune}}{%else%} $ {%endif%} {{book.content_object.price}}
+						{%if rune %}{{rune}}{%else%} $ {%endif%} <span class="price">{{book.content_object.price|decpoint}}</span>
 					{% endif %}
 					</div>
 				</div>
