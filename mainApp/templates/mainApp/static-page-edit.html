@@ -1,0 +1,24 @@
+{% extends 'mainApp/index.html' %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block lsb %}
+{% endblock %}
+
+{% block content %}
+<div class="container book-content">
+	<div class="row">
+		<div class="col-12">
+			<h1>Редактирование статической страницы</h1>
+		</div>
+		<div class="col-12">
+			<form action="" method="POST">{% csrf_token %}
+				{{form_news.errors}}
+				{{form_news.media}}
+				{{form_news}}
+				<input type="submit" value="Сохранить">
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock content %}
