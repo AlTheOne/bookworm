@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import View
 from django.http import JsonResponse, HttpResponse
 from catalogApp.models import *
-from catalogApp.forms import CommentForm, FilterForm
+from catalogApp.forms import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json, random
 from django.db.models import Avg
@@ -188,37 +188,6 @@ class MainCatalog(View, MyPagination, InitFilter):
 		return response
 
 
-class TagsCatalog(View):
-	TEMPLATES = 'catalogApp/catalog-main.html'
-	def get(self, *args, **kwargs):
-		data = {}
-		data['objects'] = Books.objects.filter(tags__slug=kwargs.get('tag_name'), is_active=True)
-		data['genres'] = GenreBooks.objects.filter(is_active=True).order_by('title')
-		data['tags'] = TagsBooks.objects.filter(is_active=True).order_by('title')
-		return render(self.request, self.TEMPLATES, context=data)
-
-
-class GenerCatalog(View):
-	TEMPLATES = 'catalogApp/catalog-main.html'
-	def get(self, *args, **kwargs):
-		data = {}
-		data['objects'] = Books.objects.filter(gener__slug=kwargs.get('gener_name'), is_active=True)
-		data['genres'] = GenreBooks.objects.filter(is_active=True).order_by('title')
-		data['tags'] = TagsBooks.objects.filter(is_active=True).order_by('title')
-		return render(self.request, self.TEMPLATES, context=data)
-
-
-class AddBook(View):
-	TEMPLATES = 'catalogApp/catalog-add-book.html'
-	def get(self, *args, **kwargs):
-		data = {}
-		# data['form_add_book'] = AddBookForm
-		return render(self.request, self.TEMPLATES, context=data)
-
-	def post(self, *args, **kwargs):
-		pass
-
-
 class BookPage(View):
 	TEMPLATES = 'catalogApp/book-page.html'
 	def get(self, *args, **kwargs):
@@ -258,69 +227,165 @@ class BookPage(View):
 			return redirect('book-page', id=self.kwargs.get('id'))
 
 
-		# try:
-		# 	obj = Books.objects.get(id=self.kwargs.get('id'), is_active=True)
-		# except Books.DoisNotExist:
-		# 	data['form_comment'] = form
-		# 	return render(self.request, self.TEMPLATES, context=data)
-		# else:
-		# 	if form.is_valid():
-		# 		comment = CommentsBook.objects.create(
-		# 			book = obj,
-		# 			message = form.cleaned_data['message'],
-		# 			rate = form.cleaned_data['rate'],
-		# 			user = self.request.user,
-		# 		)
-		# 		comment.save()
-		# 		return redirect('book-page', id=self.kwargs.get('id'))
-		# 	else:
-		# 		data['form_comment'] = form
-		# 		return render(self.request, self.TEMPLATES, context=data)
-
-
-class FullAdd(View):
+class EditBook(View):
+	TEMPLATES = 'catalogApp/catalog-add-book.html'
 	def get(self, *args, **kwargs):
-		title_list = ('CSS', 'JS', 'C++', 'C#', 'HTML', 'HTML5', 'Java', 'Ruby On Rails', 'SQL', 'Go', 'Golang', 'Python', 'Delphi', 'MySQL', 'PostgreSQL', 'MariaDB', 'Oracle')
+		data = {}
+		obj = Books.objects.get(id=self.kwargs.get('id'), is_active=True)
+		data['form_add_book'] = AddBookForm(instance=obj)
+		data['form_add_book'].fields["attributes"].queryset = AttributesBooks.objects.filter(Q(rel_attrib=None)|Q(rel_attrib=self.kwargs.get('id')))
+		data['form_add_attrib'] = AddAttributeForm
+		data['form_add_author'] = AddAuthorForm
+		data['form_add_tags'] = AddTagsForm
+		data['form_add_genre'] = AddGenreForm
+		data['form_add_phouse'] = AddPhouseForm
+		return render(self.request, self.TEMPLATES, context=data)
 
-		author_fn = ('А.', 'В.', 'Н.', 'Х.', 'Л.', 'Д.', '.М.', 'Т.', 'И.')
-		author_ln = ('Ооба', 'Джонсон', 'Морис', 'Андресон', 'Алдерсон', 'Смит', 'Карнеги', 'Блэк')
+	def post(self, *args, **kwargs):
+		obj = Books.objects.get(id=self.kwargs.get('id'), is_active=True)
+		bookform = AddBookForm(self.request.POST, self.request.FILES, instance=obj)
+		if bookform.is_valid():
+			bookform.save()
+			return redirect('book-page', id=self.kwargs.get('id'))
+		else:
+			print('НЕ Валидна')
+			data = {}
+			data['form_add_book'] = bookform
+			data['form_add_attrib'] = AddAttributeForm
+			data['form_add_author'] = AddAuthorForm
+			data['form_add_tags'] = AddTagsForm
+			data['form_add_genre'] = AddGenreForm
+			data['form_add_phouse'] = AddPhouseForm
+			return render(self.request, self.TEMPLATES, context=data)
 
-		attr_name = ('Кол-во страниц', 'Переводчик', 'Возрастное ограничение', 'Переплёт', 'Формат')
 
-		def addNewObj():
-			# author = AuthorBooks.objects.create(
-			# 	first_name = random.choice(author_fn),
-			# 	last_name = random.choice(author_ln)
-			# )
-			# author.save()
+class AddBook(View):
+	TEMPLATES = 'catalogApp/catalog-add-book.html'
+	def get(self, *args, **kwargs):
+		data = {}
+		data['form_add_book'] = AddBookForm
+		data['form_add_attrib'] = AddAttributeForm
+		data['form_add_author'] = AddAuthorForm
+		data['form_add_tags'] = AddTagsForm
+		data['form_add_genre'] = AddGenreForm
+		data['form_add_phouse'] = AddPhouseForm
+		return render(self.request, self.TEMPLATES, context=data)
 
-			# attributes = AttributesBooks.objects.create(
-			# 	name = random.choice(attr_name),
-			# 	value = random.uniform(100, 2000)
-			# )
+	def post(self, *args, **kwargs):
+		bookform = AddBookForm(self.request.POST, self.request.FILES)
+		if bookform.is_valid():
+			bookform.save()
+		else:
+			data = {}
+			data['form_add_book'] = bookform
+			data['form_add_attrib'] = AddAttributeForm
+			data['form_add_author'] = AddAuthorForm
+			data['form_add_tags'] = AddTagsForm
+			data['form_add_genre'] = AddGenreForm
+			data['form_add_phouse'] = AddPhouseForm
+		return render(self.request, self.TEMPLATES, context=data)
 
-			book = Books.objects.create(
-				title = random.choice(title_list) + random.choice(title_list) + random.choice(title_list),
-				description = random.choice(title_list)*50,
-				# author = author,
-				# attributes = attributes,
-				# genre = random.randint(5, 12),
-				# tags = random.randint(5, 9),
-				price = random.uniform(100, 2000),
-				discount = random.randint(0, 10),
-				counter = random.randint(100, 500),
-				preview = 'catalogApp/preview/%d.jpg' % random.randint(1, 50),
+
+class AddAuthorBook(View):
+	def get(self, *args, **kwargs):
+		return redirect('/')
+		
+	def post(self, *args, **kwargs):
+		data = {}
+		authorform = AddAuthorForm(self.request.POST)
+		if authorform.is_valid():
+			new_object = AuthorBooks.objects.create(
+				first_name = authorform.cleaned_data['first_name'],
+				secondary_name = authorform.cleaned_data['secondary_name'],
+				last_name = authorform.cleaned_data['last_name'],
 				user = self.request.user,
-				is_active = True
 			)
-			# book.author.set(author)
-			# book.attributes.set(attributes)
-			# book.genre.set(GenreBooks.objects.get(id=random.randint(5, 12)))
-			# book.tags.set(TagsBooks.objects.get(id=random.randint(5, 9)))
-			# book.save()
+			data['status'] = True
+			data['id'] = new_object.id
+			data['title'] = "%s %s." % (new_object.last_name, new_object.first_name[0])
+		else:
+			data['status'] = False
+		return JsonResponse(data)
 
-		i = 0
-		while i<10:
-			i = i+1
-			addNewObj()
-		return redirect('catalog-main')
+
+class AddAttribBook(View):
+	def get(self, *args, **kwargs):
+		return redirect('/')
+		
+	def post(self, *args, **kwargs):
+		data = {}
+		attribform = AddAttributeForm(self.request.POST)
+		if attribform.is_valid():
+			new_object = AttributesBooks.objects.create(
+				name = attribform.cleaned_data['name'],
+				value = attribform.cleaned_data['value'],
+			)
+			data['status'] = True
+			data['id'] = new_object.id
+			data['title'] = new_object.name
+		else:
+			data['status'] = False
+		return JsonResponse(data)
+
+
+class AddTagBook(View):
+	def get(self, *args, **kwargs):
+		return redirect('/')
+		
+	def post(self, *args, **kwargs):
+		data = {}
+		tagform = AddTagsForm(self.request.POST)
+		if tagform.is_valid():
+			new_object = TagsBooks.objects.create(
+				title = tagform.cleaned_data['title'],
+				slug = tagform.cleaned_data['slug'],
+				user = self.request.user,
+			)
+			data['status'] = True
+			data['id'] = new_object.id
+			data['title'] = new_object.title
+		else:
+			data['status'] = False
+		return JsonResponse(data)
+
+
+class AddGenreBook(View):
+	def get(self, *args, **kwargs):
+		return redirect('/')
+		
+	def post(self, *args, **kwargs):
+		data = {}
+		genreform = AddGenreForm(self.request.POST)
+		if genreform.is_valid():
+			new_object = GenreBooks.objects.create(
+				title = genreform.cleaned_data['title'],
+				slug = genreform.cleaned_data['slug'],
+				user = self.request.user,
+			)
+			data['status'] = True
+			data['id'] = new_object.id
+			data['title'] = new_object.title
+		else:
+			data['status'] = False
+		return JsonResponse(data)
+
+
+class AddPhouseBook(View):
+	def get(self, *args, **kwargs):
+		return redirect('/')
+		
+	def post(self, *args, **kwargs):
+		data = {}
+		phouseform = AddPhouseForm(self.request.POST)
+		if phouseform.is_valid():
+			new_object = PublicHouse.objects.create(
+				title = phouseform.cleaned_data['title'],
+				user = self.request.user,
+			)
+			data['status'] = True
+			data['id'] = new_object.id
+			data['title'] = new_object.title
+		else:
+			data['status'] = False
+		return JsonResponse(data)
+

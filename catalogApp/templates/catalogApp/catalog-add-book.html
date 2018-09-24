@@ -1,12 +1,122 @@
 {% extends 'mainApp/index.html' %}
+{% load staticfiles %}
+{% load i18n %}
 
-{% block left_side_bar %}
-Мелкие подсказки)))
+{% block scripts %}
+	<script src="{% static 'js/add_m2m.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-<form method="POST" action="" enctype="multipart/form-data">{% csrf_token %}
-	{{form}}
-	<input type="submit" value="Отправить">
-</form>
+<div class="container book-content">
+	<div class="row">
+		<div class="col">
+			<form method="POST" action="" enctype="multipart/form-data">{% csrf_token %}
+				{{form_add_book.errors}}
+				{{form_add_book.media}}
+				{{form_add_book.title.label}}: {{form_add_book.title}}<br>
+				{{form_add_book.description.label}}: {{form_add_book.description}}<br>
+				{{form_add_book.author.label}}: {{form_add_book.author}}
+				<input type="button" data-toggle="modal" data-target="#AddAuthorModel" value="Добавить"><br>
+				{{form_add_book.attributes.label}}: {{form_add_book.attributes}}
+				<input type="button" data-toggle="modal" data-target="#AddAttribModel" value="Добавить"><br>
+				{{form_add_book.genre.label}}: {{form_add_book.genre}}
+				<input type="button" data-toggle="modal" data-target="#AddGenreModel" value="Добавить"><br>
+				{{form_add_book.tags.label}}: {{form_add_book.tags}}
+				<input type="button" data-toggle="modal" data-target="#AddTagsModel" value="Добавить"><br>
+				{{form_add_book.phouse.label}}: {{form_add_book.phouse}}
+				<input type="button" data-toggle="modal" data-target="#AddPhouseModel" value="Добавить"><br>
+				{{form_add_book.price.label}}: {{form_add_book.price}}<br>
+				{{form_add_book.discount.label}}: {{form_add_book.discount}}<br>
+				{{form_add_book.price_discount.label}}: {{form_add_book.price_discount}}<br>
+				{{form_add_book.counter.label}}: {{form_add_book.counter}}<br>
+				{{form_add_book.preview.label}}: {{form_add_book.preview}}<br>
+				<input type="submit" value="Отправить">
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="AddAuthorModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content" style="background: #333333;">
+			<button type="button" class="close-button-filter" data-dismiss="modal" aria-label="Close">Закрыть</button>
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">{% trans 'Добавить автора' %}</h5>
+			</div>
+			<form id='form-addAuthor' method="POST" action="{% url 'add-author' %}">{% csrf_token %}
+				<div class="modal-body">
+					{{form_add_author.as_p}}
+				</div>
+				<input type="submit" class="button-control filter-accept add-author" name="addAuthor" value="{% trans 'Сохранить' %}">
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="AddAttribModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content" style="background: #333333;">
+			<button type="button" class="close-button-filter" data-dismiss="modal" aria-label="Close">Закрыть</button>
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">{% trans 'Добавить атрибут' %}</h5>
+			</div>
+			<form method="POST" action="{% url 'add-attributes' %}">{% csrf_token %}
+				<div class="modal-body">
+					{{form_add_attrib.as_p}}
+				</div>
+				<input type="submit" class="button-control filter-accept add-attributes" name="sendComment" value="{% trans 'Сохранить' %}">
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="AddTagsModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content" style="background: #333333;">
+			<button type="button" class="close-button-filter" data-dismiss="modal" aria-label="Close">Закрыть</button>
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">{% trans 'Добавить метку' %}</h5>
+			</div>
+			<form method="POST" action="{% url 'add-tags' %}">{% csrf_token %}
+				<div class="modal-body">
+					{{form_add_tags.title.label}}: {{form_add_tags.title}}<br>
+					{{form_add_tags.slug.label}}: {{form_add_tags.slug}}
+				</div>
+				<input type="submit" class="button-control filter-accept add-tags" name="sendComment" value="{% trans 'Сохранить' %}">
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="AddGenreModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content" style="background: #333333;">
+			<button type="button" class="close-button-filter" data-dismiss="modal" aria-label="Close">Закрыть</button>
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">{% trans 'Добавить жанр' %}</h5>
+			</div>
+			<form method="POST" action="{% url 'add-genre' %}">{% csrf_token %}
+				<div class="modal-body">
+					{{form_add_genre.title.label}}: {{form_add_genre.title}}<br>
+					{{form_add_genre.slug.label}}: {{form_add_genre.slug}}
+				</div>
+				<input type="submit" class="button-control filter-accept add-genre" name="sendComment" value="{% trans 'Сохранить' %}">
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="AddPhouseModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content" style="background: #333333;">
+			<button type="button" class="close-button-filter" data-dismiss="modal" aria-label="Close">Закрыть</button>
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">{% trans 'Добавить издательство' %}</h5>
+			</div>
+			<form method="POST" action="{% url 'add-phouse' %}">{% csrf_token %}
+				<div class="modal-body">
+					{{form_add_phouse.title.label}}: {{form_add_phouse.title}}
+				</div>
+				<input type="submit" class="button-control filter-accept add-phouse" name="sendComment" value="{% trans 'Сохранить' %}">
+			</form>
+		</div>
+	</div>
+</div>
 {% endblock %}
