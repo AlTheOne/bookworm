@@ -4,6 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 from tinymce import HTMLField
 from decimal import Decimal
 from django.template.defaultfilters import truncatechars
+from django.dispatch import receiver
+from django.db.models.signals import post_delete
 
 
 class GenreBooks(models.Model):
@@ -97,7 +99,7 @@ class Books(models.Model):
 	tags = models.ManyToManyField(TagsBooks, verbose_name=_('Метка'), related_name='rel_tag', blank=True, help_text=_('Зажмите shift, чтобы выбрать несколько вариантов'))
 	price = models.DecimalField(verbose_name=_('Цена'), max_digits=10, decimal_places=2, default=0.00, help_text=_('Цена за единицу товара'))
 	discount = models.IntegerField(verbose_name=_('Скидка'), default=0, null=True, blank=True, help_text=_('В процентах'))
-	price_discount = models.DecimalField(verbose_name=_('Цена c учётом скидки'), max_digits=10, decimal_places=2, default=0.00, help_text=_('Заполняется автоматически'))
+	price_discount = models.DecimalField(verbose_name=_('Цена c учётом скидки'), max_digits=10, decimal_places=2, default=0.00, blank=True, null=True, help_text=_('Заполняется автоматически'))
 	counter = models.IntegerField(verbose_name=_('Количество'), default=0, null=True, blank=True, help_text=_('В наличии'))
 	preview = models.ImageField(upload_to='catalogApp/preview/', verbose_name=_('Превью'))
 	user = models.ForeignKey(User, verbose_name=_('Опубликовал'), on_delete='SET_NULL', blank=True, null=True)
@@ -113,6 +115,13 @@ class Books(models.Model):
 			obj_price = self.price
 			self.price_discount = Decimal(obj_price) - (Decimal(obj_price) * (Decimal(self.discount) / 100))
 		super(Books, self).save(*args, **kwargs)
+
+
+@receiver(post_delete, sender=Books)
+def freezer_post_delete_handler(sender, **kwargs):
+	freezer = kwargs['instance']
+	storage, path = freezer.preview.storage, freezer.preview.path
+	storage.delete(path)
 
 
 class CommentsBook(models.Model):

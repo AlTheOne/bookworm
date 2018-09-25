@@ -10,7 +10,7 @@ from django.db.models import Q
 RATE=[('1',''), ('2',''), ('3',''), ('4',''), ('5','')]
 
 class CommentForm(forms.Form):
-	message = forms.CharField(label='Текст отзыва', required=True, max_length=512, widget=TinyMCE())
+	message = forms.CharField(label='Текст отзыва', required=True, max_length=512, widget=forms.Textarea)
 	rate = forms.ChoiceField(choices=RATE, required=False, widget=forms.RadioSelect(attrs={'class': 'star-rating__input', 'name': 'rate'}))
 
 
@@ -30,6 +30,7 @@ class AddBookForm(forms.ModelForm):
 	discount = forms.IntegerField(label = _('Скидка'), required=False, help_text=_('В процентах'))
 	price_discount = forms.DecimalField(max_digits=10, decimal_places=2, required=False, label = _('Цена c учётом скидки'), help_text = _('Заполняется автоматически'), widget=forms.TextInput(attrs={'readonly':True}))
 	counter = forms.IntegerField(label = _('Количество'), help_text=_('В наличии'))
+	date = forms.IntegerField(label = _('Год издания'))
 	preview = forms.ImageField(label = _('Превью'))
 
 

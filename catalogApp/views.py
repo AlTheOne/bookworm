@@ -17,6 +17,10 @@ class MyPagination():
 		# nmb = кол-во записей на странице
 		# args = ожидаем QuerySet
 		# Пагинация по результатам
+
+		if self.QS.count() <= nmb:
+			return None
+
 		data = {}
 		data['paginator'] = Paginator(self.QS, nmb)
 		page = self.request.GET.get('page')
@@ -78,7 +82,8 @@ class InitFilter(object):
 	
 				for n in range(len(self.QS)):
 					self.QS[n].price =  round(self.QS[n].price * self.CURRENCY.quota, 2)
-					self.QS[n].price_discount = round(self.QS[n].price_discount * self.CURRENCY.quota, 2)
+					if self.QS[n].price_discount:
+						self.QS[n].price_discount = round(self.QS[n].price_discount * self.CURRENCY.quota, 2)
 
 			except Currency.DoesNotExist:
 				pass
@@ -251,6 +256,7 @@ class EditBook(View):
 			print('НЕ Валидна')
 			data = {}
 			data['form_add_book'] = bookform
+			data['form_add_book'].fields["attributes"].queryset = AttributesBooks.objects.filter(Q(rel_attrib=None)|Q(rel_attrib=self.kwargs.get('id')))
 			data['form_add_attrib'] = AddAttributeForm
 			data['form_add_author'] = AddAuthorForm
 			data['form_add_tags'] = AddTagsForm
@@ -264,6 +270,7 @@ class AddBook(View):
 	def get(self, *args, **kwargs):
 		data = {}
 		data['form_add_book'] = AddBookForm
+		# data['form_add_book'].fields["attributes"].queryset = AttributesBooks.objects.filter(rel_attrib=None)
 		data['form_add_attrib'] = AddAttributeForm
 		data['form_add_author'] = AddAuthorForm
 		data['form_add_tags'] = AddTagsForm
