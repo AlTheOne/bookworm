@@ -62,7 +62,7 @@ class AddCartFunc(View):
 				is_active=True,
 			)
 
-		data = dict()
+		data = {}
 		data['status'] = 200
 		return JsonResponse(data)
 
@@ -75,6 +75,6 @@ class DelCartFunc(View):
 
 		myobject.delete()
 
-		data = dict()
+		data = {}
 		data['status'] = 200
 		return JsonResponse(data)

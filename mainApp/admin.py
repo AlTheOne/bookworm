@@ -6,7 +6,8 @@ class NewsAdmin(admin.ModelAdmin):
 	class Meta:
 		model = News
 	
-	list_display = ('id', 'title', 'is_active', 'updated', 'created') 
-	list_display_links = ('id', 'title')
+	list_display = ('id', 'title', 'is_active', 'updated', 'created')
+	list_editable = ('is_active',)
+	list_display_links = ('title',)
 
 admin.site.register(News, NewsAdmin)

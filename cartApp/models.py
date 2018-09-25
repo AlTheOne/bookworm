@@ -10,16 +10,16 @@ class Cart(models.Model):
 		verbose_name=_('Корзина')
 		verbose_name_plural=_('Корзины')
 
-	session = models.CharField(max_length=256, verbose_name=_('ID сессии'))
+	session = models.CharField(verbose_name=_('ID сессии'), max_length=256)
 	# content_type - Какая модель используется
 	# object_id - id объекта используемой модели 
-	content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, verbose_name=_('Модель'), help_text=_('Выберите модель'))
+	content_type = models.ForeignKey(ContentType, verbose_name=_('Модель'), on_delete=models.CASCADE,  help_text=_('Выберите модель'))
 	object_id = models.PositiveIntegerField(verbose_name=_('ID объекта'), help_text=_('ID объекта указанной модели'))
 	content_object = GenericForeignKey('content_type', 'object_id')
-	count = models.PositiveIntegerField(default=1, verbose_name=_('Количество'), help_text=_('Не менее одного'))
-	is_active = models.BooleanField(default=True, verbose_name=_('Активно'), help_text=_('Видно пользователям, только если активно'))
-	user = models.ForeignKey(User, on_delete='SET_NULL', blank=True, null=True, verbose_name=_('Автор'))
-	created = models.DateTimeField(auto_now_add=True, auto_now=False, verbose_name=_('Создано'))
+	count = models.PositiveIntegerField(verbose_name=_('Количество'), default=1, help_text=_('Не менее одного'))
+	is_active = models.BooleanField(verbose_name=_('Активно'), default=True, help_text=_('Видно пользователям, только если активно'))
+	user = models.ForeignKey(User, verbose_name=_('Автор'), on_delete='SET_NULL', blank=True, null=True)
+	created = models.DateTimeField(verbose_name=_('Создано'), auto_now_add=True, auto_now=False)
 
 	def __str__(self):
 		return self.session
