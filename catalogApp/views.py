@@ -38,6 +38,39 @@ class MyPagination():
 		return data['paginator']
 
 
+class InitCurrency(object):
+	# Инициализация цен
+	def init_currency(self, q_type=None, level=None):
+		if 'type_currency' in self.request.COOKIES:
+			try:
+				self.CURRENCY = Currency.objects.get(slug=self.request.COOKIES.get('type_currency'))
+			except Currency.DoesNotExist:
+				pass
+			
+			if self.CURRENCY:
+				if q_type == 'get':
+					if level:
+						self.QS.content_object.price = round(self.QS.content_object.price * self.CURRENCY.quota, 2)
+						if self.QS.content_object.price_discount:
+							self.QS.content_object.price_discount = round(self.QS.content_object.price_discount * self.CURRENCY.quota, 2)
+					else:
+							self.QS.price = round(self.QS.price * self.CURRENCY.quota, 2)
+							if self.QS.price_discount:
+								self.QS.price_discount = round(self.QS.price_discount * self.CURRENCY.quota, 2)
+				if q_type == 'filter':
+					if level:
+						for n in range(len(self.QS)):
+							self.QS[n].content_object.price = round(self.QS[n].content_object.price * self.CURRENCY.quota, 2)
+							if self.QS[n].content_object.price_discount:
+								self.QS[n].content_object.price_discount = round(self.QS[n].content_object.price_discount * self.CURRENCY.quota, 2)
+					else:
+						for n in range(len(self.QS)):
+							self.QS[n].price = round(self.QS[n].price * self.CURRENCY.quota, 2)
+							if self.QS[n].price_discount:
+								self.QS[n].price_discount = round(self.QS[n].price_discount * self.CURRENCY.quota, 2)
+		pass
+
+
 class InitFilter(object):
 	# Инициализация шаблона
 	def init_view(self):
@@ -74,20 +107,6 @@ class InitFilter(object):
 				self.QS = self.QS.order_by('-created')
 		pass
 
-	# Инициализация цен
-	def init_currency(self):
-		if 'type_currency' in self.request.COOKIES:
-			try:
-				self.CURRENCY = Currency.objects.get(slug=self.request.COOKIES.get('type_currency'))
-	
-				for n in range(len(self.QS)):
-					self.QS[n].price =  round(self.QS[n].price * self.CURRENCY.quota, 2)
-					if self.QS[n].price_discount:
-						self.QS[n].price_discount = round(self.QS[n].price_discount * self.CURRENCY.quota, 2)
-
-			except Currency.DoesNotExist:
-				pass
-		pass
 
 	# Инициализация по меткам и жанрам
 	def init_mainfilter(self):
@@ -129,11 +148,12 @@ class CatalogFilter(View):
 		if data['reset'] is not None:
 			response.delete_cookie('type_genres')
 			response.delete_cookie('type_tags')
+			response.delete_cookie('type_filter')
 
 		return response
 
 
-class MainCatalog(View, MyPagination, InitFilter):
+class MainCatalog(View, MyPagination, InitFilter, InitCurrency):
 	TEMPLATES = 'catalogApp/catalog-main.html'
 	QS = None
 
@@ -163,7 +183,7 @@ class MainCatalog(View, MyPagination, InitFilter):
 		data['paginator'] = self.mainPaginator(8)
 
 		# Инициализация валют
-		self.init_currency()
+		self.init_currency(q_type='filter')
 		data['objects'] = self.QS
 		data['get_genres'] = self.FILTER_GENRES
 		data['get_tags'] = self.FILTER_TAGS
@@ -193,19 +213,30 @@ class MainCatalog(View, MyPagination, InitFilter):
 		return response
 
 
-class BookPage(View):
+class BookPage(View, InitCurrency):
 	TEMPLATES = 'catalogApp/book-page.html'
+	QS = None
+	CURRENCY = None
+
 	def get(self, *args, **kwargs):
 		data = {}
 		if kwargs.get('id'):
-			data['object'] = Books.objects.get(id=int(kwargs.get('id')), is_active=True)
+			self.QS = get_object_or_404(Books, id=int(kwargs.get('id')), is_active=True)
 			data['comments'] = CommentsBook.objects.filter(book=kwargs.get('id'), is_active=True).order_by("-created")
+			data['currency'] = Currency.objects.filter(is_active=True).order_by('title')
+
+			# Инициализация валюты
+			self.init_currency(q_type='get')
+
 			data['form_comment'] = CommentForm
 			# Rating - Integer. It number use how percent in style.
 			if data['comments']:
 				data['book_rating'] = round((data['comments'].aggregate(Avg('rate')).get('rate__avg') * 100) / 5)
 			else:
 				data['book_rating'] = False
+			
+			data['object'] = self.QS
+			data['rune'] = self.CURRENCY
 			return render(self.request, self.TEMPLATES, context=data)
 		else:
 			return redirect('/')
@@ -234,6 +265,8 @@ class BookPage(View):
 
 class EditBook(View):
 	TEMPLATES = 'catalogApp/catalog-add-book.html'
+
+	@only_users(url='/')
 	def get(self, *args, **kwargs):
 		data = {}
 		obj = Books.objects.get(id=self.kwargs.get('id'), is_active=True)
@@ -246,6 +279,7 @@ class EditBook(View):
 		data['form_add_phouse'] = AddPhouseForm
 		return render(self.request, self.TEMPLATES, context=data)
 
+	@only_users(url='/')
 	def post(self, *args, **kwargs):
 		obj = Books.objects.get(id=self.kwargs.get('id'), is_active=True)
 		bookform = AddBookForm(self.request.POST, self.request.FILES, instance=obj)
@@ -267,10 +301,11 @@ class EditBook(View):
 
 class AddBook(View):
 	TEMPLATES = 'catalogApp/catalog-add-book.html'
+
+	@only_users(url='/')
 	def get(self, *args, **kwargs):
 		data = {}
 		data['form_add_book'] = AddBookForm
-		# data['form_add_book'].fields["attributes"].queryset = AttributesBooks.objects.filter(rel_attrib=None)
 		data['form_add_attrib'] = AddAttributeForm
 		data['form_add_author'] = AddAuthorForm
 		data['form_add_tags'] = AddTagsForm
@@ -278,6 +313,7 @@ class AddBook(View):
 		data['form_add_phouse'] = AddPhouseForm
 		return render(self.request, self.TEMPLATES, context=data)
 
+	@only_users(url='/')
 	def post(self, *args, **kwargs):
 		bookform = AddBookForm(self.request.POST, self.request.FILES)
 		if bookform.is_valid():
@@ -318,7 +354,8 @@ class AddAuthorBook(View):
 class AddAttribBook(View):
 	def get(self, *args, **kwargs):
 		return redirect('/')
-		
+	
+	@only_users(url='/')
 	def post(self, *args, **kwargs):
 		data = {}
 		attribform = AddAttributeForm(self.request.POST)
@@ -338,7 +375,8 @@ class AddAttribBook(View):
 class AddTagBook(View):
 	def get(self, *args, **kwargs):
 		return redirect('/')
-		
+
+	@only_users(url='/')
 	def post(self, *args, **kwargs):
 		data = {}
 		tagform = AddTagsForm(self.request.POST)
@@ -359,7 +397,8 @@ class AddTagBook(View):
 class AddGenreBook(View):
 	def get(self, *args, **kwargs):
 		return redirect('/')
-		
+
+	@only_users(url='/')
 	def post(self, *args, **kwargs):
 		data = {}
 		genreform = AddGenreForm(self.request.POST)
@@ -380,7 +419,8 @@ class AddGenreBook(View):
 class AddPhouseBook(View):
 	def get(self, *args, **kwargs):
 		return redirect('/')
-		
+
+	@only_users(url='/')
 	def post(self, *args, **kwargs):
 		data = {}
 		phouseform = AddPhouseForm(self.request.POST)

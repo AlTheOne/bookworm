@@ -22,7 +22,7 @@ class AddBookForm(forms.ModelForm):
 	title = forms.CharField(label='Название', required=True, max_length = 120, help_text=_('Не более 120 символов'), widget=forms.TextInput(attrs={'placeholder': 'Название...'}))
 	description = forms.CharField(label='Описание', required=True, widget=TinyMCE())
 	author = forms.ModelMultipleChoiceField(queryset=AuthorBooks.objects.all(), required=False, label = _('Автор'), help_text = _('Зажмите shift, чтобы выбрать несколько вариантов'))
-	attributes = forms.ModelMultipleChoiceField(queryset=AttributesBooks.objects.filter(), required=False, label = _('Атрибуты'), help_text = _('Зажмите shift, чтобы выбрать несколько вариантов'))
+	attributes = forms.ModelMultipleChoiceField(queryset=AttributesBooks.objects.filter(rel_attrib=None), required=False, label = _('Атрибуты'), help_text = _('Зажмите shift, чтобы выбрать несколько вариантов'))
 	genre = forms.ModelMultipleChoiceField(queryset=GenreBooks.objects.all(), required=False, label = _('Жанр'), help_text = _('Зажмите shift, чтобы выбрать несколько вариантов'))
 	phouse = forms.ModelMultipleChoiceField(queryset=PublicHouse.objects.all(), required=False, label = _('Издательство'), help_text = _('Зажмите shift, чтобы выбрать несколько вариантов'))
 	tags = forms.ModelMultipleChoiceField(queryset=TagsBooks.objects.all(), required=False, label = _('Метка'), help_text = _('Зажмите shift, чтобы выбрать несколько вариантов'))

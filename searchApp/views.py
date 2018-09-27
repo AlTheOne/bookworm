@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.shortcuts import redirect
 from catalogApp.models import Books, GenreBooks, TagsBooks, Currency
+from catalogApp.views import InitCurrency
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from itertools import chain
@@ -66,19 +67,6 @@ class InitFilter(object):
 				self.QS = self.QS.order_by('-created')
 		pass
 
-	# Инициализация цен
-	def init_currency(self):
-		if 'type_currency' in self.request.COOKIES:
-			try:
-				self.CURRENCY = Currency.objects.get(slug=self.request.COOKIES.get('type_currency'))
-	
-				for n in range(len(self.QS)):
-					self.QS[n].price =  round(self.QS[n].price * self.CURRENCY.quota, 2)
-					self.QS[n].price_discount = round(self.QS[n].price_discount * self.CURRENCY.quota, 2)
-
-			except Currency.DoesNotExist:
-				pass
-		pass
 
 	# Инициализация по меткам и жанрам
 	def init_mainfilter(self):
@@ -96,7 +84,7 @@ class InitFilter(object):
 		pass
 
 
-class SearchPage(View, MyPagination, InitFilter):
+class SearchPage(View, MyPagination, InitFilter, InitCurrency):
 	TEMPLATES = 'catalogApp/catalog-main.html'
 	QS = None
 
@@ -144,7 +132,7 @@ class SearchPage(View, MyPagination, InitFilter):
 			# data['paginator'] = self.mainPaginator(2)
 
 			# Инициализация валют
-			self.init_currency()
+			self.init_currency(q_type='filter')
 			data['objects'] = self.QS
 			data['get_genres'] = self.FILTER_GENRES
 			data['get_tags'] = self.FILTER_TAGS

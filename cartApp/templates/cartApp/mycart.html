@@ -38,7 +38,7 @@
 					{% endif %}
 					</div>
 					<div class="col-md-2">
-						<a href="{% url 'add-order-1' id=object.id %}" class="buyit" data-id="{{object.id}}">{% trans 'Оплатить' %}</a><br>
+						<a href="{% url 'add-order-1' id=object.id %}" class="buyit {% if not user.is_authenticated %}guest-buy{% endif %}" data-id="{{object.id}}">{% trans 'Оплатить' %}</a><br>
 						<a href="#" class="outcart" data-id="{{object.id}}">{% trans 'Удалить' %}</a>
 					</div>
 				</div>
@@ -47,15 +47,16 @@
 		<div class="col-12 text-right book-content">
 			<b>{% trans 'Сумма заказа:' %}</b> {%if rune %}{{rune.rune}}{%else%} $ {%endif%} <span id="total_order_amount"></span>
 			<div class="text-right">
-				<button type="submit" class="btn btn-primary btn-lg" name="status" value="buy-selected">{% trans 'Оплатить выбранное!' %}</button>
-				<button type="submit" class="btn btn-primary btn-lg" name="status" value="buy-all">{% trans 'Оплатить всю корзину!' %}</button>
+				<button type="submit" class="btn btn-primary btn-lg {% if not user.is_authenticated %}guest-buy{% endif %}" name="status" value="buy-selected">{% trans 'Оплатить выбранное!' %}</button>
+				<button type="submit" class="btn btn-primary btn-lg {% if not user.is_authenticated %}guest-buy{% endif %}" name="status" value="buy-all">{% trans 'Оплатить всю корзину!' %}</button>
 			</div>
 		</div>
 		</div>
-
 	</form>
-	{% else %}
-		{% trans 'Ваша корзина пуста...' %}
-	{% endif %}
-</div>	
+</div>
+{% else %}
+<div class="container book-content">
+	{% trans 'Ваша корзина пуста...' %}
+</div>
+{% endif %}
 {% endblock content %}

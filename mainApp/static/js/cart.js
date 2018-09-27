@@ -33,7 +33,7 @@ $(document).ready(function(){
 			cached: true,
 			success: function(data){
 				if(data['status'] == '200'){
-					$('.cart-count').text( parseInt($('.cart-count').text()) + 1);
+					$('.cart-count').text(parseInt($('.cart-count').text()) + 1);
 				}
 			},
 			error: function(e){

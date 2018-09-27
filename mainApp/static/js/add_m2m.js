@@ -65,7 +65,9 @@ $(document).ready(function(){
 				console.log(data);
 				if(data['status'] == true){
 					console.log('Okk!');
-					$('#id_'+ action +'').append('<option value="'+ data['id'] +'">'+ data['title'] +'</option>');
+					$('#id_'+ action +'').append('<option value="'+ data['id'] +'" selected>'+ data['title'] +'</option>');
+					$('.close-button-'+action).trigger('click');
+					$('.form_'+action)[0].reset();
 				}
 				if(data['status'] == false){
 					console.log('Bad...!');

@@ -24,7 +24,7 @@
 				{{form.phone.label}}: {{form.phone}}<br>
 				<hr />
 				Количество товаров: {{books|length }}<br>
-				Общая сумма: {%if rune %}{{rune}}{%else%} $ {%endif%} <span id="total_order_amount"></span><br>
+				Общая сумма: {%if rune %}{{rune.rune}}{%else%} $ {%endif%} <span id="total_order_amount"></span><br>
 				<button class="btn btn-primary" name="books">Оплатить</button><p>
 			</form>
 		</div>
@@ -45,11 +45,11 @@
 						</div>
 						<div class="col-md-2">
 						{% if book.content_object.discount %}
-							{%if rune %}{{rune}}{%else%} $ {%endif%} {{book.content_object.price}} <br> 
-							{%if rune %}{{rune}}{%else%} $ {%endif%} <span class="price">{{book.content_object.price_discount|decpoint}}</span> <br> 
+							{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{book.content_object.price}} <br> 
+							{%if rune %}{{rune.rune}}{%else%} $ {%endif%} <span class="price">{{book.content_object.price_discount|decpoint}}</span> <br> 
 							-{{book.content_object.discount}}%
 						{% else %}
-							{%if rune %}{{rune}}{%else%} $ {%endif%} <span class="price">{{book.content_object.price|decpoint}}</span>
+							{%if rune %}{{rune.rune}}{%else%} $ {%endif%} <span class="price">{{book.content_object.price|decpoint}}</span>
 						{% endif %}
 						</div>
 					</div>
@@ -68,11 +68,11 @@
 					</div>
 					<div class="col-md-2">
 					{% if book.content_object.discount %}
-						{%if rune %}{{rune}}{%else%} $ {%endif%} {{book.content_object.price}} <br> 
+						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{book.content_object.price}} <br> 
 						{%if rune %}{{rune}}{%else%} $ {%endif%} <span class="price">{{book.content_object.price_discount|decpoint}}</span> <br> 
 						-{{book.content_object.discount}}%
 					{% else %}
-						{%if rune %}{{rune}}{%else%} $ {%endif%} <span class="price">{{book.content_object.price|decpoint}}</span>
+						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} <span class="price">{{book.content_object.price|decpoint}}</span>
 					{% endif %}
 					</div>
 				</div>

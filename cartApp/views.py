@@ -1,29 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import View
 from cartApp.models import Cart
-from catalogApp.models import Books
-from catalogApp.models import Currency
+from catalogApp.models import Books, Currency
+from catalogApp.views import InitCurrency
 from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse
 
 
-class InitFilter(object):
-	# Инициализация цен
-	def init_currency(self):
-		if 'type_currency' in self.request.COOKIES:
-			try:
-				self.CURRENCY = Currency.objects.get(slug=self.request.COOKIES.get('type_currency'))
-	
-				for n in range(len(self.QS)):
-					self.QS[n].content_object.price = round(self.QS[n].content_object.price * self.CURRENCY.quota, 2)
-					self.QS[n].content_object.price_discount = round(self.QS[n].content_object.price_discount * self.CURRENCY.quota, 2)
-
-			except Currency.DoesNotExist:
-				pass
-		pass
-
-
-class MyCart(View, InitFilter):
+class MyCart(View, InitCurrency):
 	TEMPLATES = 'cartApp/mycart.html'
 	QS = None
 	CURRENCY = None
@@ -34,10 +18,14 @@ class MyCart(View, InitFilter):
 
 		if self.request.user.is_authenticated:
 			self.QS = Cart.objects.filter(is_active=True, user=self.request.user)
+		else:
+			self.QS = Cart.objects.filter(is_active=True, session=self.request.session.session_key)
 
-		self.init_currency() # Инициализация валют
+
+		self.init_currency(q_type='filter', level='True') # Инициализация валют
 
 		data['objects'] = self.QS
+		data['currency'] = Currency.objects.filter(is_active=True).order_by('title')
 		data['rune'] = self.CURRENCY
 		return render(self.request, self.TEMPLATES, context=data)
 

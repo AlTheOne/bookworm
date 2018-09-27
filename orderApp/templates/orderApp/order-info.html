@@ -31,6 +31,9 @@
 							{{object.content_object.title}}
 						</a>
 					</div>
+					<div class="col-md-4">
+						{%if rune %}{{rune.rune}}{%else%} $ {%endif%} {{object.price}}
+					</div>
 				</div>
 			</div>
 	{% endfor %}

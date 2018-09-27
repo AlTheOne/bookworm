@@ -33,6 +33,11 @@ $(document).ready(function(){
 		SendAjax('del', data['outcart']);
 	})
 
+	$('.guest-buy').on('click', function(e){
+		e.preventDefault();
+		$('.regist-button').trigger('click');
+	})
+
 	function SendAjax(action, someid){
 		$.ajax({
 			url: 'http://127.0.0.1:8000/mycart/' + action + '/',
