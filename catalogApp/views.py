@@ -332,7 +332,8 @@ class AddBook(View):
 class AddAuthorBook(View):
 	def get(self, *args, **kwargs):
 		return redirect('/')
-		
+	
+	@only_users(url='/')
 	def post(self, *args, **kwargs):
 		data = {}
 		authorform = AddAuthorForm(self.request.POST)

@@ -39,25 +39,27 @@ $(document).ready(function(){
 
 	let data = {}
 
-	$('.view_filter').on('click', function(e){
+	$('.view_filter').on('click', function(){
 		data['type_view'] = $(this).data('view-filter');
-		// console.log(data['type_view'])
 		data['csrfmiddlewaretoken'] = getCookie('csrftoken');
 		SendAjax();
 	});
 
-	$('.type_currency').on('click', function(e){
+	$('.type_currency').on('click', function(){
 		data['type_currency'] = $(this).data('currency');
 		data['csrfmiddlewaretoken'] = getCookie('csrftoken');
 		SendAjax();
 	});
 
-	$('#reset').on('click', function(e){
-		// e.PreventDefault();
+	$('#reset').on('click', function(){
 		data['reset'] = true;
 		data['csrfmiddlewaretoken'] = getCookie('csrftoken');
 		SendAjax();
 	});
+
+	$('.guest-comment').on('click', function(){
+		$('.regist-button').trigger('click');
+	})
 	
 	function SendAjax(){
 		$.ajax({

@@ -18,6 +18,18 @@ $(document).ready(function(){
 
 	let data = {};
 
+	$('input[name=books]').on('click', function(){
+		if($('#form_cart input:checkbox:checked').length > 0){
+			console.log('Есть выбранные');
+			$('button[value=buy-all]').hide();
+			$('button[value=buy-selected]').show();
+		}else{
+			$('button[value=buy-all]').show();
+			$('button[value=buy-selected]').hide();
+			console.log('Нет выбранных');
+		}
+	})
+
 	$('.book-price-div').on('click', function(e){
 		e.preventDefault();
 		data['csrfmiddlewaretoken'] = getCookie('csrftoken');

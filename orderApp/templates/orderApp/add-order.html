@@ -1,5 +1,6 @@
 {% extends 'mainApp/index.html' %}
 {% load staticfiles %}
+{% load i18n %}
 {% load decpoint %}
 
 
@@ -14,18 +15,24 @@
 			<form method="POST" action="{% url 'oplata' %}">
 				{{form.errors}}
 				{%csrf_token%}
-				{{form.name.label}}: {{form.name}}<br>
-				{{form.country.label}}: {{form.country}}<br>
-				{{form.street.label}}: {{form.street}}<br>
-				{{form.apt.label}}: {{form.apt}}<br>
-				{{form.region.label}}: {{form.region}}<br>
-				{{form.city.label}}: {{form.city}}<br>
-				{{form.postcode.label}}: {{form.postcode}}<br>
-				{{form.phone.label}}: {{form.phone}}<br>
+				<span class="input_name_error"></span>
+				<p>{{form.name.label}}: {{form.name}} <img src="{% static 'img/info.png'%}" class="ico-info" title="{{form.name.help_text}}"></p>
+				<span class="input_country_error"></span>
+				<p>{{form.country.label}}: {{form.country}} <img src="{% static 'img/info.png'%}" class="ico-info" title="{{form.country.help_text}}"></p>
+				<span class="input_street_error"></span>
+				<p>{{form.street.label}}: {{form.street}} <img src="{% static 'img/info.png'%}" class="ico-info" title="{{form.street.help_text}}"></p>
+				<span class="input_apt_error"></span>
+				<p>{{form.apt.label}}: {{form.apt}} <img src="{% static 'img/info.png'%}" class="ico-info" title="{{form.apt.help_text}}"></p>
+				<span class="input_region_error"></span>
+				<p>{{form.region.label}}: {{form.region}} <img src="{% static 'img/info.png'%}" class="ico-info" title="{{form.region.help_text}}"></p>
+				<span class="input_city_error"></span>
+				<p>{{form.city.label}}: {{form.city}} <img src="{% static 'img/info.png'%}" class="ico-info" title="{{form.city.help_text}}"></p>
+				<p>{{form.postcode.label}}: {{form.postcode}}</p>
+				<p>{{form.phone.label}}: {{form.phone}}</p>
 				<hr />
-				Количество товаров: {{books|length }}<br>
-				Общая сумма: {%if rune %}{{rune.rune}}{%else%} $ {%endif%} <span id="total_order_amount"></span><br>
-				<button class="btn btn-primary" name="books">Оплатить</button><p>
+				{% trans 'Количество товаров' %}: {% if books %}{{books|length}}{% else %}1{%endif%}<br>
+				{% trans 'Общая сумма' %}: {%if rune %}{{rune.rune}}{%else%} $ {%endif%} <span id="total_order_amount"></span><br>
+				<button class="button-control button-blue" name="books">{% trans 'Оплатить' %}</button><p>
 			</form>
 		</div>
 	</div>

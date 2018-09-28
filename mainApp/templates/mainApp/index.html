@@ -34,7 +34,7 @@
 							</a>
 						</div>
 					</div>
-					<div class="col-md-10" style="padding-top:1em;">
+					<div class="col-md-10">
 						<form class="form-inline" action="{% url 'search-main' %}" method="POST">{% csrf_token %}
 							<input type="text" name="q" class="search-input" value="{{search_q}}" placeholder="{% trans 'Что будем искать?...' %}">
 							<input type="submit" class="search-button" value="">
@@ -60,15 +60,17 @@
 		<div class="control-window user-window">
 			<input type="submit" value="{% trans 'Закрыть' %}" class="button-control close-button close-button-user">
 			{% if user.is_authenticated %}
+				<div class="text-center" style="width:100%;">
 				{% if avatar %}
 				<img src="/media/{{avatar.avatar}}" class="avatar">
 				{% else%}
 				<img src="{% static '/img/noavatar.png' %}" class="avatar">
 				{% endif %}
+				</div>
 				<hr/><p>
 				<a href="{% url 'user-profile' %}"><input type="submit" value="{% trans 'Личная информация' %}" class="user-button"></a><p>
-				<a href="{% url 'order' %}"><input type="submit" value="{% trans 'Заказы' %}" class="user-button"></a><p>
-				<a href="{% url 'user-settings' %}"><input type="submit" value="{% trans 'Настройки' %}" class="user-button"></a><p>
+				<a href="{% url 'order' %}"><input type="submit" value="{% trans 'Мои Заказы' %}" class="user-button"></a><p>
+				<a href="{% url 'book-add' %}"><input type="submit" value="{% trans 'Добавить книгу' %}" class="button-control"></a><p>
 				<a href="{% url 'user-logout' %}"><input type="submit" value="{% trans 'Выйти' %}" class="user-button"></a>
 			{% else %}
 				<img src="{% static '/img/log.png' %}" class="avatar">
@@ -166,12 +168,19 @@
 				<form class="form-registry" method="POST" action="{% url 'registration' %}">{% csrf_token %}
 					{{form_registry.errors}}
 					{{registry_error}}
-					<p>{{form_registry.login}}</p>
+					<span class="reg_input_login_error"></span>
+					<p>{{form_registry.login}} <img src="{% static 'img/info.png'%}" class="ico-info" title="{{form_registry.login.help_text}}"></p>
+					<span class="reg_input_name_error"></span>
 					<p>{{form_registry.name}}</p>
+					<span class="reg_input_surname_error"></span>
 					<p>{{form_registry.surname}}</p>
-					<p>{{form_registry.password}}</p>
+					<span class="reg_input_password_error"></span>
+					<p>{{form_registry.password}} <img src="{% static 'img/info.png'%}" class="ico-info" title="{{form_registry.password.help_text}}"></p>
+					<span class="reg_input_repassword_error"></span>
 					<p>{{form_registry.repassword}}</p>
+					<span class="reg_input_email_error"></span>
 					<p>{{form_registry.email}}</p>
+					<span class="reg_input_phone_error"></span>
 					<p>{{form_registry.phone_number}}</p>
 					{% trans 'Регистрируясь, вы подтверждаете, что вам 18 или больше лет и вы соглашаетесь c правилами использования и политикой конфиденциальности.' %}
 				</div>

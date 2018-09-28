@@ -1,5 +1,7 @@
 {% extends 'mainApp/index.html' %}
 {% load staticfiles %}
+{% load i18n %}
+
 
 {% block content %}
 <div class="container">
@@ -8,19 +10,21 @@
 		<div class="col-md-12 book-content" style="margin-bottom:15px;">
 			<div class="row">
 				<div class="col-md-12">
-					<p><a href="{% url 'order-info' id=myorder.id %}">Заказ № {{myorder.id}}</a> (Статус: {{myorder.status}})</p>
+					<p><a href="{% url 'order-info' id=myorder.id %}">{% trans 'Заказ #' %} {{myorder.id}}</a> ({% trans 'Статус' %}: {% if myorder.status %}{{myorder.status}}{%else%}{% trans 'В обработке' %}{%endif%})</p>
 					{% for obj in myorder.orderobj.all %}
 						<a href="{% url 'book-page' id=obj.content_object.id %}" target="_blank">
 							<img src="/media/{{obj.content_object.preview}}" width="50px" height="80px">
 						</a>
 					{% endfor %}<br>
-					Обновление информации: {{myorder.updated}}<br>
-					Дата: {{myorder.created}}<br>
+					{% trans 'Обновление информации' %}: {{myorder.updated}}<br>
+					{% trans 'Дата' %}: {{myorder.created}}<br>
 				</div>
 			</div>
 		</div>
 		{% empty %}
-		У вас нет заказов....
+		<div class="col-md-12 book-content" style="margin-bottom:15px;">
+		{% trans 'У вас нет заказов....' %}
+		</div>
 		{% endfor %}
 	</div>
 </div>	

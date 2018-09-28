@@ -144,19 +144,13 @@ nav .row{
 .close-button:hover{
     background: #cf0404;
 }
-/* --- /ABSTRACT --- */
-
-
-/* --- Popup --- */
-.message-field{
-    width:100px;
-    position: fixed;
-    right: 0;
-    bottom: 0;
+.button-blue{
+    background: #0094FF;
 }
-/* --- /Popup --- */
-
-
+.button-blue:hover{
+    background: rgb(56, 171, 253);
+}
+/* --- /ABSTRACT --- */
 
 /* --- User --- */
 #user-ico{
@@ -182,7 +176,6 @@ nav .row{
     border-radius: 50%;
     position: relative;
     top:.2em;
-    left:30%;
 }
 
 .user-window{
@@ -259,6 +252,18 @@ nav .row{
 .filter-accept:hover{
     background: #9eec50;
 }
+#reset{
+    width:30px;
+    height: 30px;
+    position: relative;
+    left: 80%;
+    cursor: pointer;
+}
+.ico-info{
+    width: 25px;
+    position: absolute;
+    margin: 4px; 
+}
 /* --- /FILTER WINDOW --- */
 
 /* --- FeedBack --- */
@@ -293,6 +298,9 @@ nav .row{
     box-shadow:-9px 9px 14px 5px rgba(0,0,0,0.71);
     -webkit-box-shadow:-9px 9px 14px 5px rgba(0,0,0,0.71);
     -moz-box-shadow:-9px 9px 14px 5px rgba(0,0,0,0.71);
+}
+.button-cart-buy{
+    display: none;
 }
 /* --- /Cart --- */
 
@@ -474,6 +482,9 @@ nav .row{
         left:10% !important;
     }
     .filter-window{
+        width: 100%;
+    }
+    .control-window{
         width: 100%;
     }
 }

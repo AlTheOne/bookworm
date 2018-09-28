@@ -14,13 +14,17 @@ $(document).ready(function(){
 		let variable = $(this).val();
 		let reg = new RegExp($(this).attr('pattern'));
 
+		attr_class = $(this)[0].attributes.class.nodeValue;
+		att = '.'+attr_class+'_error';
+
 		if(reg.test(variable) === false){
-			console.log(data.data.text);
 			$(this).css('border-color', '#FF0000');
+			$(att).text(data.data.text);
 			return false;
 		}
 
 		$(this).css('border-color', '#00FF00');
+		$(att).text('');
 		return true;
 	};
 

@@ -1,20 +1,21 @@
 {% extends 'mainApp/index.html' %}
+{% load i18n %}
 
 {% block content %}
 <div class="container">
 	<div class="row book-content">
 		<div class="col-12">
-			<p style="font-size:30px;font-weight:800;">Заказ # {{myorders.id}} (Статус: {{myorders.status}})</p>
-			<strong>Дата заказа:</strong> {{myorders.updated}}<br>
-			<strong>Информация обновлялась:</strong> {{myorders.created}}<br>
-			<strong>Получатель:</strong> {{myorders.name}}<br>
-			<strong>Страна/Регион:</strong> {{myorders.country}}<br>
-			<strong>Улица, дом, квартира:</strong> {{myorders.street}}<br>
-			<strong>Квартира, блок:</strong> {{myorders.apt}}<br>
-			<strong>Край/Область/Регион:</strong> {{myorders.region}}<br>
-			<strong>Город:</strong> {{myorders.city}}<br>
-			<strong>Почтовый индекс:</strong> {{myorders.postcode}}<br>
-			<strong>Номер телефона:</strong> {{myorders.phone}}
+			<p style="font-size:30px;font-weight:800;">{% trans 'Заказ #' %} {{myorders.id}} ({% trans 'Статус' %}: {% if myorder.status %}{{myorder.status}}{%else%}{% trans 'В обработке' %}{%endif%})</p>
+			<strong>{% trans 'Последнее обновление информации' %}:</strong> {{myorders.updated}}<br>
+			<strong>{% trans 'Дата оформления' %}:</strong> {{myorders.created}}<br>
+			<strong>{% trans 'Получатель' %}:</strong> {{myorders.name}}<br>
+			<strong>{% trans 'Страна/Регион' %}:</strong> {{myorders.country}}<br>
+			<strong>{% trans 'Улица, дом, квартира' %}:</strong> {{myorders.street}}<br>
+			<strong>{% trans 'Квартира, блок' %}:</strong> {{myorders.apt}}<br>
+			<strong>{% trans 'Край/Область/Регион' %}:</strong> {{myorders.region}}<br>
+			<strong>{% trans 'Город' %}:</strong> {{myorders.city}}<br>
+			<strong>{% trans 'Почтовый индекс' %}:</strong> {{myorders.postcode}}<br>
+			<strong>{% trans 'Номер телефона' %}:</strong> {{myorders.phone}}
 		</div>
 	</div>
 	<div class="row" style="margin-top:15px;">

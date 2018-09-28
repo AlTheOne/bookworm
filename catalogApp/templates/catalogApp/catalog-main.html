@@ -13,7 +13,8 @@
 {% block lsb %}
 <div class="control-window filter-window">
 	<input type="submit" value="{% trans 'Закрыть' %}" class="button-control close-button close-button-filter">
-	<a href="#" id="reset">Сбросить фильтры</a>
+
+	<img src="{% static 'img/refresh.png' %}" id="reset" title="Сбросить фильтры">
 	<form id="form-filter" method="POST" action="{% url 'catalog-main' %}">{% csrf_token %}
 	<div class="container-fluid">
 		<div class="row justify-content-center">
@@ -31,10 +32,6 @@
 					<option class="type_filter" data-book-f="8" {% if get_sort == 8%}selected{% endif%}>{% trans 'По цене (по убыванию)' %}</option>
 				</select>
 				</p>
-			</div>
-			<div class=" col-9 block-filter">
-				<span class="block-filter-title">{% trans 'Цена:' %}</span><br>
-				<input type="range">
 			</div>
 			<div class=" col-9 block-filter">
 				<span class="block-filter-title">{% trans 'Жанры:' %}</span><br>
