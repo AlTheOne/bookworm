@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-14 10:24+0500\n"
+"POT-Creation-Date: 2018-09-28 21:54+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgstr "Carts"
 
 #: .\cartApp\models.py:13
 msgid "ID сессии"
-msgstr "Session ID"
+msgstr "ID session"
 
 #: .\cartApp\models.py:16 .\orderApp\models.py:29
 msgid "Модель"
@@ -40,15 +40,16 @@ msgstr "Select model"
 
 #: .\cartApp\models.py:17 .\orderApp\models.py:30
 msgid "ID объекта"
-msgstr "Object ID"
+msgstr "ID object"
 
 #: .\cartApp\models.py:17 .\orderApp\models.py:30
 msgid "ID объекта указанной модели"
-msgstr "Object ID of select model"
+msgstr "ID object selected model"
 
-#: .\cartApp\models.py:19 .\catalogApp\models.py:99 .\orderApp\models.py:33
+#: .\cartApp\models.py:19 .\catalogApp\forms.py:32 .\catalogApp\models.py:103
+#: .\orderApp\models.py:33
 msgid "Количество"
-msgstr "Number"
+msgstr "Counter"
 
 #: .\cartApp\models.py:19 .\orderApp\models.py:33
 msgid "Не менее одного"
@@ -62,428 +63,539 @@ msgstr "Active"
 msgid "Видно пользователям, только если активно"
 msgstr "Visible to users, only if active"
 
-#: .\cartApp\models.py:21 .\catalogApp\models.py:25 .\catalogApp\models.py:90
-#: .\orderApp\models.py:35 .\orderApp\models.py:53
+#: .\cartApp\models.py:21 .\catalogApp\forms.py:24 .\catalogApp\models.py:29
+#: .\catalogApp\models.py:94 .\orderApp\models.py:35 .\orderApp\models.py:53
 msgid "Автор"
 msgstr "Author"
 
-#: .\cartApp\models.py:22 .\catalogApp\models.py:17 .\catalogApp\models.py:33
-#: .\catalogApp\models.py:49 .\catalogApp\models.py:64
-#: .\catalogApp\models.py:103 .\catalogApp\models.py:126
-#: .\catalogApp\models.py:140 .\orderApp\models.py:15 .\orderApp\models.py:55
-#: .\userApp\models.py:66 .\userApp\models.py:79
+#: .\cartApp\models.py:22 .\catalogApp\models.py:20 .\catalogApp\models.py:37
+#: .\catalogApp\models.py:53 .\catalogApp\models.py:68
+#: .\catalogApp\models.py:107 .\catalogApp\models.py:137
+#: .\catalogApp\models.py:154 .\mainApp\models.py:15 .\orderApp\models.py:15
+#: .\orderApp\models.py:55 .\userApp\models.py:50 .\userApp\models.py:70
+#: .\userApp\models.py:83 .\userApp\models.py:96
 msgid "Создано"
 msgstr "Created"
 
-#: .\cartApp\templates\cartApp\mycart.html:39
+#: .\cartApp\templates\cartApp\mycart.html:41
+#: .\orderApp\templates\orderApp\add-order.html:35
 msgid "Оплатить"
-msgstr "Pay"
+msgstr "Pay for"
 
-#: .\cartApp\templates\cartApp\mycart.html:40
+#: .\cartApp\templates\cartApp\mycart.html:42
 msgid "Удалить"
 msgstr "Delete"
 
-#: .\cartApp\templates\cartApp\mycart.html:47
+#: .\cartApp\templates\cartApp\mycart.html:48
 msgid "Сумма заказа:"
 msgstr "Order amount:"
 
-#: .\cartApp\templates\cartApp\mycart.html:51
+#: .\cartApp\templates\cartApp\mycart.html:53
 msgid "Оплатить выбранное!"
-msgstr "Pay for selected!"
+msgstr "Pay selected!"
 
-#: .\cartApp\templates\cartApp\mycart.html:55
+#: .\cartApp\templates\cartApp\mycart.html:54
+msgid "Оплатить всю корзину!"
+msgstr "Pay the entire cart!"
+
+#: .\cartApp\templates\cartApp\mycart.html:64
 msgid "Ваша корзина пуста..."
 msgstr "Your shopping cart is empty ..."
 
-#: .\catalogApp\models.py:10 .\catalogApp\models.py:94
-msgid "Жанр"
-msgstr "Genre"
-
-#: .\catalogApp\models.py:11
-msgid "Жанры"
-msgstr "Genres"
-
-#: .\catalogApp\models.py:13
-msgid "Название жанра"
-msgstr "Genre name"
-
-#: .\catalogApp\models.py:13 .\catalogApp\models.py:28
-#: .\catalogApp\models.py:29 .\catalogApp\models.py:30
-#: .\catalogApp\models.py:45 .\catalogApp\models.py:61
-#: .\catalogApp\models.py:76 .\catalogApp\models.py:88
-#: .\catalogApp\models.py:135 .\catalogApp\models.py:136
+#: .\catalogApp\forms.py:22 .\catalogApp\models.py:16 .\catalogApp\models.py:32
+#: .\catalogApp\models.py:33 .\catalogApp\models.py:34
+#: .\catalogApp\models.py:49 .\catalogApp\models.py:65
+#: .\catalogApp\models.py:80 .\catalogApp\models.py:92
+#: .\catalogApp\models.py:149 .\catalogApp\models.py:150 .\mainApp\models.py:11
+#: .\mainApp\models.py:12
 msgid "Не более 120 символов"
-msgstr "Not more than 120 characters"
+msgstr "Up to 120 characters"
 
-#: .\catalogApp\models.py:14 .\catalogApp\models.py:46
-msgid "Ссылка"
-msgstr "Link"
-
-#: .\catalogApp\models.py:14 .\catalogApp\models.py:46
-#: .\catalogApp\models.py:77
-msgid "Не более 128 символов"
-msgstr "Not more than 128 characters"
-
-#: .\catalogApp\models.py:15 .\catalogApp\models.py:31
-#: .\catalogApp\models.py:47 .\catalogApp\models.py:62
-msgid "Продавец"
-msgstr "Seller"
-
-#: .\catalogApp\models.py:16 .\catalogApp\models.py:32
-#: .\catalogApp\models.py:48 .\catalogApp\models.py:63
-#: .\catalogApp\models.py:102 .\catalogApp\models.py:125
-#: .\catalogApp\models.py:139
-msgid "Активировать"
-msgstr "Activate"
-
-#: .\catalogApp\models.py:18 .\catalogApp\models.py:34
-#: .\catalogApp\models.py:50 .\catalogApp\models.py:65
-#: .\catalogApp\models.py:104 .\catalogApp\models.py:127
-#: .\catalogApp\models.py:141 .\orderApp\models.py:14 .\orderApp\models.py:54
-msgid "Обновлено"
-msgstr "Updated"
-
-#: .\catalogApp\models.py:26
-msgid "Авторы"
-msgstr "Authors"
-
-#: .\catalogApp\models.py:28
-msgid "Имя"
-msgstr "Name"
-
-#: .\catalogApp\models.py:29
-msgid "Отчество"
-msgstr "Patronymic"
-
-#: .\catalogApp\models.py:30
-msgid "Фамилия"
-msgstr "Surname"
-
-#: .\catalogApp\models.py:42 .\catalogApp\models.py:95
-msgid "Метка"
-msgstr "Label"
-
-#: .\catalogApp\models.py:43
-msgid "Метки"
-msgstr "Labels"
-
-#: .\catalogApp\models.py:45
-msgid "Название метки"
-msgstr "Label name"
-
-#: .\catalogApp\models.py:58 .\catalogApp\models.py:93
-msgid "Издательство"
-msgstr "Publisher"
-
-#: .\catalogApp\models.py:59
-msgid "Издательства"
-msgstr "Publishers"
-
-#: .\catalogApp\models.py:61
-msgid "Название издательства"
-msgstr "Name of publisher"
-
-#: .\catalogApp\models.py:73
-msgid "Атрибут книги"
-msgstr "The attribute of the book"
-
-#: .\catalogApp\models.py:74
-msgid "Атрибуты книг"
-msgstr "Book attributes"
-
-#: .\catalogApp\models.py:76
-msgid "Название аттрибута"
-msgstr "Attribute name"
-
-#: .\catalogApp\models.py:77
-msgid "Значение"
-msgstr "Value"
-
-#: .\catalogApp\models.py:85 .\catalogApp\models.py:121
-msgid "Книга"
-msgstr "The book"
-
-#: .\catalogApp\models.py:86
-msgid "Книги"
-msgstr "The books"
-
-#: .\catalogApp\models.py:88 .\catalogApp\models.py:135 .\orderApp\models.py:13
-msgid "Название"
-msgstr "Title"
-
-#: .\catalogApp\models.py:90 .\catalogApp\models.py:92
-#: .\catalogApp\models.py:93 .\catalogApp\models.py:94
-#: .\catalogApp\models.py:95
+#: .\catalogApp\forms.py:24 .\catalogApp\forms.py:25 .\catalogApp\forms.py:26
+#: .\catalogApp\forms.py:27 .\catalogApp\forms.py:28 .\catalogApp\models.py:94
+#: .\catalogApp\models.py:96 .\catalogApp\models.py:97
+#: .\catalogApp\models.py:98 .\catalogApp\models.py:99
 msgid "Зажмите shift, чтобы выбрать несколько вариантов"
 msgstr "Hold shift to select multiple options"
 
-#: .\catalogApp\models.py:91
-msgid "Дата выхода"
-msgstr "Release date"
-
-#: .\catalogApp\models.py:91
-msgid "Не более 4 символов"
-msgstr "Maximum 4 characters"
-
-#: .\catalogApp\models.py:92
-msgid "Аттрибуты"
+#: .\catalogApp\forms.py:25
+msgid "Атрибуты"
 msgstr "Attributes"
 
-#: .\catalogApp\models.py:96 .\orderApp\models.py:32
+#: .\catalogApp\forms.py:26 .\catalogApp\models.py:13 .\catalogApp\models.py:98
+msgid "Жанр"
+msgstr "Genre"
+
+#: .\catalogApp\forms.py:27 .\catalogApp\models.py:62 .\catalogApp\models.py:97
+msgid "Издательство"
+msgstr "Publishing house"
+
+#: .\catalogApp\forms.py:28 .\catalogApp\models.py:46 .\catalogApp\models.py:99
+msgid "Метка"
+msgstr "Tag"
+
+#: .\catalogApp\forms.py:29 .\catalogApp\models.py:100 .\orderApp\models.py:32
 msgid "Цена"
 msgstr "Price"
 
-#: .\catalogApp\models.py:96 .\orderApp\models.py:32
+#: .\catalogApp\forms.py:29 .\catalogApp\models.py:100 .\orderApp\models.py:32
 msgid "Цена за единицу товара"
 msgstr "Unit price"
 
-#: .\catalogApp\models.py:97
+#: .\catalogApp\forms.py:30 .\catalogApp\models.py:101
 msgid "Скидка"
 msgstr "Discount"
 
-#: .\catalogApp\models.py:97
+#: .\catalogApp\forms.py:30 .\catalogApp\models.py:101
 msgid "В процентах"
 msgstr "Percentage"
 
-#: .\catalogApp\models.py:98
+#: .\catalogApp\forms.py:31 .\catalogApp\models.py:102
 msgid "Цена c учётом скидки"
 msgstr "Discounted price"
 
-#: .\catalogApp\models.py:98
+#: .\catalogApp\forms.py:31 .\catalogApp\models.py:102
 msgid "Заполняется автоматически"
 msgstr "Filled automatically"
 
-#: .\catalogApp\models.py:99
+#: .\catalogApp\forms.py:32 .\catalogApp\models.py:103
 msgid "В наличии"
 msgstr "Available"
 
-#: .\catalogApp\models.py:100
+#: .\catalogApp\forms.py:33
+msgid "Год издания"
+msgstr "Year of publication"
+
+#: .\catalogApp\forms.py:34 .\catalogApp\models.py:104
 msgid "Превью"
 msgstr "Preview"
 
-#: .\catalogApp\models.py:101 .\catalogApp\models.py:124
+#: .\catalogApp\forms.py:53 .\catalogApp\forms.py:61 .\catalogApp\forms.py:70
+#: .\catalogApp\models.py:92 .\catalogApp\models.py:149 .\mainApp\models.py:11
+#: .\orderApp\models.py:13
+msgid "Название"
+msgstr "Name"
+
+#: .\catalogApp\forms.py:54 .\catalogApp\forms.py:62 .\catalogApp\models.py:17
+#: .\catalogApp\models.py:50
+msgid "Ссылка"
+msgstr "Link"
+
+#: .\catalogApp\models.py:14
+msgid "Жанры"
+msgstr "Genres"
+
+#: .\catalogApp\models.py:16
+msgid "Название жанра"
+msgstr "Genre name"
+
+#: .\catalogApp\models.py:17 .\catalogApp\models.py:50
+#: .\catalogApp\models.py:81
+msgid "Не более 128 символов"
+msgstr "Maximum 128 characters"
+
+#: .\catalogApp\models.py:18 .\catalogApp\models.py:35
+#: .\catalogApp\models.py:51 .\catalogApp\models.py:66 .\userApp\models.py:68
+#: .\userApp\models.py:81 .\userApp\models.py:94
+msgid "Пользователь"
+msgstr "User"
+
+#: .\catalogApp\models.py:19 .\catalogApp\models.py:36
+#: .\catalogApp\models.py:52 .\catalogApp\models.py:67
+#: .\catalogApp\models.py:106 .\catalogApp\models.py:136
+#: .\catalogApp\models.py:153 .\mainApp\models.py:14
+msgid "Активировать"
+msgstr "Activated"
+
+#: .\catalogApp\models.py:21 .\catalogApp\models.py:38
+#: .\catalogApp\models.py:54 .\catalogApp\models.py:69
+#: .\catalogApp\models.py:108 .\catalogApp\models.py:138
+#: .\catalogApp\models.py:155 .\mainApp\models.py:16 .\orderApp\models.py:14
+#: .\orderApp\models.py:54 .\userApp\models.py:51
+msgid "Обновлено"
+msgstr "Updated"
+
+#: .\catalogApp\models.py:30
+msgid "Авторы"
+msgstr "Author"
+
+#: .\catalogApp\models.py:32
+msgid "Имя"
+msgstr "Name"
+
+#: .\catalogApp\models.py:33
+msgid "Отчество"
+msgstr "Middle name"
+
+#: .\catalogApp\models.py:34
+msgid "Фамилия"
+msgstr "Surname"
+
+#: .\catalogApp\models.py:47
+msgid "Метки"
+msgstr "Tags"
+
+#: .\catalogApp\models.py:49
+msgid "Название метки"
+msgstr "Tags name"
+
+#: .\catalogApp\models.py:63
+msgid "Издательства"
+msgstr "Publish house"
+
+#: .\catalogApp\models.py:65
+msgid "Название издательства"
+msgstr "Publisher name"
+
+#: .\catalogApp\models.py:77
+msgid "Атрибут книги"
+msgstr "Attribute of the book"
+
+#: .\catalogApp\models.py:78
+msgid "Атрибуты книг"
+msgstr "Book attributes"
+
+#: .\catalogApp\models.py:80
+msgid "Название аттрибута"
+msgstr "Attribute name"
+
+#: .\catalogApp\models.py:81
+msgid "Значение"
+msgstr "Value"
+
+#: .\catalogApp\models.py:89 .\catalogApp\models.py:132
+msgid "Книга"
+msgstr "Book"
+
+#: .\catalogApp\models.py:90
+msgid "Книги"
+msgstr "Books"
+
+#: .\catalogApp\models.py:95
+msgid "Дата выхода"
+msgstr "Release date"
+
+#: .\catalogApp\models.py:95
+msgid "Не более 4 символов"
+msgstr "Maximum 4 characters"
+
+#: .\catalogApp\models.py:96
+msgid "Аттрибуты"
+msgstr "Attributes"
+
+#: .\catalogApp\models.py:105 .\catalogApp\models.py:135
 msgid "Опубликовал"
 msgstr "Published"
 
-#: .\catalogApp\models.py:118
+#: .\catalogApp\models.py:129
 msgid "Отзыв"
 msgstr "Review"
 
-#: .\catalogApp\models.py:119
+#: .\catalogApp\models.py:130
 msgid "Отзывы"
 msgstr "Reviews"
 
-#: .\catalogApp\models.py:123
+#: .\catalogApp\models.py:134
 msgid "Рейтинг"
 msgstr "Rating"
 
-#: .\catalogApp\models.py:123
-msgid "От 1 до 10"
-msgstr "From 1 to 10"
+#: .\catalogApp\models.py:134
+msgid "От 1 до 5"
+msgstr "1 to 5"
 
-#: .\catalogApp\models.py:132
+#: .\catalogApp\models.py:146
 msgid "Валюта"
 msgstr "Currency"
 
-#: .\catalogApp\models.py:133
+#: .\catalogApp\models.py:147
 msgid "Валюты"
 msgstr "Currencies"
 
-#: .\catalogApp\models.py:136
+#: .\catalogApp\models.py:150
 msgid "Транслит"
 msgstr "Translit"
 
-#: .\catalogApp\models.py:137
+#: .\catalogApp\models.py:151
 msgid "Символ"
 msgstr "Symbol"
 
-#: .\catalogApp\models.py:137
+#: .\catalogApp\models.py:151
 msgid "Не более 12 символов"
 msgstr "Up to 12 characters"
 
-#: .\catalogApp\models.py:138
+#: .\catalogApp\models.py:152
 msgid "Курс"
 msgstr "Course"
 
-#: .\catalogApp\models.py:138
+#: .\catalogApp\models.py:152
 msgid "Цена относительно доллара"
 msgstr "Price relative to the dollar"
 
-#: .\catalogApp\templates\catalogApp\book-page.html:65
-msgid "Жанр:"
-msgstr "Genre:"
-
-#: .\catalogApp\templates\catalogApp\book-page.html:73
-msgid "Дата издания:"
-msgstr "Date of publication:"
-
-#: .\catalogApp\templates\catalogApp\book-page.html:80
-msgid "Количество:"
-msgstr "Number:"
-
-#: .\catalogApp\templates\catalogApp\book-page.html:88
-#: .\catalogApp\templates\catalogApp\catalog-main.html:93
-msgid "В корзину"
-msgstr "Add to cart"
-
-#: .\catalogApp\templates\catalogApp\book-page.html:94
-msgid "Описание:"
-msgstr "Description:"
-
-#: .\catalogApp\templates\catalogApp\book-page.html:107
-msgid "Поделитесь своим отзывом"
-msgstr "Share your review"
-
-#: .\catalogApp\templates\catalogApp\book-page.html:121
-msgid "Оставить отзыв"
-msgstr "Leave a review"
-
+#: .\catalogApp\templates\catalogApp\book-page.html:17
+#: .\catalogApp\templates\catalogApp\book-page.html:120
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:44
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:60
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:76
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:93
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:15
 #: .\catalogApp\templates\catalogApp\catalog-main.html:15
-#: .\mainApp\templates\mainApp\index.html:57
-#: .\mainApp\templates\mainApp\index.html:101
-#: .\mainApp\templates\mainApp\index.html:151
-#: .\mainApp\templates\mainApp\index.html:174
+#: .\mainApp\templates\mainApp\index.html:61
+#: .\mainApp\templates\mainApp\index.html:112
+#: .\mainApp\templates\mainApp\index.html:168
+#: .\mainApp\templates\mainApp\index.html:198
+#: .\searchApp\templates\searchApp\search-list.html:15
 msgid "Закрыть"
 msgstr "Close"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:20
+#: .\catalogApp\templates\catalogApp\book-page.html:40
+msgid "Опубликовано"
+msgstr "Published"
+
+#: .\catalogApp\templates\catalogApp\book-page.html:48
+#: .\catalogApp\templates\catalogApp\book-page.html:50
+#: .\catalogApp\templates\catalogApp\book-page.html:137
+msgid "Оставить отзыв"
+msgstr "Do review"
+
+#: .\catalogApp\templates\catalogApp\book-page.html:68
+msgid "Редактировать"
+msgstr "Edit"
+
+#: .\catalogApp\templates\catalogApp\book-page.html:80
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:84
+#: .\searchApp\templates\searchApp\search-list.html:71
+msgid "Жанр:"
+msgstr "Genre"
+
+#: .\catalogApp\templates\catalogApp\book-page.html:88
+msgid "Дата издания:"
+msgstr "Date of publication:"
+
+#: .\catalogApp\templates\catalogApp\book-page.html:95
+msgid "Количество:"
+msgstr "Number:"
+
+#: .\catalogApp\templates\catalogApp\book-page.html:103
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:105
+#: .\catalogApp\templates\catalogApp\catalog-main.html:91
+#: .\searchApp\templates\searchApp\search-list.html:92
+msgid "В корзину"
+msgstr "Add to cart"
+
+#: .\catalogApp\templates\catalogApp\book-page.html:109
+msgid "Описание:"
+msgstr "Description"
+
+#: .\catalogApp\templates\catalogApp\book-page.html:122
+msgid "Поделитесь своим отзывом"
+msgstr "Share your review"
+
+#: .\catalogApp\templates\catalogApp\book-page.html:132
+msgid "out of 5 stars"
+msgstr "out of 5 stars"
+
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:19
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:21
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:23
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:25
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:27
+msgid "Добавить"
+msgstr "Add"
+
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:34
+msgid "Отправить"
+msgstr "Send"
+
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:46
+msgid "Добавить автора"
+msgstr "Add author"
+
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:52
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:68
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:85
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:102
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:118
+#: .\mainApp\templates\mainApp\static-page-edit.html:19
+msgid "Сохранить"
+msgstr "Save"
+
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:62
+msgid "Добавить атрибут"
+msgstr "Add attribute"
+
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:78
+msgid "Добавить метку"
+msgstr "Add tag"
+
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:95
+msgid "Добавить жанр"
+msgstr "Add genre"
+
+#: .\catalogApp\templates\catalogApp\catalog-add-book.html:112
+msgid "Добавить издательство"
+msgstr "Add publishing house"
+
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:22
+#: .\catalogApp\templates\catalogApp\catalog-main.html:22
 msgid "Фильтр:"
 msgstr "Filter:"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:23
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:25
+#: .\catalogApp\templates\catalogApp\catalog-main.html:25
 msgid "Сначала новые"
 msgstr "First new"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:24
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:26
+#: .\catalogApp\templates\catalogApp\catalog-main.html:26
 msgid "Сначала старые"
 msgstr "First old"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:25
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:27
+#: .\catalogApp\templates\catalogApp\catalog-main.html:27
 msgid "По алфавиту А-Я"
 msgstr "By alphabet A-Z"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:26
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:28
+#: .\catalogApp\templates\catalogApp\catalog-main.html:28
 msgid "По алфавиту Я-А"
-msgstr "By alphabet Z-A"
+msgstr "From the alphabet Z-A"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:27
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:29
+#: .\catalogApp\templates\catalogApp\catalog-main.html:29
 msgid "По году выхода (по возрастанию)"
 msgstr "By year of output (in ascending order)"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:28
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:30
+#: .\catalogApp\templates\catalogApp\catalog-main.html:30
 msgid "По году выхода (по убыванию"
-msgstr "By year of output (in descending order"
+msgstr "By year of release (descending"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:29
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:31
+#: .\catalogApp\templates\catalogApp\catalog-main.html:31
 msgid "По цене (по возрастанию)"
 msgstr "By price (ascending)"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:30
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:32
+#: .\catalogApp\templates\catalogApp\catalog-main.html:32
 msgid "По цене (по убыванию)"
 msgstr "By price (descending)"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:35
-msgid "Цена:"
-msgstr "Price:"
-
-#: .\catalogApp\templates\catalogApp\catalog-main.html:39
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:37
+#: .\catalogApp\templates\catalogApp\catalog-main.html:37
+#: .\searchApp\templates\searchApp\search-list.html:24
 msgid "Жанры:"
 msgstr "Genres:"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:47
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:45
+#: .\catalogApp\templates\catalogApp\catalog-main.html:45
+#: .\searchApp\templates\searchApp\search-list.html:32
 msgid "Метки:"
 msgstr "Tags:"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:56
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:54
+#: .\catalogApp\templates\catalogApp\catalog-main.html:54
+#: .\searchApp\templates\searchApp\search-list.html:41
 msgid "Применить"
 msgstr "Apply"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:110
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:122
+#: .\catalogApp\templates\catalogApp\catalog-main.html:108
+#: .\searchApp\templates\searchApp\search-list.html:109
 msgid "Назад"
 msgstr "Back"
 
-#: .\catalogApp\templates\catalogApp\catalog-main.html:118
+#: .\catalogApp\templates\catalogApp\catalog-main-list.html:130
+#: .\catalogApp\templates\catalogApp\catalog-main.html:116
+#: .\searchApp\templates\searchApp\search-list.html:117
 msgid "Вперед"
 msgstr "Forward"
 
+#: .\mainApp\models.py:8
+msgid "Статичная страница"
+msgstr "Static page"
+
+#: .\mainApp\models.py:9
+msgid "Статичные страницы"
+msgstr "Static pages"
+
+#: .\mainApp\models.py:12
+msgid "URL"
+msgstr "URL"
+
 #: .\mainApp\templates\mainApp\index.html:39
 msgid "Что будем искать?..."
-msgstr "What are we looking for? ..."
+msgstr "What are we searching for? ..."
 
-#: .\mainApp\templates\mainApp\index.html:61
+#: .\mainApp\templates\mainApp\index.html:71
 msgid "Личная информация"
 msgstr "Personal Information"
 
-#: .\mainApp\templates\mainApp\index.html:62 .\orderApp\models.py:41
-msgid "Заказы"
-msgstr "Orders"
+#: .\mainApp\templates\mainApp\index.html:72
+msgid "Мои Заказы"
+msgstr "My Orders"
 
-#: .\mainApp\templates\mainApp\index.html:63
-msgid "Настройки"
-msgstr "Settings"
+#: .\mainApp\templates\mainApp\index.html:73
+msgid "Добавить книгу"
+msgstr "Add book"
 
-#: .\mainApp\templates\mainApp\index.html:64
+#: .\mainApp\templates\mainApp\index.html:74
 msgid "Выйти"
 msgstr "Sign out"
 
-#: .\mainApp\templates\mainApp\index.html:79
+#: .\mainApp\templates\mainApp\index.html:90
 msgid "Регистрация"
 msgstr "Registration"
 
-#: .\mainApp\templates\mainApp\index.html:81
+#: .\mainApp\templates\mainApp\index.html:92
 msgid "Забыл пароль"
 msgstr "Forgot password"
 
-#: .\mainApp\templates\mainApp\index.html:106
+#: .\mainApp\templates\mainApp\index.html:117
 msgid "Валюта:"
 msgstr "Currency:"
 
-#: .\mainApp\templates\mainApp\index.html:117
+#: .\mainApp\templates\mainApp\index.html:128
 msgid "Язык:"
 msgstr "Language:"
 
-#: .\mainApp\templates\mainApp\index.html:120
-msgid "Русский"
-msgstr "Russian"
+#: .\mainApp\templates\mainApp\index.html:141
+msgid "Change"
+msgstr "Изменить"
 
-#: .\mainApp\templates\mainApp\index.html:121
-msgid "Английский"
-msgstr "English"
-
-#: .\mainApp\templates\mainApp\index.html:126
+#: .\mainApp\templates\mainApp\index.html:145
 msgid "Вид:"
 msgstr "View:"
 
-#: .\mainApp\templates\mainApp\index.html:128
+#: .\mainApp\templates\mainApp\index.html:147
 msgid "Сетка"
 msgstr "Grid"
 
-#: .\mainApp\templates\mainApp\index.html:128
+#: .\mainApp\templates\mainApp\index.html:147
 msgid "Список"
 msgstr "List"
 
-#: .\mainApp\templates\mainApp\index.html:134
-msgid "Принять"
-msgstr "Accept"
-
-#: .\mainApp\templates\mainApp\index.html:163
+#: .\mainApp\templates\mainApp\index.html:187
 msgid ""
 "Регистрируясь, вы подтверждаете, что вам 18 или больше лет и вы соглашаетесь "
 "c правилами использования и политикой конфиденциальности."
 msgstr "By registering, you confirm that you are 18 or more years old and you agree"
-"with terms of use and privacy policy"
+"with terms of use and privacy policy."
 
-#: .\mainApp\templates\mainApp\index.html:165
+#: .\mainApp\templates\mainApp\index.html:189
 msgid "Зарегистрироваться"
 msgstr "Register"
 
-#: .\mainApp\templates\mainApp\index.html:179
+#: .\mainApp\templates\mainApp\index.html:203
 msgid "Восстановить"
 msgstr "Restore"
 
-#: .\mainApp\templates\mainApp\index.html:188
+#: .\mainApp\templates\mainApp\index.html:212
 msgid "Все права защищены. &copy; 2018"
 msgstr "All rights reserved. &copy; 2018"
+
+#: .\mainApp\templates\mainApp\static-page-edit.html:12
+msgid "Редактирование статической страницы"
+msgstr "Editing a static page"
 
 #: .\orderApp\models.py:10 .\orderApp\models.py:43
 msgid "Статус заказа"
@@ -495,33 +607,37 @@ msgstr "Order Statuses"
 
 #: .\orderApp\models.py:13
 msgid "Не более 30 символов."
-msgstr "Not more 30 characters."
+msgstr ""
 
 #: .\orderApp\models.py:23
 msgid "Товар заказа"
-msgstr "Order Product"
+msgstr "Up to 30 characters."
 
 #: .\orderApp\models.py:24
 msgid "Товар Заказов"
-msgstr "Orders Product"
+msgstr "Order Product"
 
 #: .\orderApp\models.py:26 .\orderApp\models.py:40
 msgid "Заказ"
 msgstr "Order"
 
+#: .\orderApp\models.py:41
+msgid "Заказы"
+msgstr "Orders"
+
 #: .\orderApp\models.py:44
 msgid "Имя получателя"
 msgstr "Recipient's name"
 
-#: .\orderApp\models.py:45
+#: .\orderApp\models.py:45 .\orderApp\templates\orderApp\order-info.html:12
 msgid "Страна/Регион"
 msgstr "Country / Region"
 
-#: .\orderApp\models.py:46
+#: .\orderApp\models.py:46 .\orderApp\templates\orderApp\order-info.html:13
 msgid "Улица, дом, квартира"
 msgstr "Street, house, apartment"
 
-#: .\orderApp\models.py:47
+#: .\orderApp\models.py:47 .\orderApp\templates\orderApp\order-info.html:14
 msgid "Квартира, блок"
 msgstr "Apartment, block"
 
@@ -529,50 +645,113 @@ msgstr "Apartment, block"
 msgid "При необходимости"
 msgstr "If necessary"
 
-#: .\orderApp\models.py:48
+#: .\orderApp\models.py:48 .\orderApp\templates\orderApp\order-info.html:15
 msgid "Край/Область/Регион"
 msgstr "State / Region / Region"
 
-#: .\orderApp\models.py:49
+#: .\orderApp\models.py:49 .\orderApp\templates\orderApp\order-info.html:16
 msgid "Город"
 msgstr "City"
 
-#: .\orderApp\models.py:50
+#: .\orderApp\models.py:50 .\orderApp\templates\orderApp\order-info.html:17
 msgid "Почтовый индекс"
 msgstr "Postal code"
 
-#: .\orderApp\models.py:51
+#: .\orderApp\models.py:51 .\orderApp\templates\orderApp\order-info.html:18
 msgid "Номер телефона"
 msgstr "Phone number"
 
-#: .\userApp\models.py:61
+#: .\orderApp\templates\orderApp\add-order.html:33
+msgid "Количество товаров"
+msgstr "Number of products"
+
+#: .\orderApp\templates\orderApp\add-order.html:34
+msgid "Общая сумма"
+msgstr "Total Amount"
+
+#: .\orderApp\templates\orderApp\order-info.html:8
+#: .\orderApp\templates\orderApp\order.html:13
+msgid "Заказ #"
+msgstr "Order #"
+
+#: .\orderApp\templates\orderApp\order-info.html:8
+#: .\orderApp\templates\orderApp\order.html:13
+msgid "Статус"
+msgstr "Status"
+
+#: .\orderApp\templates\orderApp\order-info.html:8
+#: .\orderApp\templates\orderApp\order.html:13
+msgid "В обработке"
+msgstr "In processing"
+
+#: .\orderApp\templates\orderApp\order-info.html:9
+msgid "Последнее обновление информации"
+msgstr "Last information update"
+
+#: .\orderApp\templates\orderApp\order-info.html:10
+msgid "Дата оформления"
+msgstr "Date of issue"
+
+#: .\orderApp\templates\orderApp\order-info.html:11
+msgid "Получатель"
+msgstr "Recipient"
+
+#: .\orderApp\templates\orderApp\order.html:19
+msgid "Обновление информации"
+msgstr "Updating information"
+
+#: .\orderApp\templates\orderApp\order.html:20
+msgid "Дата"
+msgstr "Date"
+
+#: .\orderApp\templates\orderApp\order.html:26
+msgid "У вас нет заказов...."
+msgstr "You do not have orders ..."
+
+#: .\searchApp\templates\searchApp\search-list.html:20
+msgid "Цена:"
+msgstr "Price"
+
+#: .\userApp\models.py:65
 msgid "Подтверждение почты"
 msgstr "Confirm mail"
 
-#: .\userApp\models.py:62
+#: .\userApp\models.py:66
 msgid "Подтверждения почты"
 msgstr "Mail Confirmation"
 
-#: .\userApp\models.py:64 .\userApp\models.py:77
+#: .\userApp\models.py:68 .\userApp\models.py:81 .\userApp\models.py:94
 msgid "Укажите пользователя"
 msgstr "Specify a user"
 
-#: .\userApp\models.py:64 .\userApp\models.py:77
-msgid "Пользователь"
-msgstr "User"
-
-#: .\userApp\models.py:65 .\userApp\models.py:78
-msgid "Рандомная строка"
-msgstr "Random string"
-
-#: .\userApp\models.py:65 .\userApp\models.py:78
+#: .\userApp\models.py:69 .\userApp\models.py:82
 msgid "Код подтверждения"
 msgstr "Confirmation code"
 
-#: .\userApp\models.py:74
+#: .\userApp\models.py:69 .\userApp\models.py:82
+msgid "Рандомная строка"
+msgstr "Random string"
+
+#: .\userApp\models.py:78
 msgid "Восстановление пароля"
 msgstr "Password recovery"
 
-#: .\userApp\models.py:75
+#: .\userApp\models.py:79
 msgid "Восстановление паролей"
 msgstr "Recovering passwords"
+
+#: .\userApp\models.py:91
+msgid "Аватар"
+msgstr "Avatar"
+
+#: .\userApp\models.py:92
+msgid "Аватарки"
+msgstr "Avatar"
+
+#: .\userApp\models.py:95
+msgid "Аватарка"
+msgstr "Avatar"
+
+#: .\userApp\models.py:95
+msgid "Максимальный размер 100х100"
+msgstr "Maximum size of 100x100"
