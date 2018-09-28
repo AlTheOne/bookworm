@@ -14,7 +14,7 @@
 </div>
 
 <div class="control-window feedback-window">
-		<input type="submit" value="Закрыть" class="button-control close-button close-button-feedback">
+		<input type="submit" value="{% trans 'Закрыть' %}" class="button-control close-button close-button-feedback">
 	
 	<div class="container-fluid">
 		{% for comment in comments %}
@@ -37,7 +37,7 @@
 					{% if comment.rate == 1 %}★{% endif %}
 					</span>
 					<br><span style="font-style: italic;">{{comment.message}}</span> <br>
-					<span style="font-size:14px;">Опубликовано: {{comment.created|date:"H:i d-m-Y"}}</span>
+					<span style="font-size:14px;">{% trans 'Опубликовано' %}: {{comment.created|date:"H:i d-m-Y"}}</span>
 				</div>
 			</div>
 		</div>
@@ -45,9 +45,9 @@
 	</div>
 	<div style="width:100%;position:absolute;bottom:0;">
 		{% if user.is_authenticated %}
-		<input type="submit" value="Оставить отзыв" class="button-control filter-accept" data-toggle="modal" data-target="#exampleModal" style="position:absolute;bottom:0;">
+		<input type="submit" value="{% trans 'Оставить отзыв' %}" class="button-control filter-accept" data-toggle="modal" data-target="#exampleModal" style="position:absolute;bottom:0;">
 		{% else %}
-		<input type="submit" value="Оставить отзыв" class="button-control filter-accept guest-comment" data-toggle="modal" style="position:absolute;bottom:0;">
+		<input type="submit" value="{% trans 'Оставить отзыв' %}" class="button-control filter-accept guest-comment" data-toggle="modal" style="position:absolute;bottom:0;">
 		{%endif%}
 	</div>
 </div>
@@ -55,11 +55,6 @@
 
 {% block content %}
 <div class="container book-content">
-	{% if user.is_authenticated %}
-	<div style="position: absolute;right:7em;z-index: 9;">
-		<a href="{% url 'book-edit' id=object.id %}">Редактировать</a>
-	</div>
-	{% endif %}
 	<div class="row">
 		<div class="col-md-3">
 			<div class="text-center book-div-preview">
@@ -69,6 +64,10 @@
 		<div class="col-md-7 book-div-info">
 			<h1 style="font-weight:1000;">{{object.title}}</h1>
 			
+			{% if user.is_authenticated %}
+			<a href="{% url 'book-edit' id=object.id %}">{% trans 'Редактировать' %}</a><br>
+			{% endif %}
+
 			{% if book_rating %}
 			<div style="width: 107px;">
 				<div style="width: {{book_rating}}%;overflow: hidden;">
@@ -118,7 +117,7 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 		  <div class="modal-content" style="background: #333333;">
-				<button type="button" class="close-button-filter" data-dismiss="modal" aria-label="Close">Закрыть</button>
+				<button type="button" class="close-button-filter" data-dismiss="modal" aria-label="Close">{% trans 'Закрыть' %}</button>
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLongTitle">{% trans 'Поделитесь своим отзывом' %}</h5>
 			</div>
@@ -130,7 +129,7 @@
 							{{form_comment.message}}<br>
 							{% for radio in form_comment.rate %}
 								<input class="star-rating__input" id="star-rating-{{ forloop.revcounter }}" type="radio" name="rate" value="{{ forloop.revcounter }}">
-								<label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-{{ forloop.revcounter }}" title="{{ forloop.revcounter }} out of 5 stars"></label>
+								<label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-{{ forloop.revcounter }}" title="{{ forloop.revcounter }} {% trans 'out of 5 stars' %}"></label>
 							{% endfor %}
 						</div>
 					</div>

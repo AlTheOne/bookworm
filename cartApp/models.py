@@ -18,7 +18,7 @@ class Cart(models.Model):
 	content_object = GenericForeignKey('content_type', 'object_id')
 	count = models.PositiveIntegerField(verbose_name=_('Количество'), default=1, help_text=_('Не менее одного'))
 	is_active = models.BooleanField(verbose_name=_('Активно'), default=True, help_text=_('Видно пользователям, только если активно'))
-	user = models.ForeignKey(User, verbose_name=_('Автор'), on_delete='SET_NULL', blank=True, null=True)
+	user = models.ForeignKey(User, verbose_name=_('Автор'), on_delete=models.SET_NULL, blank=True, null=True)
 	created = models.DateTimeField(verbose_name=_('Создано'), auto_now_add=True, auto_now=False)
 
 	def __str__(self):

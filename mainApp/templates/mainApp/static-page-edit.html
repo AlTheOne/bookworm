@@ -9,14 +9,14 @@
 <div class="container book-content">
 	<div class="row">
 		<div class="col-12">
-			<h1>Редактирование статической страницы</h1>
+			<h1>{% trans 'Редактирование статической страницы' %}</h1>
 		</div>
 		<div class="col-12">
 			<form action="" method="POST">{% csrf_token %}
 				{{form_news.errors}}
 				{{form_news.media}}
 				{{form_news}}
-				<input type="submit" value="Сохранить">
+				<input type="submit" value="{% trans 'Сохранить' %}">
 			</form>
 		</div>
 	</div>

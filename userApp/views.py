@@ -93,7 +93,7 @@ class UserRegistration(View):
 				code = ''.join(choice(ascii_letters) for i in range(50))
 				code_data = СonfirmationEmailUser.objects.create(user=user_data, code=code)
 				code_data.save()
-				# tasks.verifyEmail.delay(code=code_data.code, username=user_data.login, email=user_data.email).delay()
+				tasks.verifyEmail.delay(code=code_data.code, username=user_data.login, email=user_data.email).delay()
 				return redirect('/')
 			else:
 				data['registryform'] = self.FORMM

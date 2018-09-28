@@ -48,8 +48,8 @@
 			<b>{% trans 'Сумма заказа:' %}</b> {%if rune %}{{rune.rune}}{%else%} $ {%endif%} <span id="total_order_amount"></span>
 			<div class="text-right">
 				<div class="row">
-				<div class="col-9"></div>
-				<div class="col-3">
+				<div class="col-lg-8"></div>
+				<div class="col-lg-4">
 					<button type="submit" class="button-control button-blue button-cart-buy {% if not user.is_authenticated %}guest-buy{% endif %}" name="status" value="buy-selected">{% trans 'Оплатить выбранное!' %}</button>
 					<button type="submit" class="button-control button-blue {% if not user.is_authenticated %}guest-buy{% endif %}" name="status" value="buy-all">{% trans 'Оплатить всю корзину!' %}</button>
 				</div>

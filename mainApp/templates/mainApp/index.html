@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width,initial-scale=1.0">
-		<title>BookWorms</title>
+		<title>BookWorm</title>
 		<link href="https://fonts.googleapis.com/css?family=Arsenal" rel="stylesheet">
 		
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -30,7 +30,7 @@
 						{% block ico-filter %}{% endblock %}
 						<div class="logo-text centerBlock">
 							<a href="/">
-								Книжный<br>Червь
+								Book<br>Worm
 							</a>
 						</div>
 					</div>
@@ -73,7 +73,9 @@
 				<a href="{% url 'book-add' %}"><input type="submit" value="{% trans 'Добавить книгу' %}" class="button-control"></a><p>
 				<a href="{% url 'user-logout' %}"><input type="submit" value="{% trans 'Выйти' %}" class="user-button"></a>
 			{% else %}
+				<div class="text-center" style="width:100%;">
 				<img src="{% static '/img/log.png' %}" class="avatar">
+				</div>
 				<hr/><p>
 
 				{% if sys_err_message %}{{sys_err_message}}{% endif %}

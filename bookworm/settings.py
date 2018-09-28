@@ -145,15 +145,15 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
-# # Settings SMTP EMAIL
-# EMAIL_USE_SSL = True
-# EMAIL_HOST = 'smtp.yandex.ru'
-# EMAIL_HOST_USER = ''
-# EMAIL_HOST_PASSWORD = ''
-# EMAIL_PORT = 465 
+# Settings SMTP EMAIL
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST_USER = 'bookworm.altheone@yandex.ru'
+EMAIL_HOST_PASSWORD = 'bookworm12345'
+EMAIL_PORT = 465 
 
-# SERVER_EMAIL = ''
-# DEFAULT_FROM_EMAIL = ''
+SERVER_EMAIL = 'bookworm.altheone@yandex.ru'
+DEFAULT_FROM_EMAIL = 'bookworm.altheone@yandex.ru'
 
 # # REDIS related settings 
 # REDIS_HOST = 'localhost'
