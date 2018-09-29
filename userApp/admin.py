@@ -1,5 +1,5 @@
 from django.contrib import admin
-from userApp.models import User, UserAvatar
+from userApp.models import User, UserAvatar, СonfirmationEmailUser, RecoveryPaswdlUser
 
 class UserAdmin(admin.ModelAdmin):
 	class Meta:
@@ -24,3 +24,6 @@ class UserAvatarAdmin(admin.ModelAdmin):
 	search_fields = ('user__login',)
 
 admin.site.register(UserAvatar, UserAvatarAdmin)
+
+admin.site.register(СonfirmationEmailUser)
+admin.site.register(RecoveryPaswdlUser)

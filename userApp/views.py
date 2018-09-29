@@ -93,7 +93,7 @@ class UserRegistration(View):
 				code = ''.join(choice(ascii_letters) for i in range(50))
 				code_data = СonfirmationEmailUser.objects.create(user=user_data, code=code)
 				code_data.save()
-				tasks.verifyEmail.delay(code=code_data.code, username=user_data.login, email=user_data.email)
+				# tasks.verifyEmail.delay(code=code_data.code, username=user_data.login, email=user_data.email)
 				return redirect('/')
 			else:
 				data['registryform'] = self.FORMM
@@ -203,7 +203,7 @@ class UserForgotPswd(View):
 			code = ''.join(choice(ascii_letters) for i in range(50))
 			code_data = RecoveryPaswdlUser.objects.create(user=user_data, code=code)
 			code_data.save()
-			tasks.recoveryAccount.delay(xcode=code, xtoemail=user_data.email)
+			# tasks.recoveryAccount.delay(xcode=code, xtoemail=user_data.email)
 			return render(self.request, self.TEMPLATES, context=data)
 		else:
 			data['alert'] = 'Не корректные данные'
@@ -224,5 +224,5 @@ class UserActivating(View):
 				code_data = СonfirmationEmailUser.objects.create(user=obj.user, code=code)
 				obj.delete()
 				code_data.save()
-				tasks.verifyEmail.delay(code=code_data.code, username=code_data.user.login, email=code_data.user.email)
+				# tasks.verifyEmail.delay(code=code_data.code, username=code_data.user.login, email=code_data.user.email)
 		return redirect('/')
