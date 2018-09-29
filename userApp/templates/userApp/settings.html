@@ -1,17 +1,17 @@
 {% extends 'mainApp/index.html' %}
 {% load staticfiles %}
+{% load i18n %}
 
-{%block mainTitle%}<title>Настройка профиля - {{user.username}}</title>{% endblock mainTitle%}
+{%block mainTitle%}<title>{% trans 'Настройка профиля' %} - {{user.username}}</title>{% endblock mainTitle%}
 
 {% block content %}
-{{error}}
-
 <form method="POST" action="{% url 'user-settings' %}">{% csrf_token %}
+	{{settingsform.errors}}
 	{{settingsform.first_name.label}}: {{settingsform.first_name}}<br>
 	{{settingsform.last_name.label}}: {{settingsform.last_name}}<br>
 	{{settingsform.email.label}}: {{settingsform.email}}<br>
 	{{settingsform.phone_number.label}}: {{settingsform.phone_number}}<br>
-	<input type="submit" value="Сохранить">
+	<input type="submit" value="{% trans 'Сохранить' %}">
 </form>
 {% endblock content %}
 

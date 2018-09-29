@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width,initial-scale=1.0">
-		<title>BookWorm</title>
+		{%block mainTitle%}<title>BookWorm</title>{% endblock mainTitle%}
 		<link href="https://fonts.googleapis.com/css?family=Arsenal" rel="stylesheet">
 		
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -43,6 +43,7 @@
 				</div>
 			</div>
 		</nav>
+		{% if alert%}<div style="position:fixed;bottom:0;z-index:999;width:100%;min-height:.5em;background: #FF0000;">{{alert}}</div>{% endif %}
 
 		<!-- АВТОРИЗАЦИЯ ИЛИ ПРОФИЛЬ -->
 		<div id="user-ico" class="control-ico">

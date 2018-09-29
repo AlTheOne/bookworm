@@ -148,19 +148,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # Settings SMTP EMAIL
 EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_HOST_USER = 'bookworm.altheone@yandex.ru'
-EMAIL_HOST_PASSWORD = 'bookworm12345'
+EMAIL_HOST_USER = 'altheone.official@yandex.ru'
+EMAIL_HOST_PASSWORD = 'altheone.official12345'
 EMAIL_PORT = 465 
 
-SERVER_EMAIL = 'bookworm.altheone@yandex.ru'
-DEFAULT_FROM_EMAIL = 'bookworm.altheone@yandex.ru'
+SERVER_EMAIL = 'altheone.official@yandex.ru'
+DEFAULT_FROM_EMAIL = 'altheone.official@yandex.ru'
 
 # # REDIS related settings 
-# REDIS_HOST = 'localhost'
-# REDIS_PORT = '6379'
-# BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-# BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
-# CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 
 
 # Setting Languages

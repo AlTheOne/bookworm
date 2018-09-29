@@ -1,1 +1,20 @@
-It's my page 404 !!..
+{% extends 'mainApp/index.html' %}
+{% load staticfiles %}
+{% load i18n %}
+
+{%block mainTitle%}<title>{% trans 'Ошибка 404' %}</title>{% endblock mainTitle%}
+
+{% block scripts %}
+<script>
+		setTimeout( 'location="/";', 5000 );
+	</script>
+{% endblock %}
+
+{% block content %}
+<div class="container book-content">
+	<div class="row">
+		<div class="col">{% trans 'Страница не найдена!!! Ошибка 404' %}</div>
+		<div class="col">{% trans 'Через 5 секунд переходим на главную' %}</div>
+	</div>
+</div>
+{% endblock content %}

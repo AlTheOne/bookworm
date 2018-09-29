@@ -9,6 +9,7 @@ from django.contrib.auth import logout
 from userApp import tasks
 from random import choice
 from string import ascii_letters
+from django.utils import timezone
 
 
 class UserLogOut(View):
@@ -79,27 +80,26 @@ class UserRegistration(View):
 						login = self.FORMM.cleaned_data['login'],
 						email = self.FORMM.cleaned_data['email'],
 						password = self.FORMM.cleaned_data['password'],
-						)
+						first_name = self.FORMM.cleaned_data['name'],
+						last_name = self.FORMM.cleaned_data['surname'],
+						phone_number = self.FORMM.cleaned_data['phone_number'],
+						is_active = False
+					)
 				except:
-					data['registry_error'] = 'Ошибка заполнения'
+					data['alert'] = 'Ошибка заполнения'
 					data['registryform'] = self.FORMM
 					return render(self.request, self.TEMPLATES, context=data)
 
-				user_data.is_active = False
-				user_data.phone_number = self.FORMM.cleaned_data['phone_number']
-				user_data.first_name = self.FORMM.cleaned_data['name']
-				user_data.last_name = self.FORMM.cleaned_data['surname']
-				user_data.save()
 				code = ''.join(choice(ascii_letters) for i in range(50))
 				code_data = СonfirmationEmailUser.objects.create(user=user_data, code=code)
 				code_data.save()
-				tasks.verifyEmail.delay(code=code_data.code, username=user_data.login, email=user_data.email).delay()
+				tasks.verifyEmail.delay(code=code_data.code, username=user_data.login, email=user_data.email)
 				return redirect('/')
 			else:
 				data['registryform'] = self.FORMM
 				return render(self.request, self.TEMPLATES, context=data)
 		else:
-			data['registry_error'] = 'Пароли не совпадают'
+			data['alert'] = 'Пароли не совпадают'
 			data['registryform'] = self.FORMM
 			return render(self.request, self.TEMPLATES, context=data)
 
@@ -127,7 +127,7 @@ class UserSettings(View):
 			)
 			return redirect('user-profile')
 		else:
-			data['error'] = 'Ошибка'
+			data['alert'] = 'Ошибка'
 			user_data = User.objects.get(id=self.request.user.id)
 			data['settingsform'] = SettingsForm(initial={
 				'first_name': user_data.first_name, 
@@ -169,7 +169,7 @@ class UserRecoveryPswd(View):
 			except:
 				return redirect('/')
 			if (timezone.now() - obj.created).days >= 1:
-				data['message'] = 'Срок действия ссылки истёк, вы можете запросить новоё письмо в профиле'
+				data['alert'] = 'Срок действия ссылки истёк, вы можете запросить новоё письмо в профиле'
 				obj.delete()
 				return render(self.request, self.TEMPLATES, context=data)
 			else:
@@ -196,16 +196,33 @@ class UserForgotPswd(View):
 			try:
 				user_data = User.objects.get(email=form.cleaned_data['email'])
 			except:
-				data['message'] = 'Пользователя с такой почтой не найдено'
-				data['form_recovery_pswd'] = RecoveryEmailForm				
+				data['alert'] = 'Пользователя с такой почтой не найдено'
+				data['form_recovery_pswd'] = RecoveryEmailForm
 				return render(self.request, self.TEMPLATES, context=data)
-			data['message'] = 'Сообщение с инструкциями восстановления отправлены на почту'
+			data['alert'] = 'Сообщение с инструкциями восстановления отправлены на почту'
 			code = ''.join(choice(ascii_letters) for i in range(50))
 			code_data = RecoveryPaswdlUser.objects.create(user=user_data, code=code)
 			code_data.save()
 			tasks.recoveryAccount.delay(xcode=code, xtoemail=user_data.email)
 			return render(self.request, self.TEMPLATES, context=data)
 		else:
-			data['message'] = 'Не корректные данные'
+			data['alert'] = 'Не корректные данные'
 			data['form_recovery_pswd'] = RecoveryEmailForm
 		return render(self.request, self.TEMPLATES, context=data)
+
+
+class UserActivating(View):
+	@only_guests(url='/')
+	def get(self, *args, **kwargs):
+		data = {}
+		code = kwargs.get('code', None)
+		if code is not None:
+			obj = get_object_or_404(ConfirmationEmailUser, code=code)
+			if (timezone.now() - obj.created).days >= 1:
+				data['alert'] = 'Срок действия ссылки истёк, отправляем новое'
+				code = ''.join(choice(ascii_letters) for i in range(50))
+				code_data = СonfirmationEmailUser.objects.create(user=obj.user, code=code)
+				obj.delete()
+				code_data.save()
+				tasks.verifyEmail.delay(code=code_data.code, username=code_data.user.login, email=code_data.user.email)
+		return redirect('/')

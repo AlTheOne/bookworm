@@ -2,6 +2,9 @@
 {% load staticfiles %}
 {% load i18n %}
 
+{%block mainTitle%}<title>{% trans 'Добавить книгу' %} - BookWorm</title>{% endblock mainTitle%}
+
+
 {% block scripts %}
 	<script src="{% static 'js/add_m2m.js' %}"></script>
 {% endblock %}

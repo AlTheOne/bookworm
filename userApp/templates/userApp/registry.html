@@ -1,7 +1,8 @@
 {% extends 'mainApp/index.html' %}
 {% load staticfiles %}
+{% load i18n %}
 
-{%block mainTitle%}<title>Страница регистрации</title>{% endblock mainTitle%}
+{%block mainTitle%}<title>{% trans 'Страница регистрации' %}</title>{% endblock mainTitle%}
 
 {% block content %}
 <div class="container book-content">
@@ -16,7 +17,7 @@
                 <p>{{registryform.repassword.label}}: {{registryform.repassword}}</p>
                 <p>{{registryform.email.label}}: {{registryform.email}}</p>
                 <p>{{registryform.phone_number.label}}: {{registryform.phone_number}}</p>
-                <input type="submit" name="registry" value="Зарегистрироваться">
+                <input type="submit" name="registry" value="{% trans 'Зарегистрироваться' %}">
             </form>
         </div>
     </div>

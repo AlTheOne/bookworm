@@ -1,14 +1,22 @@
 {% extends 'mainApp/index.html' %}
 {% load staticfiles %}
+{% load i18n %}
 
-{%block mainTitle%}<title>Восстановление пароля</title>{% endblock mainTitle%}
+
+{%block mainTitle%}<title>{% trans 'Восстановление пароля' %}</title>{% endblock mainTitle%}
 
 {% block content %}
-{{message}}
-{%if form_recovery_pswd%}
-<form method="POST" action="{% url 'user-forgotpswd' %}">{% csrf_token%}
-	{{form_recovery_pswd.email.label}}: {{form_recovery_pswd.email}}
-	<input type="submit" name="sendEmail" value="Отправить">
-</form>
-{% endif %}
+<div class="container book-content">
+	<div class="row">
+		<div class="col">
+			{%if form_recovery_pswd%}
+			<form method="POST" action="{% url 'user-forgotpswd' %}">{% csrf_token%}
+				{{form_recovery_pswd.errors}}
+				{{form_recovery_pswd.email.label}}: {{form_recovery_pswd.email}}
+				<input type="submit" name="sendEmail" value="{% trans 'Отправить' %}">
+			</form>
+			{% endif %}
+		</div>
+	</div>
+</div>
 {% endblock content %}
