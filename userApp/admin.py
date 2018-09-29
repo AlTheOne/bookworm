@@ -7,9 +7,9 @@ class UserAdmin(admin.ModelAdmin):
 
 	save_on_top = True
 
-	list_display = ('id', 'login', 'email', 'is_active', 'is_staff', 'is_superuser', 'created')
+	list_display = ('id', 'login', 'email', 'is_active', 'is_staff', 'is_superuser')
 	list_display_links = ('login',)
-	list_filter = ('is_active', 'is_staff', 'is_superuser', 'created')
+	list_filter = ('is_active', 'is_staff', 'is_superuser')
 	search_fields = ('login', 'email')
 
 admin.site.register(User, UserAdmin)
