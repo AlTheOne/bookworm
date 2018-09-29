@@ -47,8 +47,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 	is_staff = models.BooleanField('staff status', default=False)
 	is_active = models.BooleanField('active', default=True)
 	phone_number = models.CharField('phone number', unique=True, max_length=20)
-	created = models.DateTimeField(verbose_name=_('Создано'), auto_now_add=True, auto_now=False)
-	updated = models.DateTimeField(verbose_name=_('Обновлено'), auto_now_add=False, auto_now=True)
 
 	def get_short_name(self):
 		return self.email
