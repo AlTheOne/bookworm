@@ -39,7 +39,7 @@ $(document).ready(function(){
 
 	function SendAjax(){
 		$.ajax({
-			url: 'http://127.0.0.1:8000/mycart/add/',
+			url: 'bookworm-altheone.herokuapp.com/mycart/add/',
 			method: 'POST',
 			data: data,
 			cached: true,

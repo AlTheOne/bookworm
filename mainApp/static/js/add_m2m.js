@@ -57,7 +57,7 @@ $(document).ready(function(){
 	function SendAjax(action){
 		data['csrfmiddlewaretoken'] = getCookie('csrftoken');
 		$.ajax({
-			url: 'http://127.0.0.1:8000/add-' + action + '/',
+			url: 'bookworm-altheone.herokuapp.com/add-' + action + '/',
 			method: 'POST',
 			data: data,
 			cached: true,

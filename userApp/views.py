@@ -83,7 +83,7 @@ class UserRegistration(View):
 						first_name = self.FORMM.cleaned_data['name'],
 						last_name = self.FORMM.cleaned_data['surname'],
 						phone_number = self.FORMM.cleaned_data['phone_number'],
-						is_active = False
+						is_active = True
 					)
 				except:
 					data['alert'] = 'Ошибка заполнения'
