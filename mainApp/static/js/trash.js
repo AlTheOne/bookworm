@@ -63,7 +63,7 @@ $(document).ready(function(){
 	
 	function SendAjax(){
 		$.ajax({
-			url: 'bookworm-altheone.herokuapp.com/filter/',
+			url: 'https://bookworm-altheone.herokuapp.com/filter/',
 			method: 'POST',
 			data: data,
 			cached: true,
