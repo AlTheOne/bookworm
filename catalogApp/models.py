@@ -101,7 +101,7 @@ class Books(models.Model):
 	discount = models.IntegerField(verbose_name=_('Скидка'), default=0, null=True, blank=True, help_text=_('В процентах'))
 	price_discount = models.DecimalField(verbose_name=_('Цена c учётом скидки'), max_digits=10, decimal_places=2, default=0.00, blank=True, null=True, help_text=_('Заполняется автоматически'))
 	counter = models.IntegerField(verbose_name=_('Количество'), default=0, null=True, blank=True, help_text=_('В наличии'))
-	preview = models.ImageField(upload_to='catalogApp/preview/', verbose_name=_('Превью'))
+	preview = models.CharField(verbose_name=_('Превью'), max_length=256, help_text=_('Не более 256 символов'))
 	user = models.ForeignKey(User, verbose_name=_('Опубликовал'), on_delete='SET_NULL', blank=True, null=True)
 	is_active = models.BooleanField(verbose_name=_('Активировать'), default=True)
 	created = models.DateTimeField(verbose_name=_('Создано'), auto_now_add=True, auto_now=False)
