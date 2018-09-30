@@ -15,7 +15,7 @@
 					<p><a href="{% url 'order-info' id=myorder.id %}">{% trans 'Заказ #' %} {{myorder.id}}</a> ({% trans 'Статус' %}: {% if myorder.status %}{{myorder.status}}{%else%}{% trans 'В обработке' %}{%endif%})</p>
 					{% for obj in myorder.orderobj.all %}
 						<a href="{% url 'book-page' id=obj.content_object.id %}" target="_blank">
-							<img src="/media/{{obj.content_object.preview}}" width="50px" height="80px">
+							<img src="{{obj.content_object.preview}}" width="50px" height="80px">
 						</a>
 					{% endfor %}<br>
 					{% trans 'Обновление информации' %}: {{myorder.updated}}<br>

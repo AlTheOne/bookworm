@@ -21,7 +21,7 @@
 						<input type="checkbox" name="books" value="{{object.id}}">
 					</div>
 					<div class="col-md-1">
-						<img src="media/{{object.content_object.preview}}" width="80px">
+						<img src="{{object.content_object.preview}}" width="80px">
 					</div>
 					<div class="col-md-4">
 						<a href="{% url 'book-page' id=object.content_object.id %}">
