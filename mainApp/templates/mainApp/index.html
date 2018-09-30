@@ -117,7 +117,7 @@
 						<div class="col-9 block-filter">
 							<span class="block-filter-title">{% trans 'Валюта:' %}</span><br>
 							<p>
-							<select class="form-control" id="exampleFormControlSelect2">
+							<select class="form-control" id="currency-selector">
 								<option class="type_currency" data-currency="DOL">Доллар</option>
 								{% for cur in currency %}
 								<option class="type_currency" data-currency="{{cur.slug}}" {% if cur.rune == rune.rune %}selected{% endif %}>{{cur.title}}</option>

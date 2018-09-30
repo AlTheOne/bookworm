@@ -45,8 +45,8 @@ $(document).ready(function(){
 		SendAjax();
 	});
 
-	$('.type_currency').on('click', function(){
-		data['type_currency'] = $(this).data('currency');
+	$('#currency-selector').change(function(){
+		data['type_currency'] = $(this).children(":selected").data('currency');
 		data['csrfmiddlewaretoken'] = getCookie('csrftoken');
 		SendAjax();
 	});

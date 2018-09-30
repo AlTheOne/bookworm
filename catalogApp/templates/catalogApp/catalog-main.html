@@ -23,7 +23,7 @@
 			<div class=" col-9 block-filter">
 				<span class="block-filter-title">{% trans 'Фильтр:' %}</span><br>
 				<p>
-				<select class="form-control" >
+				<select class="form-control" id="filter-selector">
 					<option class="type_filter" data-book-f="1">{% trans 'Сначала новые' %}</option>
 					<option class="type_filter" data-book-f="2" {% if get_sort == 2%}selected{% endif%}>{% trans 'Сначала старые' %}</option>
 					<option class="type_filter" data-book-f="3" {% if get_sort == 3%}selected{% endif%}>{% trans 'По алфавиту А-Я' %}</option>
