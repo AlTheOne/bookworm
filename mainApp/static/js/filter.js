@@ -29,8 +29,8 @@ $(document).ready(function(){
 	})
 
 	// filter by
-	$('.type_filter').on('click', function(e){
-		data['type_filter'] = $(this).data('book-f');
+	$('#filter-selector').change(function(e){
+		data['type_filter'] = $(this).children(":selected").data('book-f');
 		data['csrfmiddlewaretoken'] = getCookie('csrftoken');
 		SendAjax();
 	});
